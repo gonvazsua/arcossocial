@@ -1,0 +1,43 @@
+Beneficiario
+- ID
+- Nombre y apellidos
+- DNI
+- Domicilio
+- Conyuge:
+	- Nombre y apellidos
+	- DNI
+- Entidad de alta
+- Carta de valoración: True/False
+- Fecha de validez (de la carta de valoración)
+
+Ayuda:
+- Beneficiario
+- Tipo de ayuda
+- Fecha
+- Entidad
+- Notas
+
+Entidad: Organismo que da la ayuda
+- ID
+- Nombre
+
+Tipo De Ayuda:
+Alimento, economica, ropa, beca
+
+Usuario:
+- ID
+- Nombre y apellidos
+- Contraseña
+- Entidad
+- Administrador
+
+**********************************
+Casos de uso:
+- Login
+- Un usuario solo puede pertenecer a una entidad
+- Un usuario puede dar de alta ayudas pertenecientes a su entidad
+- Un usuario puede dar de alta beneficiarios solo asociado a su entidad
+- Un usuario puede filtrar ayudas: Tipo de ayuda, Rango entre fechas, Entidad, Beneficiario, DNI del beneficiario, Domicilio 
+- Un usuario administrador puede dar de alta tipos de ayuda
+- Un usuario administrador puede dar de alta a otros usuarios
+- Un usuario puede exportar una búsqueda 

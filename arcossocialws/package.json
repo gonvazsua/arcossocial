@@ -1,0 +1,11 @@
+{
+  "name": "arcossocialws",
+  "version": "1.0.0",
+  "description": "WS para Arcos Social",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gonzalo Vazquez Suarez",
+  "license": "ISC"
+}
