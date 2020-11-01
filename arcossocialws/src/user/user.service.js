@@ -78,3 +78,26 @@ exports.saveUser = (userCode, fullName, password, entityCode, isAdmin, isActive,
             .catch(err => reject(err));
     });
 };
+
+exports.findUsers = queryParams => {
+    return new Promise((resolve, reject) => {
+        const query = this.buildQuery(queryParams);
+        const skip = dbConfig.calculateSkip(queryParams.pageSize, queryParams.pageNumber);
+        const limit = dbConfig.calculateLimit(queryParams.pageSize);
+        dbConfig.getConnection().then(db => {
+            db.collection(this.USER_COLLECTION).find(query).skip(skip).limit(limit).toArray((err, res) => {
+                if(err) reject(err);
+                resolve(res);
+            });
+        });
+    });
+};
+
+exports.buildQuery = queryParams => {
+    let query = {};
+    if(queryParams.userCode) query.userCode = queryParams.userCode;  
+    if(queryParams.fullName) query.fullName = queryParams.fullName;
+    if(queryParams.entityCode) query.entityCode = queryParams.entityCode;
+    if(queryParams.isAdmin) query.isAdmin = queryParams.isAdmin === 'true';
+    if(queryParams.isActive) query.isActive = queryParams.isActive === 'true';
+};

@@ -41,3 +41,17 @@ exports.closeConnection = () => {
         db = null;
     }
 }
+
+exports.calculateSkip = (pageSize, pageNumber) => {
+    if(pageSize && pageNumber) {
+        return parseInt(pageNumber) * parseInt(pageSize);
+    }
+    return 0;
+};
+
+exports.calculateLimit = (pageSize) => {
+    if(pageSize) {
+        return parseInt(pageSize);
+    }
+    return 25;
+};

@@ -18,7 +18,7 @@ describe('Auth Service Test', () => {
   describe('#create()', () => {
     it('Shoud create an user in database', () => {
       const password = 'MTIzNA=='; //1234
-      userService.create('Gonzalo V', password, 'CA', true)
+      userService.create('TestUser', password, 'CA', true)
         .then(user => {
           assert.notStrictEqual(user._id, null);
         })
@@ -28,12 +28,16 @@ describe('Auth Service Test', () => {
 
   after(() => { 
     console.log("Cleaning connections and tables");
-    dbConfig.getConnection()
+    setTimeout(() => {
+      dbConfig.getConnection()
       .then(db => {
-        //db.collection(userService.USER_COLLECTION).deleteMany({});
-        dbConfig.closeConnection();
+        db.collection(userService.USER_COLLECTION).deleteMany({'fullName' : 'TestUser'}, (err, res) => {
+          console.log("Collection cleans: USER -> " + res);
+        });
+        //dbConfig.closeConnection();
       })
       .catch(err => assert.fail(err));
+    }, 2000);
   });
 
 });
