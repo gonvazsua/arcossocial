@@ -1,1 +1,2 @@
-src/config/environment.js
+/node_modules/**
+/src/config/environment.js
