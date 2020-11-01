@@ -5,17 +5,24 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --recursive"
   },
   "author": "Gonzalo Vazquez Suarez",
   "license": "ISC",
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-latest-node": "^5.0.0",
     "bcrypt-nodejs": "latest",
     "body-parser": "^1.5.1",
+    "chai": "^4.2.0",
+    "config": "^3.3.2",
     "crypto": "^1.0.1",
+    "debug": "^4.2.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.3.0",
+    "mocha": "^8.2.0",
     "mongodb": "^3.6.2",
-    "nodemon": "^1.19.0"
+    "nodemon": "^1.19.0",
+    "supertest": "^6.0.0"
   }
 }

@@ -12,8 +12,19 @@ router.post('/login', (req, res) => {
         .then(token => { res.jsonp({'token' : token}) })
         .catch(err => {
             res.status(403);
-            res.send('Login incorrecto');
-        })
+            res.jsonp({'message' : 'Login incorrecto', 'reason' : err});
+        });
 });
+
+router.post('/signup', (req, res) => {
+    const user = req.body.user;
+    authService
+        .register(user.fullName, user.password, user.entityCode, user.isAdmin)
+        .then(user => { res.jsonp({'user' : user}) })
+        .catch(err => {
+            res.status(403);
+            res.jsonp({'message' : 'El usuario no ha sido creado', 'reason' : err});
+        });
+})
 
 module.exports = router;

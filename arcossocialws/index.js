@@ -15,12 +15,9 @@ app.use(config.allowCrossDomain);
 
 routes.addRoutes(app);
 
-database.getConnection((connection, error) => {
-    if(error) console.log("ERROR connecting Database");
-    else {
-        console.log("Connected to database successfully");
-    }
-});
+database.getConnection()
+    .then(db => { console.log("Connected to database successfully") })
+    .catch(err => { console.error("ERROR connecting Database") });
 
 //Handle errors
 app.use(function (err, req, res, next) {

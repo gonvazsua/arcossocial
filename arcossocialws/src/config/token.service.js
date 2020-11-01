@@ -35,5 +35,5 @@ exports.tokenVerify = function(req, res, next) {
 
 exports.generateToken = userId => {
     var payload = { userId: userId }
-    return jwt.sign(payload, env.secret, {expiresIn: env.tokenExpire})
+    return jwt.sign(payload, env.variables.secret, {expiresIn: env.variables.tokenExpire})
 };
