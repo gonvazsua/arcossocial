@@ -3,10 +3,11 @@ import Login from './components/Login/Login';
 import Main from './components/Main/Main';
 import './App.css';
 import 'materialize-css/dist/css/materialize.min.css';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import GlobalState from './GlobalState'; 
+import AuthRoute from './components/AuthRoute/AuthRoute';
 
-const App = () => {
+const App = (props) => {
 
   const [state, setState] = useState({});  
 
@@ -18,9 +19,12 @@ const App = () => {
     <GlobalState.Provider value={[state, setState]}>
       <Router>
         <Switch>
-          <Route path="/main">
+          <AuthRoute path="/main">
             <Main />
-          </Route>
+          </AuthRoute>
+          <AuthRoute path="/login">
+            <Login handleFunction={handleToken}/>
+          </AuthRoute>
           <Route path="/">
             <Login handleFunction={handleToken}/>
           </Route>

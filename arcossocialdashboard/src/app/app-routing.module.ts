@@ -1,0 +1,23 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './main/home/home.component';
+import { MainComponent } from './main/main.component';
+
+const routes: Routes = [
+  { path: 'login', component: LoginComponent },
+  {
+    path: 'main', component: MainComponent,
+    children: [
+      { path: '', component: HomeComponent }
+    ],
+  },
+  { path: '', component: LoginComponent },
+  { path: '**', component: LoginComponent }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

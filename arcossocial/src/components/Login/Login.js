@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Login.css';
 import GlobalState from '../../GlobalState';
 
-export default class Login extends Component {
+class Login extends Component {
 
   static contextType = GlobalState;
 
@@ -53,12 +53,13 @@ export default class Login extends Component {
       return res.json();
     })
     .then(data => {
-      this.props.handleFunction(data.token);
+      localStorage.setItem("token", data.token);
       if(this.state.rememberMe) {
         localStorage.setItem("rememberMe", true);
         localStorage.setItem("userCode", userCode);
         localStorage.setItem("password", password);
       }
+      this.props.handleFunction(data.token);
     })
     .catch(err => {
       this.setState({errorMessage: err.message});
@@ -125,3 +126,5 @@ export default class Login extends Component {
   }
 
 }
+
+export default Login;

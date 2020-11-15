@@ -6,9 +6,10 @@ Beneficiario
 - Conyuge:
 	- Nombre y apellidos
 	- DNI
-- Entidad de alta
+- Entidad de alta (entityCode, name)
 - Carta de valoración: True/False
 - Fecha de validez (de la carta de valoración)
+- creationDate
 
 Ayuda:
 - Beneficiario
@@ -20,16 +21,20 @@ Ayuda:
 Entidad: Organismo que da la ayuda
 - ID
 - Nombre
+- Code
+- Creation date
 
 Tipo De Ayuda:
 Alimento, economica, ropa, beca
 
 Usuario:
-- ID
+- UserCode
 - Nombre y apellidos
 - Contraseña
 - Entidad
 - Administrador
+- isActive
+- creationDate
 
 **********************************
 Casos de uso:
