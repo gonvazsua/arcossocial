@@ -16,12 +16,14 @@
                         <form [formGroup]="loginForm" class="col s12" (ngSubmit)="submitLogin()">
                             <div class="row">
                                 <div class="input-field col s12">
+                                    <i class="material-icons prefix">person</i>
                                     <input id="userCode" type="text" class="validate" formControlName="userCode">
                                     <label for="userCode">Codigo de usuario</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
+                                    <i class="material-icons prefix">verified_user</i>
                                     <input id="password" type="password" class="validate" formControlName="password">
                                     <label for="userCode">Contraseña</label>
                                 </div>
