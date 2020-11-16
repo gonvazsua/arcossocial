@@ -9,6 +9,8 @@ import { LoginService } from './login/login.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MainComponent } from './main/main.component';
 import { HomeComponent } from './main/home/home.component';
+import { LocalStorageService } from './common/local-storage.service';
+import { AuthguardService } from './common/authguard.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,7 @@ import { HomeComponent } from './main/home/home.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [LoginService],
+  providers: [LoginService, LocalStorageService, AuthguardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

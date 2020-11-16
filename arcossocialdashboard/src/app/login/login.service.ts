@@ -11,7 +11,7 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   executeLogin(userCode: string, password: string) {
-    const body = {userCode: userCode, password: btoa(password)};
+    const body = {userCode: userCode, password: password};
     return this.http.post(environment.apiUrl + 'auth/login', body)
   }
 
