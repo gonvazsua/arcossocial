@@ -11,13 +11,18 @@ import { MainComponent } from './main/main.component';
 import { HomeComponent } from './main/home/home.component';
 import { LocalStorageService } from './common/local-storage.service';
 import { AuthguardService } from './common/authguard.service';
+import { NavigationComponent } from './main/navigation/navigation.component';
+import { MainStateService } from './main/main.state.service';
+import { LoadingComponent } from './main/loading/loading.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     MainComponent,
-    HomeComponent
+    HomeComponent,
+    NavigationComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +30,8 @@ import { AuthguardService } from './common/authguard.service';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [LoginService, LocalStorageService, AuthguardService],
+  providers: [LoginService, LocalStorageService, 
+    AuthguardService, MainStateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
       this.localStorageService.setUserCode(this.loginForm.value["userCode"]);
       this.localStorageService.setPassword(this.loginForm.value["password"]);
     }
+    this.localStorageService.setToken(token);
     this.router.navigate(['/main']);
   }
 

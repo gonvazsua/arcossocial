@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MainStateService } from './main.state.service';
 
 @Component({
   selector: 'app-main',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
-  constructor() { }
+  constructor(public mainState: MainStateService) { }
 
   ngOnInit(): void {
+    
   }
 
 }
