@@ -23,6 +23,15 @@ export class MainStateService {
 
   setLoading(loading: boolean) {
     this.stateModel.loading = loading;
+    this.updateState();
+  }
+
+  setUser(user: User) {
+    this.stateModel.user = user;
+    this.updateState();
+  }
+
+  updateState() {
     const state = new MainState(this.stateModel);
     this.state.emit(state);
   }

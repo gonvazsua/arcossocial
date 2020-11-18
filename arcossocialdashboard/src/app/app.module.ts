@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from './login/login.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MainComponent } from './main/main.component';
 import { HomeComponent } from './main/home/home.component';
 import { LocalStorageService } from './common/local-storage.service';
@@ -14,6 +14,7 @@ import { AuthguardService } from './common/authguard.service';
 import { NavigationComponent } from './main/navigation/navigation.component';
 import { MainStateService } from './main/main.state.service';
 import { LoadingComponent } from './main/loading/loading.component';
+import { TokenIntecerptorService } from './common/token-intecerptor.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,9 @@ import { LoadingComponent } from './main/loading/loading.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [LoginService, LocalStorageService, 
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenIntecerptorService, multi: true },
+    LoginService, LocalStorageService, 
     AuthguardService, MainStateService],
   bootstrap: [AppComponent]
 })

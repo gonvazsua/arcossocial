@@ -1,6 +1,6 @@
 <app-loading [isLoading]="(mainState.state | async)?.loading"></app-loading>
 
-<app-navigation></app-navigation>
+<app-navigation [userName]="(mainState.state | async)?.user?.fullName"></app-navigation>
 
 <div class="container-fluid">
     <div class="row">

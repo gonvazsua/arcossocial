@@ -29,24 +29,31 @@ export class LocalStorageService {
   }
 
   setKeepConnected(keepConnected: boolean) {
+    this.keepConnected = keepConnected;
     localStorage.setItem("asKeepConnected", String(keepConnected));
   }
 
   setUserCode(userCode: string) {
+    this.userCode = userCode;
     localStorage.setItem("asUserCode", userCode);
   }
 
   setPassword(password: string) {
+    this.password = password;
     localStorage.setItem("asPassword", btoa(password));
   }
   
   setToken(token: string) {
+    this.token = token;
     localStorage.setItem("asToken", token);
   }
 
   clear() {
-    localStorage.clear()
-    this.initializeValues();
+    this.token = null;
+    this.userCode = null;
+    this.password = null;
+    this.keepConnected = null;
+    localStorage.clear();
   }
 
 }

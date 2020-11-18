@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/common/local-storage.service';
 
 @Component({
@@ -8,13 +9,16 @@ import { LocalStorageService } from 'src/app/common/local-storage.service';
 })
 export class NavigationComponent implements OnInit {
 
-  user: string;
+  @Input() userName: string;
 
-  constructor(private localStorageService: LocalStorageService) {
-    this.user = localStorageService.userCode;
-  }
+  constructor(private localStorageService: LocalStorageService, private router: Router) {}
 
   ngOnInit(): void {
+  }
+
+  logout() {
+    this.localStorageService.clear();
+    this.router.navigate(['/login']);
   }
 
 }
