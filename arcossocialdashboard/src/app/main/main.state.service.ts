@@ -1,5 +1,9 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { Entity } from './models/entity';
+import { Help } from './models/help';
 import { MainState } from './models/mainstate';
+import { StaticData } from './models/staticData';
 import { User } from './models/user';
 
 @Injectable({
@@ -7,18 +11,22 @@ import { User } from './models/user';
 })
 export class MainStateService {
 
-  state: EventEmitter<MainState> = new EventEmitter();
+  state: BehaviorSubject<MainState> = null;
   stateModel: MainState;
 
   constructor() {
-    this.initializeMainState();
+    this.state = new BehaviorSubject(new MainState(null));
+    this.stateModel = this.initializeMainState()
+    this.state.next(this.stateModel);
   }
 
-  initializeMainState() {
-    this.stateModel = new MainState(null);
-    this.stateModel.loading = false;
-    this.stateModel.user = new User();
-    this.state.emit(this.stateModel);
+  initializeMainState(): MainState {
+    const stateModel = new MainState(null);
+    stateModel.loading = false;
+    stateModel.user = new User();
+    stateModel.entity = null;
+    stateModel.helpsCounter = 0;
+    return stateModel;
   }
 
   setLoading(loading: boolean) {
@@ -31,9 +39,29 @@ export class MainStateService {
     this.updateState();
   }
 
+  setHelpType(helpType: StaticData) {
+    this.stateModel.helpType = helpType;
+    this.updateState();
+  }
+
+  setEntity(entity: StaticData) {
+    this.stateModel.entity = entity;
+    this.updateState();
+  }
+
+  setHelps(helps: Help[]) {
+    this.stateModel.helps = helps;
+    this.updateState();
+  }
+
+  setHelpsCounter(helpsCounter: number) {
+    this.stateModel.helpsCounter = helpsCounter;
+    this.updateState();
+  }
+
   updateState() {
     const state = new MainState(this.stateModel);
-    this.state.emit(state);
+    this.state.next(state);
   }
 
 }

@@ -1,0 +1,11 @@
+th {
+    color: #fff;
+}
+
+.tableHeader {
+    background-color: #ee6e73;
+}
+
+td, th {
+    text-align: center !important;
+}

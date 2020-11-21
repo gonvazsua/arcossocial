@@ -3,6 +3,7 @@ import { MainStateService } from './main.state.service';
 import { Observable, forkJoin } from 'rxjs';
 import { MainService } from './main.service';
 import { User } from './models/user';
+import { StaticData } from './models/staticData';
 
 @Component({
   selector: 'app-main',
@@ -20,10 +21,14 @@ export class MainComponent implements OnInit {
   loadInitialData() {
     this.mainState.setLoading(true);
     const _loggedUser: Observable<User> = this.mainService.getLoggedUser();
-    forkJoin([_loggedUser])
+    const _helpType: Observable<StaticData> = this.mainService.loadStaticDataByName('HelpType');
+    const _entities: Observable<StaticData> = this.mainService.loadStaticDataByName('Entity');
+    forkJoin([_loggedUser, _helpType, _entities])
       .subscribe(results => {
         this.mainState.setUser(results[0]);
-        this.mainState.setLoading(false);
+        this.mainState.setHelpType(results[1]);
+        this.mainState.setEntity(results[2]);
+        setTimeout(() => {this.mainState.setLoading(false)}, 1000);
       });
   }
 

@@ -1,1 +1,31 @@
-/* You can add global styles to this file, and also import other style files */
+.main-title {
+    text-transform: uppercase;
+    font-size: 2rem;
+}
+
+body {
+    background-color: #EEEEEE !important;
+}
+
+.pageTitle h4 {
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    color: #595858;
+}
+
+.pageTitle p {
+    color: #9A9A9A;
+}
+
+.mt-1 {
+    margin-top: 1rem !important;
+}
+.mt-2 {
+    margin-top: 2rem !important;
+}
+.mt-3 {
+    margin-top: 3rem !important;
+}
+.mb-0 {
+    margin-bottom: 0 !important;
+}

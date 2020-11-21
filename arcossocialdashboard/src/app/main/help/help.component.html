@@ -1,0 +1,115 @@
+<div class="row mt-1 mb-0">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12 pageTitle">
+                        <h4>Gestion de ayudas</h4>
+                        <p>Desde este módulo puedes gestionar y consultar ayudas de distintos beneficiarios</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <form [formGroup]="helpSearchForm" class="col s12" (ngSubmit)="searchHelps()">
+                            <div class="row">
+                                <div class="input-field col s4">
+                                    <select formControlName="helpType">
+                                      <option value=""></option>
+                                      <option value="{{helpType.value}}" *ngFor="let helpType of (mainState.state | async)?.helpType?.values">{{helpType.label}}</option>
+                                    </select>
+                                    <label>Tipo de ayuda</label>
+                                </div>
+                                <div class="input-field col s4">
+                                    <input id="dateFrom" type="text" class="datepicker" (change)="setValueDate('dateFrom', $event, true)">
+                                    <label for="dateFrom">Fecha desde</label>
+                                </div>
+                                <div class="input-field col s4">
+                                    <input id="dateTo" type="text" class="datepicker" (change)="setValueDate('dateTo', $event, false)">
+                                    <label for="dateTo">Fecha hasta</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s4">
+                                    <input id="beneficiaryName" type="text" formControlName="beneficiaryName">
+                                    <label for="beneficiaryName">Beneficiario</label>
+                                </div>
+                                <div class="input-field col s4">
+                                    <input id="beneficiaryDni" type="text" formControlName="beneficiaryDni">
+                                    <label for="beneficiaryDni">DNI Beneficiario</label>
+                                </div>
+                                <div class="input-field col s4">
+                                    <select formControlName="entityCode">
+                                      <option value=""></option>
+                                      <option value="{{entity.value}}" *ngFor="let entity of (mainState.state | async)?.entity?.values">{{entity.label}}</option>
+                                    </select>
+                                    <label>Entidad</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12 right-align">
+                                    <button class="btn waves-effect waves-light" type="submit" name="action" [disabled]="!helpSearchForm.valid">
+                                        BUSCAR
+                                        <i class="material-icons right">search</i>
+                                    </button>
+                                </div>
+                            </div>
+                            <input id="pageNumber" type="hidden" formControlName="pageNumber">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12">
+                        <table class="highlight">
+                            <thead>
+                              <tr class="tableHeader">
+                                  <th>Tipo ayuda</th>
+                                  <th>Fecha</th>
+                                  <th>Beneficiario</th>
+                                  <th>Entidad</th>
+                                  <th>Usuario</th>
+                                  <th>Notas</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let help of (mainState.state | async)?.helps">
+                                    <td>{{help.helpType}}</td>
+                                    <td>{{help.date}}</td>
+                                    <td>{{help.beneficiary.fullName}}</td>
+                                    <td>{{help.entity.name}}</td>
+                                    <td>{{help.user.fullName}}</td>
+                                    <td>{{help.notes}}</td>
+                                </tr>
+                                <tr *ngIf="!(mainState.state | async)?.helps">
+                                    <td colspan="6">No hay resultados para mostrar</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col s12 right-align" *ngIf="(mainState.state | async)?.helps">
+                        <ul class="pagination">
+                            <li [ngClass]="{'disabled' : pagesCounter === 1}">
+                                <a (click)="nextPage()"><i class="material-icons">chevron_left</i></a>
+                            </li>
+                            <li>
+                                <a href="#!">Página {{helpSearchForm.get('pageNumber').value}} de {{pagesCounter}}</a>
+                            </li>
+                            <li (click)="previousPage()" [ngClass]="{'disabled' : pagesCounter === helpSearchForm.get('pageNumber').value}">
+                                <a href="#!"><i class="material-icons">chevron_right</i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

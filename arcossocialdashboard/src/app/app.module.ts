@@ -8,22 +8,22 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from './login/login.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MainComponent } from './main/main.component';
-import { HomeComponent } from './main/home/home.component';
 import { LocalStorageService } from './common/local-storage.service';
 import { AuthguardService } from './common/authguard.service';
 import { NavigationComponent } from './main/navigation/navigation.component';
 import { MainStateService } from './main/main.state.service';
 import { LoadingComponent } from './main/loading/loading.component';
 import { TokenIntecerptorService } from './common/token-intecerptor.service';
+import { HelpComponent } from './main/help/help.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     MainComponent,
-    HomeComponent,
     NavigationComponent,
-    LoadingComponent
+    LoadingComponent,
+    HelpComponent
   ],
   imports: [
     BrowserModule,
