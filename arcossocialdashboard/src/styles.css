@@ -11,6 +11,14 @@ body {
     text-transform: uppercase;
     font-size: 1.5rem;
     color: #595858;
+    margin-bottom: 5px;
+}
+
+.card-title h6{
+    color: #595858;
+    font-weight: 100;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .pageTitle p {
@@ -28,4 +36,8 @@ body {
 }
 .mb-0 {
     margin-bottom: 0 !important;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
 }

@@ -9,6 +9,7 @@ export class MainState {
     entity: StaticData;
     helps: Help[];
     helpsCounter: number;
+    selectedHelp: Help;
 
     constructor(state: MainState) {
         if(!state) return;
@@ -19,6 +20,7 @@ export class MainState {
         this.entity = state.entity;
         this.helps = state.helps;
         this.helpsCounter = state.helpsCounter;
+        this.selectedHelp = state.selectedHelp;
         
     }
 }

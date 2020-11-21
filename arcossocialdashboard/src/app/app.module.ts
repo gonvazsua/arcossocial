@@ -15,6 +15,7 @@ import { MainStateService } from './main/main.state.service';
 import { LoadingComponent } from './main/loading/loading.component';
 import { TokenIntecerptorService } from './common/token-intecerptor.service';
 import { HelpComponent } from './main/help/help.component';
+import { PrettybooleanComponent } from './common/prettyboolean/prettyboolean.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { HelpComponent } from './main/help/help.component';
     MainComponent,
     NavigationComponent,
     LoadingComponent,
-    HelpComponent
+    HelpComponent,
+    PrettybooleanComponent
   ],
   imports: [
     BrowserModule,

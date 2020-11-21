@@ -63,9 +63,14 @@
 </div>
 
 <div class="row">
-    <div class="col s12">
+    <div class="col s8">
         <div class="card">
             <div class="card-content">
+                <div class="row">
+                    <div class="col s12 card-title">
+                        <h6>Resultados de busqueda</h6>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col s12">
                         <table class="highlight">
@@ -75,40 +80,102 @@
                                   <th>Fecha</th>
                                   <th>Beneficiario</th>
                                   <th>Entidad</th>
-                                  <th>Usuario</th>
-                                  <th>Notas</th>
                               </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let help of (mainState.state | async)?.helps">
+                                <tr *ngFor="let help of (mainState.state | async)?.helps" class="cursor-pointer" (click)="setSelectedHelp(help)">
                                     <td>{{help.helpType}}</td>
-                                    <td>{{help.date}}</td>
+                                    <td>{{help.date | date:'dd/MM/yyyy HH:mm:ss'}}</td>
                                     <td>{{help.beneficiary.fullName}}</td>
                                     <td>{{help.entity.name}}</td>
-                                    <td>{{help.user.fullName}}</td>
-                                    <td>{{help.notes}}</td>
                                 </tr>
                                 <tr *ngIf="!(mainState.state | async)?.helps">
-                                    <td colspan="6">No hay resultados para mostrar</td>
+                                    <td colspan="4">No hay resultados para mostrar</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="col s12 right-align" *ngIf="(mainState.state | async)?.helps">
                         <ul class="pagination">
-                            <li [ngClass]="{'disabled' : pagesCounter === 1}">
-                                <a (click)="nextPage()"><i class="material-icons">chevron_left</i></a>
+                            <li *ngIf="helpSearchForm.get('pageNumber').value > 1" class="cursor-pointer">
+                                <a (click)="previousPage()"><i class="material-icons">chevron_left</i></a>
                             </li>
                             <li>
-                                <a href="#!">Página {{helpSearchForm.get('pageNumber').value}} de {{pagesCounter}}</a>
+                                <a>Página {{helpSearchForm.get('pageNumber').value}} de {{pagesCounter}}</a>
                             </li>
-                            <li (click)="previousPage()" [ngClass]="{'disabled' : pagesCounter === helpSearchForm.get('pageNumber').value}">
-                                <a href="#!"><i class="material-icons">chevron_right</i></a>
+                            <li (click)="nextPage()" *ngIf="helpSearchForm.get('pageNumber').value < pagesCounter" class="cursor-pointer">
+                                <a><i class="material-icons">chevron_right</i></a>
                             </li>
                         </ul>
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </div>
+    <!-- Lateral data -->
+    <div class="col s4">
+        <div class="card">
+            <div class="card-content help-data">
+                <div class="row">
+                    <div class="col s12 card-title">
+                        <h6>Detalles de ayuda</h6>
+                    </div>
+                </div>
+                <div class="row" *ngIf="(mainState.state | async)?.selectedHelp">
+                    <div class="col s12">
+                        <h6><i class="material-icons left">people_outline</i>Beneficiario</h6><hr>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>Nombre</strong></p>
+                        <p>{{(mainState.state | async)?.selectedHelp.beneficiary.fullName}}</p>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>DNI</strong></p>
+                        <p>{{(mainState.state | async)?.selectedHelp.beneficiary.dni}}</p>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>Dirección</strong></p>
+                        <p>{{(mainState.state | async)?.selectedHelp.beneficiary.address}}</p>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>Cónyuge</strong></p>
+                        <p>{{(mainState.state | async)?.selectedHelp.beneficiary.mate?.fullName}}</p>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>DNI Cónyuge</strong></p>
+                        <p>{{(mainState.state | async)?.selectedHelp.beneficiary.mate?.dni}}</p>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>Carta valor</strong></p>
+                        <p *ngIf="(mainState.state | async)?.selectedHelp.beneficiary.valuationCard">
+                            SI - {{(mainState.state | async)?.selectedHelp.beneficiary.valuationDate | date:'dd/MM/yyyy'}}
+                        </p>
+                        <p *ngIf="!(mainState.state | async)?.selectedHelp.beneficiary.valuationCard">
+                            NO
+                        </p>
+                    </div>
+                    <div class="col s12 mt-1">
+                        <h6><i class="material-icons left">local_offer</i>Ayuda</h6><hr>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>Emitida por</strong></p>
+                        <p>{{(mainState.state | async)?.selectedHelp.user.fullName}}</p>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>Entidad</strong></p>
+                        <p>{{(mainState.state | async)?.selectedHelp.entity?.name}}</p>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>Notas</strong></p>
+                        <p>{{(mainState.state | async)?.selectedHelp.notes}}</p>
+                    </div>
+                </div>
+                <div class="row" *ngIf="!(mainState.state | async)?.selectedHelp">
+                    <div class="col s12">
+                        <p>Selecciona una ayuda para ver los detalles</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

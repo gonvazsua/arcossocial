@@ -24,7 +24,6 @@ export class MainStateService {
     const stateModel = new MainState(null);
     stateModel.loading = false;
     stateModel.user = new User();
-    stateModel.entity = null;
     stateModel.helpsCounter = 0;
     return stateModel;
   }
@@ -56,6 +55,11 @@ export class MainStateService {
 
   setHelpsCounter(helpsCounter: number) {
     this.stateModel.helpsCounter = helpsCounter;
+    this.updateState();
+  }
+
+  setSelectedHelp(selectedHelp: Help) {
+    this.stateModel.selectedHelp = selectedHelp;
     this.updateState();
   }
 

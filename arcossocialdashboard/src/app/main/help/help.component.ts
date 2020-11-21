@@ -4,6 +4,7 @@ import { MainStateService } from '../main.state.service';
 import { HelpService } from './help.service';
 import { forkJoin } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Help } from '../models/help';
 
 @Component({
   selector: 'app-help',
@@ -36,18 +37,19 @@ export class HelpComponent implements OnInit {
   }
 
   searchHelps() {
+    this.pagesCounter = 0;
+    this.mainState.setSelectedHelp(null);
     this.mainState.setLoading(true);
     const _counter = this.helpService.countHelps(this.helpSearchForm.value);
     const _search = this.helpService.searchHelps(this.helpSearchForm.value);
     forkJoin([_counter, _search]).subscribe(
       result => {
+        setTimeout(() => {this.mainState.setLoading(false)}, 1000);
         this.updatePageCounter(result[0]);
         this.mainState.setHelpsCounter(result[0]);
         this.mainState.setHelps(result[1]);
-        this.mainState.setLoading(false);
       }
     );
-    setTimeout(() => {this.mainState.setLoading(false)}, 1500);
   }
 
   setValueDate(fieldName, event, isFromDate) {
@@ -77,6 +79,10 @@ export class HelpComponent implements OnInit {
   previousPage() {
     this.helpSearchForm.get('pageNumber').setValue(this.helpSearchForm.get('pageNumber').value - 1);
     this.searchHelps();
+  }
+
+  setSelectedHelp(help: Help) {
+    this.mainState.setSelectedHelp(help);
   }
 
 }
