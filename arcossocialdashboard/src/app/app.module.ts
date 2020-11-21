@@ -17,7 +17,6 @@ import { TokenIntecerptorService } from './common/token-intecerptor.service';
 import { HelpComponent } from './main/helps/help/help.component';
 import { PrettybooleanComponent } from './common/prettyboolean/prettyboolean.component';
 import { NewhelpComponent } from './main/helps/newhelp/newhelp.component';
-import { BeneficiarysearchComponent } from './main/beneficiaries/beneficiarysearch/beneficiarysearch.component';
 import { BeneficiaryService } from './main/beneficiaries/beneficiary.service';
 
 @NgModule({
@@ -30,7 +29,6 @@ import { BeneficiaryService } from './main/beneficiaries/beneficiary.service';
     HelpComponent,
     PrettybooleanComponent,
     NewhelpComponent,
-    BeneficiarysearchComponent
   ],
   imports: [
     BrowserModule,
