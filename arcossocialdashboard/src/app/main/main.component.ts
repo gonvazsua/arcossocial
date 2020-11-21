@@ -4,6 +4,7 @@ import { Observable, forkJoin } from 'rxjs';
 import { MainService } from './main.service';
 import { User } from './models/user';
 import { StaticData } from './models/staticData';
+import { Entity } from './models/entity';
 
 @Component({
   selector: 'app-main',
@@ -22,14 +23,24 @@ export class MainComponent implements OnInit {
     this.mainState.setLoading(true);
     const _loggedUser: Observable<User> = this.mainService.getLoggedUser();
     const _helpType: Observable<StaticData> = this.mainService.loadStaticDataByName('HelpType');
-    const _entities: Observable<StaticData> = this.mainService.loadStaticDataByName('Entity');
+    const _entities: Observable<Entity[]> = this.mainService.loadEntities();
     forkJoin([_loggedUser, _helpType, _entities])
       .subscribe(results => {
-        this.mainState.setUser(results[0]);
-        this.mainState.setHelpType(results[1]);
-        this.mainState.setEntity(results[2]);
+        const user = results[0];
+        const helpType = results[1];
+        const entities = results[2];
+        this.mainState.setUser(user);
+        this.mainState.setHelpType(helpType);
+        this.mainState.setEntities(entities);
+        const userEntity = this.findUserEntity(entities, user.entityCode);
+        this.mainState.setUserEntity(userEntity);
         setTimeout(() => {this.mainState.setLoading(false)}, 1000);
       });
+  } 
+
+  findUserEntity(entities: Entity[], entityCode: string) {
+    const userEntities =  entities.filter(e => e.code === entityCode);
+    return userEntities.pop();
   }
 
 }

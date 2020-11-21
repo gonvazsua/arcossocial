@@ -6,6 +6,7 @@ import { LocalStorageService } from '../common/local-storage.service';
 import { User } from './models/user';
 import { map } from 'rxjs/operators';
 import { StaticData } from './models/staticData';
+import { Entity } from './models/entity';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,10 @@ export class MainService {
     return this.http
       .get<StaticData[]>(environment.apiUrl + "staticData", {params})
       .pipe(map(staticsData => staticsData[0]));
+  }
+
+  loadEntities() : Observable<Entity[]> {
+    return this.http.get<Entity[]>(environment.apiUrl + "entities");
   }
 
 }

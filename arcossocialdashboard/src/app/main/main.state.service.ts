@@ -43,8 +43,8 @@ export class MainStateService {
     this.updateState();
   }
 
-  setEntity(entity: StaticData) {
-    this.stateModel.entity = entity;
+  setEntities(entities: Entity[]) {
+    this.stateModel.entities = entities;
     this.updateState();
   }
 
@@ -60,6 +60,11 @@ export class MainStateService {
 
   setSelectedHelp(selectedHelp: Help) {
     this.stateModel.selectedHelp = selectedHelp;
+    this.updateState();
+  }
+
+  setUserEntity(userEntity: Entity) {
+    this.stateModel.userEntity = userEntity;
     this.updateState();
   }
 

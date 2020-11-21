@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthguardService } from './common/authguard.service';
 import { LoginComponent } from './login/login.component';
-import { HelpComponent } from './main/help/help.component';
+import { HelpComponent } from './main/helps/help/help.component';
+import { NewhelpComponent } from './main/helps/newhelp/newhelp.component';
 import { MainComponent } from './main/main.component';
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
     path: 'main', component: MainComponent,
     canActivate: [AuthguardService],
     children: [
+      { path: 'help/new', component: NewhelpComponent },
       { path: 'help', component: HelpComponent },
       { path: '', component: HelpComponent }
     ],

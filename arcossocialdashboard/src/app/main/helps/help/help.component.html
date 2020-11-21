@@ -40,13 +40,14 @@
                                 <div class="input-field col s4">
                                     <select formControlName="entityCode">
                                       <option value=""></option>
-                                      <option value="{{entity.value}}" *ngFor="let entity of (mainState.state | async)?.entity?.values">{{entity.label}}</option>
+                                      <option value="{{entity.code}}" *ngFor="let entity of (mainState.state | async)?.entities">{{entity.name}}</option>
                                     </select>
                                     <label>Entidad</label>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col s12 right-align">
+                                    <a class="waves-effect waves-light btn modal-trigger mr-1" href="#newHelpModal"><i class="material-icons right">local_offer</i>NUEVA AYUDA</a>
                                     <button class="btn waves-effect waves-light" type="submit" name="action" [disabled]="!helpSearchForm.valid">
                                         BUSCAR
                                         <i class="material-icons right">search</i>
@@ -147,7 +148,7 @@
                         <p>{{(mainState.state | async)?.selectedHelp.beneficiary.mate?.dni}}</p>
                     </div>
                     <div class="col s6 mt-1">
-                        <p><strong>Carta valor</strong></p>
+                        <p><strong>Carta de valoración</strong></p>
                         <p *ngIf="(mainState.state | async)?.selectedHelp.beneficiary.valuationCard">
                             SI - {{(mainState.state | async)?.selectedHelp.beneficiary.valuationDate | date:'dd/MM/yyyy'}}
                         </p>
@@ -180,3 +181,11 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Nueva ayuda -->
+<div id="newHelpModal" class="modal">
+  <div class="modal-content">
+    <app-newhelp></app-newhelp>
+  </div>
+</div>
+

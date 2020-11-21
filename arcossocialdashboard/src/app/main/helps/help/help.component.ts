@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MainStateService } from '../main.state.service';
+import { MainStateService } from '../../main.state.service';
 import { HelpService } from './help.service';
 import { forkJoin } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Help } from '../models/help';
+import { Help } from '../../models/help';
+
+declare const M: any;
 
 @Component({
   selector: 'app-help',
@@ -22,6 +24,13 @@ export class HelpComponent implements OnInit {
 
   ngOnInit(): void {
     this.mainState.state.subscribe(state => this.updatePageCounter(state.helpsCounter));
+    this.mainState.state.subscribe(state => {
+      this.initializeMaterialComponents();
+    });
+  }
+
+  ngAfterViewInit() {
+    this.initializeMaterialComponents();
   }
 
   initializeForm() {
@@ -83,6 +92,31 @@ export class HelpComponent implements OnInit {
 
   setSelectedHelp(help: Help) {
     this.mainState.setSelectedHelp(help);
+  }
+
+  initializeMaterialComponents() {
+    
+    //Select component materialize css
+    var selects = document.querySelectorAll('select');
+    var selectsInstances = M.FormSelect.init(selects, '');
+
+    //Datepicker materialize css
+    const options = {
+      format: 'dd/mm/yyyy', firstDay: 1,
+      i18n: {
+              months: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"],
+              monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"],
+              weekdays: ["Domingo","Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+              weekdaysShort: ["Dom","Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+              weekdaysAbbrev: ["D","L", "M", "M", "J", "V", "S"]
+          }
+    };
+    var dps = document.querySelectorAll('.datepicker');
+    var dpsInstances = M.Datepicker.init(dps, options);
+
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems, options);
+    
   }
 
 }

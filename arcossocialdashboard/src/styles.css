@@ -41,3 +41,7 @@ body {
 .cursor-pointer {
     cursor: pointer !important;
 }
+
+.mr-1 {
+    margin-right: 1rem !important;
+}

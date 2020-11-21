@@ -14,8 +14,11 @@ import { NavigationComponent } from './main/navigation/navigation.component';
 import { MainStateService } from './main/main.state.service';
 import { LoadingComponent } from './main/loading/loading.component';
 import { TokenIntecerptorService } from './common/token-intecerptor.service';
-import { HelpComponent } from './main/help/help.component';
+import { HelpComponent } from './main/helps/help/help.component';
 import { PrettybooleanComponent } from './common/prettyboolean/prettyboolean.component';
+import { NewhelpComponent } from './main/helps/newhelp/newhelp.component';
+import { BeneficiarysearchComponent } from './main/beneficiaries/beneficiarysearch/beneficiarysearch.component';
+import { BeneficiaryService } from './main/beneficiaries/beneficiary.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,9 @@ import { PrettybooleanComponent } from './common/prettyboolean/prettyboolean.com
     NavigationComponent,
     LoadingComponent,
     HelpComponent,
-    PrettybooleanComponent
+    PrettybooleanComponent,
+    NewhelpComponent,
+    BeneficiarysearchComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +41,7 @@ import { PrettybooleanComponent } from './common/prettyboolean/prettyboolean.com
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenIntecerptorService, multi: true },
     LoginService, LocalStorageService, 
-    AuthguardService, MainStateService],
+    AuthguardService, MainStateService, BeneficiaryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
