@@ -110,4 +110,63 @@
             </div>
         </div>
     </div>
+    <!-- Lateral data -->
+    <div class="col s4">
+        <div class="card">
+            <div class="card-content help-data">
+                <div class="row">
+                    <div class="col s12 card-title">
+                        <h6>Detalles del beneficiario</h6>
+                    </div>
+                </div>
+                <div class="row" *ngIf="(mainState.state | async)?.selectedBeneficiary">
+                    <div class="col s12">
+                        <h6><i class="material-icons left">people</i>Beneficiario</h6><hr>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>Nombre</strong></p>
+                        <p>{{(mainState.state | async)?.selectedBeneficiary.fullName}}</p>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>DNI</strong></p>
+                        <p>{{(mainState.state | async)?.selectedBeneficiary.dni}}</p>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>Cónyuge</strong></p>
+                        <p>{{(mainState.state | async)?.selectedBeneficiary.mate?.fullName}}</p>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>DNI Cónyuge</strong></p>
+                        <p>{{(mainState.state | async)?.selectedBeneficiary.mate?.dni}}</p>
+                    </div>
+                    <div class="col s12 mt-1">
+                        <p><strong>Dirección</strong></p>
+                        <p>{{(mainState.state | async)?.selectedBeneficiary.address}}</p>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>Entidad de registro</strong></p>
+                        <p>{{(mainState.state | async)?.selectedBeneficiary.entity?.name}}</p>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>Carta de valoración</strong></p>
+                        <p *ngIf="(mainState.state | async)?.selectedBeneficiary.valuationCard">
+                            <a class="waves-effect waves-light btn-small">SI - {{(mainState.state | async)?.selectedBeneficiary.valuationDate | date:'dd/MM/yyyy'}}</a>
+                        </p>
+                        <p *ngIf="!(mainState.state | async)?.selectedBeneficiary.valuationCard">
+                            <span class="new badge" data-badge-caption="">NO</span>
+                        </p>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>Fecha de alta</strong></p>
+                        <p>{{(mainState.state | async)?.selectedBeneficiary.creationDate | date:'dd/MM/yyyy HH:mm'}}</p>
+                    </div>
+                </div>
+                <div class="row" *ngIf="!(mainState.state | async)?.selectedBeneficiary">
+                    <div class="col s12">
+                        <p>Selecciona un beneficiario para ver los detalles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
