@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MainStateService } from '../../main.state.service';
 import { HelpService } from './help.service';
@@ -6,6 +6,7 @@ import { forkJoin } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Help } from '../../models/help';
 import { Beneficiary } from '../../models/beneficiary';
+import { BeneficiarysearchComponent } from '../../beneficiaries/beneficiarysearch/beneficiarysearch.component';
 
 declare const M: any;
 
@@ -15,6 +16,8 @@ declare const M: any;
   styleUrls: ['./help.component.css']
 })
 export class HelpComponent implements OnInit {
+
+  @ViewChild(BeneficiarysearchComponent) beneficiarySearch: BeneficiarysearchComponent
 
   helpSearchForm: FormGroup;
   pagesCounter: number;
@@ -55,8 +58,8 @@ export class HelpComponent implements OnInit {
     this.mainState.setSelectedHelp(null);
     this.mainState.setLoading(true);
     const parameters = this.buildSearchHelpParameters(this.helpSearchForm.value);
-    const _counter = this.helpService.countHelps(this.helpSearchForm.value);
-    const _search = this.helpService.searchHelps(this.helpSearchForm.value);
+    const _counter = this.helpService.countHelps(parameters);
+    const _search = this.helpService.searchHelps(parameters);
     forkJoin([_counter, _search]).subscribe(
       result => {
         setTimeout(() => {this.mainState.setLoading(false)}, 1000);
@@ -146,6 +149,7 @@ export class HelpComponent implements OnInit {
     this.mainState.setSelectedHelp(null);
     this.mainState.setHelpsCounter(0);
     this.mainState.setHelps(null);
+    this.beneficiarySearch.resetValues();
   }
 
   buildSearchHelpParameters(formData: any) {

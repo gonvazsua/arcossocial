@@ -4,8 +4,8 @@
         <a href="#!" class="brand-logo"><img src="assets/ArcosSocial_White.svg" /></a>
         <ul class="right hide-on-med-and-down">
             <li routerLinkActive="active"><a [routerLink]="['/main/help']"><i class="material-icons left">local_offer</i>Ayudas</a></li>
-            <li routerLinkActive="active"><a href="sass.html"><i class="material-icons left">people</i>Beneficiarios</a></li>
-            <li routerLinkActive="active"><a href="sass.html"><i class="material-icons left">assignment_ind</i>{{userName}}</a></li>
+            <li routerLinkActive="active"><a [routerLink]="['/main/beneficiary']"><i class="material-icons left">people</i>Beneficiarios</a></li>
+            <li routerLinkActive="active"><a href="#"><i class="material-icons left">assignment_ind</i>{{userName}}</a></li>
             <li routerLinkActive="active"><a class="waves-effect waves-light btn-small" (click)="logout()">SALIR</a></li>
         </ul>
     </div>

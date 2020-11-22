@@ -19,6 +19,7 @@ import { PrettybooleanComponent } from './common/prettyboolean/prettyboolean.com
 import { NewhelpComponent } from './main/helps/newhelp/newhelp.component';
 import { BeneficiaryService } from './main/beneficiaries/beneficiary.service';
 import { BeneficiarysearchComponent } from './main/beneficiaries/beneficiarysearch/beneficiarysearch.component';
+import { BeneficiaryComponent } from './main/beneficiaries/beneficiary/beneficiary.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { BeneficiarysearchComponent } from './main/beneficiaries/beneficiarysear
     PrettybooleanComponent,
     NewhelpComponent,
     BeneficiarysearchComponent,
+    BeneficiaryComponent,
   ],
   imports: [
     BrowserModule,

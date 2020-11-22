@@ -1,5 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Beneficiary } from './models/beneficiary';
 import { Entity } from './models/entity';
 import { Help } from './models/help';
 import { MainState } from './models/mainstate';
@@ -65,6 +66,21 @@ export class MainStateService {
 
   setUserEntity(userEntity: Entity) {
     this.stateModel.userEntity = userEntity;
+    this.updateState();
+  }
+
+  setBeneficiaries(beneficiaries: Beneficiary[]) {
+    this.stateModel.beneficiaries = beneficiaries;
+    this.updateState();
+  }
+
+  setSelectedBeneficiary(beneficiary: Beneficiary) {
+    this.stateModel.selectedBeneficiary = beneficiary;
+    this.updateState();
+  }
+
+  setBeneficiariesCounter(beneficiaryCounter: number) {
+    this.stateModel.beneficiariesCounter = beneficiaryCounter;
     this.updateState();
   }
 

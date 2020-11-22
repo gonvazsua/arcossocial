@@ -45,3 +45,19 @@ body {
 .mr-1 {
     margin-right: 1rem !important;
 }
+
+th {
+    color: #fff;
+}
+
+.tableHeader {
+    background-color: #ee6e73;
+}
+
+td, th {
+    text-align: center !important;
+}
+
+.help-data .row {
+    margin-bottom: 5px;
+}

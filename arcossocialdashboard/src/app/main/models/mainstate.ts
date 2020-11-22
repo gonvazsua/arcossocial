@@ -1,3 +1,4 @@
+import { Beneficiary } from './beneficiary';
 import { Entity } from './entity';
 import { Help } from './help';
 import { StaticData } from './staticData';
@@ -11,7 +12,10 @@ export class MainState {
     helps: Help[];
     helpsCounter: number;
     selectedHelp: Help;
-    userEntity: Entity
+    userEntity: Entity;
+    beneficiaries: Beneficiary[];
+    beneficiariesCounter: number;
+    selectedBeneficiary: Beneficiary;
 
     constructor(state: MainState) {
         if(!state) return;
@@ -24,6 +28,9 @@ export class MainState {
         this.helpsCounter = state.helpsCounter;
         this.selectedHelp = state.selectedHelp;
         this.userEntity = state.userEntity;
+        this.beneficiaries = state.beneficiaries;
+        this.beneficiariesCounter = state.beneficiariesCounter;
+        this.selectedBeneficiary = state.selectedBeneficiary;
         
     }
 }
