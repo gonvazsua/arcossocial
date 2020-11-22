@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { BeneficiaryService } from '../../beneficiaries/beneficiary.service';
 import { MainStateService } from '../../main.state.service';
@@ -14,6 +14,8 @@ declare const M: any;
   styleUrls: ['./newhelp.component.css']
 })
 export class NewhelpComponent implements OnInit {
+
+  @Output() closeModalEvent: EventEmitter<boolean> = new EventEmitter();
 
   newHelp: Help;
   selectedBeneficiary: Beneficiary;
@@ -78,7 +80,7 @@ export class NewhelpComponent implements OnInit {
   }
 
   validateAndSave() {
-    this.mainState.setLoading(true);
+    //this.mainState.setLoading(true);
     if(this.selectedBeneficiary == null) {
       this.setError("No se ha seleccionado un beneficiario");
     }
@@ -103,12 +105,12 @@ export class NewhelpComponent implements OnInit {
       saved => {
         this.successSaved = true;
         this.clearForm();
-        setTimeout(() => { this.mainState.setLoading(false) }, 1500);
+        //setTimeout(() => { this.mainState.setLoading(false) }, 1500);
       },
       error => {
         console.log(error);
         this.setError(error.message);
-        this.mainState.setLoading(false);
+        //this.mainState.setLoading(false);
       }
     );
 
@@ -149,6 +151,11 @@ export class NewhelpComponent implements OnInit {
     this.helpType.reset();
     this.beneficiaryList = [];
     this.initializeHelpTypeSelect();
+  }
+
+  closeModal() {
+    this.clearForm();
+    this.closeModalEvent.emit(true);
   }
 
 }

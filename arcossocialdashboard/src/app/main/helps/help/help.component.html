@@ -48,6 +48,10 @@
                             <div class="row">
                                 <div class="col s12 right-align">
                                     <a class="waves-effect waves-light btn modal-trigger mr-1" href="#newHelpModal"><i class="material-icons right">local_offer</i>NUEVA AYUDA</a>
+                                    <button class="btn waves-effect waves-light mr-1" type="button" (click)="resetForm()">
+                                        REINICIAR
+                                        <i class="material-icons right">refresh</i>
+                                    </button>
                                     <button class="btn waves-effect waves-light" type="submit" name="action" [disabled]="!helpSearchForm.valid">
                                         BUSCAR
                                         <i class="material-icons right">search</i>
@@ -80,18 +84,20 @@
                                   <th>Tipo ayuda</th>
                                   <th>Fecha</th>
                                   <th>Beneficiario</th>
+                                  <th>Cónyuge</th>
                                   <th>Entidad</th>
                               </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let help of (mainState.state | async)?.helps" class="cursor-pointer" (click)="setSelectedHelp(help)">
                                     <td>{{help.helpType}}</td>
-                                    <td>{{help.date | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                                    <td>{{help.date | date:'dd/MM/yyyy HH:mm'}}</td>
                                     <td>{{help.beneficiary.fullName}}</td>
+                                    <td>{{help.beneficiary.mate?.fullName}}</td>
                                     <td>{{help.entity.name}}</td>
                                 </tr>
-                                <tr *ngIf="!(mainState.state | async)?.helps">
-                                    <td colspan="4">No hay resultados para mostrar</td>
+                                <tr *ngIf="!(mainState.state | async)?.helps || (mainState.state | async)?.helps?.length === 0">
+                                    <td colspan="5">No hay resultados para mostrar</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -125,7 +131,7 @@
                 </div>
                 <div class="row" *ngIf="(mainState.state | async)?.selectedHelp">
                     <div class="col s12">
-                        <h6><i class="material-icons left">people_outline</i>Beneficiario</h6><hr>
+                        <h6><i class="material-icons left">people</i>Beneficiario</h6><hr>
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>Nombre</strong></p>
@@ -140,21 +146,21 @@
                         <p>{{(mainState.state | async)?.selectedHelp.beneficiary.address}}</p>
                     </div>
                     <div class="col s6 mt-1">
+                        <p><strong>Carta de valoración</strong></p>
+                        <p *ngIf="(mainState.state | async)?.selectedHelp.beneficiary.valuationCard">
+                            <a class="waves-effect waves-light btn-small">SI - {{(mainState.state | async)?.selectedHelp.beneficiary.valuationDate | date:'dd/MM/yyyy'}}</a>
+                        </p>
+                        <p *ngIf="!(mainState.state | async)?.selectedHelp.beneficiary.valuationCard">
+                            <span class="new badge" data-badge-caption="">NO</span>
+                        </p>
+                    </div>
+                    <div class="col s6 mt-1">
                         <p><strong>Cónyuge</strong></p>
                         <p>{{(mainState.state | async)?.selectedHelp.beneficiary.mate?.fullName}}</p>
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>DNI Cónyuge</strong></p>
                         <p>{{(mainState.state | async)?.selectedHelp.beneficiary.mate?.dni}}</p>
-                    </div>
-                    <div class="col s6 mt-1">
-                        <p><strong>Carta de valoración</strong></p>
-                        <p *ngIf="(mainState.state | async)?.selectedHelp.beneficiary.valuationCard">
-                            SI - {{(mainState.state | async)?.selectedHelp.beneficiary.valuationDate | date:'dd/MM/yyyy'}}
-                        </p>
-                        <p *ngIf="!(mainState.state | async)?.selectedHelp.beneficiary.valuationCard">
-                            NO
-                        </p>
                     </div>
                     <div class="col s12 mt-1">
                         <h6><i class="material-icons left">local_offer</i>Ayuda</h6><hr>
@@ -185,6 +191,6 @@
 <!-- Modal Nueva ayuda -->
 <div id="newHelpModal" class="modal">
   <div class="modal-content">
-    <app-newhelp></app-newhelp>
+    <app-newhelp (closeModalEvent)="closeModalNewHelp($event)"></app-newhelp>
   </div>
 </div>

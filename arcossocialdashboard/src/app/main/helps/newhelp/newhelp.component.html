@@ -19,7 +19,7 @@
                                 <label>Tipo de ayuda</label>
                             </div>
                             <div class="input-field col s6">
-                                <i class="material-icons prefix">people_outline</i>
+                                <i class="material-icons prefix">people</i>
                                 <input type="text" id="beneficiarySelect" autocomplete="off" [formControl]="beneficiary" class="autocomplete" (keyup)="refreshBeneficiaries($event)" (change)="updateBeneficiary($event)">
                                 <label for="beneficiarySelect">Beneficiario</label>
                             </div>
@@ -30,6 +30,10 @@
                         </div>
                         <div class="row">
                             <div class="col s12 right-align">
+                                <button class="btn waves-effect waves-light grey darken-1 mr-1" type="button" (click)="closeModal()">
+                                    CERRAR
+                                    <i class="material-icons right">close</i>
+                                </button>
                                 <button class="btn waves-effect waves-light" type="button" (click)="validateAndSave()">
                                     GUARDAR
                                     <i class="material-icons right">save</i>

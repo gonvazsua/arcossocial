@@ -57,6 +57,12 @@ export class HelpComponent implements OnInit {
         this.updatePageCounter(result[0]);
         this.mainState.setHelpsCounter(result[0]);
         this.mainState.setHelps(result[1]);
+      },
+      error => {
+        setTimeout(() => {this.mainState.setLoading(false)}, 1000);
+        this.updatePageCounter(0);
+        this.mainState.setHelpsCounter(0);
+        this.mainState.setHelps([]);
       }
     );
   }
@@ -115,8 +121,25 @@ export class HelpComponent implements OnInit {
     var dpsInstances = M.Datepicker.init(dps, options);
 
     var elems = document.querySelectorAll('.modal');
-    var instances = M.Modal.init(elems, options);
+    const optionsModal = {dismissible: false};
+    var instances = M.Modal.init(elems, optionsModal);
     
+  }
+
+  closeModalNewHelp(event) {
+    if(!event) return;
+    const modal = document.querySelector('#newHelpModal');
+    const modalInstance = M.Modal.getInstance(modal);
+    modalInstance.close();
+  }
+
+  resetForm() {
+    this.initializeMaterialComponents();
+    this.helpSearchForm.reset();
+    this.pagesCounter = 0;
+    this.mainState.setSelectedHelp(null);
+    this.mainState.setHelpsCounter(0);
+    this.mainState.setHelps(null);
   }
 
 }
