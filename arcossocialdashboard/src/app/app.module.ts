@@ -18,6 +18,7 @@ import { HelpComponent } from './main/helps/help/help.component';
 import { PrettybooleanComponent } from './common/prettyboolean/prettyboolean.component';
 import { NewhelpComponent } from './main/helps/newhelp/newhelp.component';
 import { BeneficiaryService } from './main/beneficiaries/beneficiary.service';
+import { BeneficiarysearchComponent } from './main/beneficiaries/beneficiarysearch/beneficiarysearch.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { BeneficiaryService } from './main/beneficiaries/beneficiary.service';
     HelpComponent,
     PrettybooleanComponent,
     NewhelpComponent,
+    BeneficiarysearchComponent,
   ],
   imports: [
     BrowserModule,

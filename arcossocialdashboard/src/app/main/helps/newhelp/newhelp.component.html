@@ -12,18 +12,16 @@
                     <div class="col s12">
                         <div class="row">
                             <div class="input-field col s6">
+                                <i class="material-icons prefix">help</i>
                                 <select [formControl]="helpType">
                                   <option value=""></option>
                                   <option value="{{helpType.value}}" *ngFor="let helpType of (mainState.state | async)?.helpType?.values">{{helpType.label}}</option>
                                 </select>
                                 <label>Tipo de ayuda</label>
                             </div>
-                            <div class="input-field col s6">
-                                <i class="material-icons prefix">people</i>
-                                <input type="text" id="beneficiarySelect" autocomplete="off" [formControl]="beneficiary" class="autocomplete" (keyup)="refreshBeneficiaries($event)" (change)="updateBeneficiary($event)">
-                                <label for="beneficiarySelect">Beneficiario</label>
-                            </div>
+                            <app-beneficiarysearch inputID="newBeneficiaryId" (beneficiarySelectedEvent)="selectedBeneficiary=$event" classList="s6"></app-beneficiarysearch>
                             <div class="input-field col s12">
+                                <i class="material-icons prefix">mode_edit</i>
                                 <textarea id="textarea1" class="materialize-textarea" [formControl]="notes"></textarea>
                                 <label for="textarea1">Notas</label>
                             </div>

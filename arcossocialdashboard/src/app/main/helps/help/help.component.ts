@@ -5,6 +5,7 @@ import { HelpService } from './help.service';
 import { forkJoin } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Help } from '../../models/help';
+import { Beneficiary } from '../../models/beneficiary';
 
 declare const M: any;
 
@@ -17,6 +18,7 @@ export class HelpComponent implements OnInit {
 
   helpSearchForm: FormGroup;
   pagesCounter: number;
+  selectedBeneficiary: Beneficiary;
 
   constructor(private fb: FormBuilder, public mainState: MainStateService, private helpService: HelpService) {
     this.helpSearchForm = this.initializeForm();
@@ -45,10 +47,14 @@ export class HelpComponent implements OnInit {
     });
   }
 
-  searchHelps() {
+  searchHelps(isNewSearch: boolean) {
+    if(isNewSearch) {
+      this.helpSearchForm.get('pageNumber').setValue(1);
+    }
     this.pagesCounter = 0;
     this.mainState.setSelectedHelp(null);
     this.mainState.setLoading(true);
+    const parameters = this.buildSearchHelpParameters(this.helpSearchForm.value);
     const _counter = this.helpService.countHelps(this.helpSearchForm.value);
     const _search = this.helpService.searchHelps(this.helpSearchForm.value);
     forkJoin([_counter, _search]).subscribe(
@@ -88,12 +94,12 @@ export class HelpComponent implements OnInit {
 
   nextPage() {
     this.helpSearchForm.get('pageNumber').setValue(this.helpSearchForm.get('pageNumber').value + 1);
-    this.searchHelps();
+    this.searchHelps(false);
   }
 
   previousPage() {
     this.helpSearchForm.get('pageNumber').setValue(this.helpSearchForm.get('pageNumber').value - 1);
-    this.searchHelps();
+    this.searchHelps(false);
   }
 
   setSelectedHelp(help: Help) {
@@ -140,6 +146,14 @@ export class HelpComponent implements OnInit {
     this.mainState.setSelectedHelp(null);
     this.mainState.setHelpsCounter(0);
     this.mainState.setHelps(null);
+  }
+
+  buildSearchHelpParameters(formData: any) {
+    const parameters = formData;
+    if(this.selectedBeneficiary) {
+      parameters['beneficiaryDni'] = this.selectedBeneficiary.dni;
+    }
+    return parameters;
   }
 
 }

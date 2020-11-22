@@ -10,9 +10,10 @@
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <form [formGroup]="helpSearchForm" class="col s12" (ngSubmit)="searchHelps()">
+                        <form [formGroup]="helpSearchForm" class="col s12" (ngSubmit)="searchHelps(true)">
                             <div class="row">
                                 <div class="input-field col s4">
+                                    <i class="material-icons prefix">help</i>
                                     <select formControlName="helpType">
                                       <option value=""></option>
                                       <option value="{{helpType.value}}" *ngFor="let helpType of (mainState.state | async)?.helpType?.values">{{helpType.label}}</option>
@@ -20,24 +21,31 @@
                                     <label>Tipo de ayuda</label>
                                 </div>
                                 <div class="input-field col s4">
+                                    <i class="material-icons prefix">date_range</i>
                                     <input id="dateFrom" type="text" class="datepicker" (change)="setValueDate('dateFrom', $event, true)">
                                     <label for="dateFrom">Fecha desde</label>
                                 </div>
                                 <div class="input-field col s4">
+                                    <i class="material-icons prefix">date_range</i>
                                     <input id="dateTo" type="text" class="datepicker" (change)="setValueDate('dateTo', $event, false)">
                                     <label for="dateTo">Fecha hasta</label>
                                 </div>
                             </div>
                             <div class="row">
+                                <app-beneficiarysearch inputID="searchBeneficiaryId" (beneficiarySelectedEvent)="selectedBeneficiary=$event" classList="s4"></app-beneficiarysearch>
+                                <!--
                                 <div class="input-field col s4">
                                     <input id="beneficiaryName" type="text" formControlName="beneficiaryName">
                                     <label for="beneficiaryName">Beneficiario</label>
                                 </div>
+                                -->
                                 <div class="input-field col s4">
+                                    <i class="material-icons prefix">subtitles</i>
                                     <input id="beneficiaryDni" type="text" formControlName="beneficiaryDni">
-                                    <label for="beneficiaryDni">DNI Beneficiario</label>
+                                    <label for="beneficiaryDni">DNI Beneficiario o cónyuge</label>
                                 </div>
                                 <div class="input-field col s4">
+                                    <i class="material-icons prefix">store</i>
                                     <select formControlName="entityCode">
                                       <option value=""></option>
                                       <option value="{{entity.code}}" *ngFor="let entity of (mainState.state | async)?.entities">{{entity.name}}</option>
@@ -89,7 +97,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let help of (mainState.state | async)?.helps" class="cursor-pointer" (click)="setSelectedHelp(help)">
+                                <tr *ngFor="let help of (mainState.state | async)?.helps" class="cursor-pointer" (click)="setSelectedHelp(help)" [ngClass]="{'grey lighten-1': (mainState.state | async)?.selectedHelp === help}">
                                     <td>{{help.helpType}}</td>
                                     <td>{{help.date | date:'dd/MM/yyyy HH:mm'}}</td>
                                     <td>{{help.beneficiary.fullName}}</td>
