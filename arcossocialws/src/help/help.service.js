@@ -1,5 +1,6 @@
 const dbConfig = require("../config/database");
 const ObjectID = require('mongodb').ObjectID
+const stringUtils = require('../common/string.utils');
 exports.HELP_COLLECTION = "HELP";
 
 exports.createHelp = (_id, beneficiary, helpType, date, entity, notes, user) => {
@@ -8,12 +9,12 @@ exports.createHelp = (_id, beneficiary, helpType, date, entity, notes, user) => 
         if(_id) help._id = new ObjectID(_id);
         help.helpType = helpType;
         help.date = new Date(date);
-        help.notes = notes;
+        help.notes = notes ? stringUtils.normalize(notes) : notes;
         if(beneficiary) {
             let helpBeneficiary = {}
             helpBeneficiary.fullName = beneficiary.fullName;
             helpBeneficiary.dni = beneficiary.dni;
-            helpBeneficiary.addres = beneficiary.addres;
+            helpBeneficiary.address = beneficiary.address;
             helpBeneficiary.valuationCard = beneficiary.valuationCard;
             helpBeneficiary.valuationDate = new Date(beneficiary.valuationDate);
             helpBeneficiary.creationDate = new Date(beneficiary.creationDate);
@@ -76,8 +77,23 @@ exports.findHelps = queryParams => {
         const query = this.buildQuery(queryParams);
         const skip = dbConfig.calculateSkip(queryParams.pageSize, queryParams.pageNumber);
         const limit = dbConfig.calculateLimit(queryParams.pageSize);
+        console.log("Query helps: " + JSON.stringify(query) + ". Skip: " + skip, " and Limit: " + limit);
         dbConfig.getConnection().then(db => {
-            db.collection(this.HELP_COLLECTION).find(query).skip(skip).limit(limit).toArray((err, res) => {
+            db.collection(this.HELP_COLLECTION).find(query).skip(skip).limit(limit).sort({'date': -1}).toArray((err, res) => {
+                if(err) reject(err);
+                resolve(res);
+            });
+        });
+    });
+};
+
+exports.countHelps = queryParams => {
+    return new Promise((resolve, reject) => {
+        const query = this.buildQuery(queryParams);
+        const skip = dbConfig.calculateSkip(queryParams.pageSize, queryParams.pageNumber);
+        const limit = dbConfig.calculateLimit(queryParams.pageSize);
+        dbConfig.getConnection().then(db => {
+            db.collection(this.HELP_COLLECTION).count(query, (err, res) => {
                 if(err) reject(err);
                 resolve(res);
             });
@@ -86,14 +102,24 @@ exports.findHelps = queryParams => {
 };
 
 exports.buildQuery = queryParams => {
-    let query = {};
-    if(queryParams._id) query['_id'] = new ObjectID(queryParams._id);
-    if(queryParams.beneficiaryName) query['beneficiary.fullName'] = new RegExp(queryParams.beneficiaryName, 'i');
-    if(queryParams.beneficiaryDni) query['beneficiary.dni'] = new RegExp(queryParams.beneficiaryDni, 'i');
-    if(queryParams.entityCode) query['entity.code'] = queryParams.entityCode;
-    if(queryParams.helpType) query['helpType'] = queryParams.helpType;
-    if(queryParams.dateFrom) query['date'] = { $gte: queryParams.dateFrom };
-    if(queryParams.dateTo) query['date'] = { $lte: queryParams.dateTo };
-    console.log("Query helps: " + query);
+    let andClauses = [];
+    let query = null;
+    if(queryParams._id) andClauses.push({'_id': new ObjectID(queryParams._id)});
+    if(queryParams.beneficiaryName) andClauses.push({$or : [{'beneficiary.fullName': {$regex: stringUtils.normalize(queryParams.beneficiaryName)}}, {'beneficiary.mate.fullName': {$regex: stringUtils.normalize(queryParams.beneficiaryName)}}]});
+    if(queryParams.beneficiaryDni) andClauses.push({$or : [{'beneficiary.dni': {$regex: stringUtils.normalize(queryParams.beneficiaryDni)}}, {'beneficiary.mate.dni': {$regex: stringUtils.normalize(queryParams.beneficiaryDni)}}]}); 
+    if(queryParams.entityCode) andClauses.push({'entity.code': queryParams.entityCode});
+    if(queryParams.helpType) andClauses.push({'helpType': queryParams.helpType});
+    if(queryParams.dateFrom && !queryParams.dateTo) andClauses.push({'date' : { $gte: new Date(parseInt(queryParams.dateFrom)) } });
+    if(queryParams.dateTo && !queryParams.dateFrom) andClauses.push({'date' : { $lte: new Date(parseInt(queryParams.dateFrom)) } });
+    if(queryParams.dateFrom && queryParams.dateTo) {
+        andClauses.push({'date' : { $gte: new Date(parseInt(queryParams.dateFrom)), $lte: new Date(parseInt(queryParams.dateTo)) }});
+    }
+    if(andClauses.length > 0) {
+        query = {$and : andClauses};
+    } else {
+        query = {};
+    }
+    
+    console.log("Searching helps: " + JSON.stringify(query));
     return query;
 };

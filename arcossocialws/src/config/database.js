@@ -44,7 +44,7 @@ exports.closeConnection = () => {
 
 exports.calculateSkip = (pageSize, pageNumber) => {
     if(pageSize && pageNumber) {
-        return parseInt(pageNumber) * parseInt(pageSize);
+        return (parseInt(pageNumber)-1) * parseInt(pageSize);
     }
     return 0;
 };

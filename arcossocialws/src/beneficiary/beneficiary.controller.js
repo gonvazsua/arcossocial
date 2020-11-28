@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const beneficiaryService = require('./beneficiary.service');
 
+router.get('/count', (req, res) => {
+    beneficiaryService
+        .countBeneficiaries(req.query)
+        .then(beneficiaries => { res.jsonp(beneficiaries) })
+        .catch(err => {
+            res.status(404);
+            res.jsonp({'message' : 'Error obteniendo beneficiarios', 'reason' : err});
+        });
+});
+
 router.get('/', (req, res) => {
     beneficiaryService
         .findBeneficiaries(req.query)

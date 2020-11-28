@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const helpService = require('./help.service');
 
+router.get('/count', (req, res) => {
+    helpService
+        .countHelps(req.query)
+        .then(helps => { res.jsonp(helps) })
+        .catch(err => {
+            res.status(404);
+            res.jsonp({'message' : 'Error contando ayudas', 'reason' : err});
+        });
+});
+
 router.get('/', (req, res) => {
     helpService
         .findHelps(req.query)

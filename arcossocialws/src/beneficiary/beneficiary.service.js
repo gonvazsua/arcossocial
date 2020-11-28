@@ -1,21 +1,22 @@
 const dbConfig = require("../config/database");
 const ObjectID = require('mongodb').ObjectID
+const stringUtils = require('../common/string.utils');
 exports.BENEFICIARY_COLLECTION = "BENEFICIARY";
 
-exports.createBeneficiary = (_id, fullName, dni, addres, entity, valuationCard, valuationDate, creationDate, mate) => {
+exports.createBeneficiary = (_id, fullName, dni, address, entity, valuationCard, valuationDate, creationDate, mate) => {
     return new Promise((resolve, reject) => {
         let beneficiary = {};
         if(_id) beneficiary._id = new ObjectID(_id);
-        beneficiary.fullName = fullName;
-        beneficiary.dni = dni;
-        beneficiary.addres = addres;
+        beneficiary.fullName = fullName ? stringUtils.normalize(fullName) : fullName;
+        beneficiary.dni = dni ? stringUtils.normalize(dni) : dni;
+        beneficiary.address = address ? stringUtils.normalize(address) : address;
         beneficiary.valuationCard = valuationCard;
         beneficiary.valuationDate = new Date(valuationDate);
         beneficiary.creationDate = new Date(creationDate);
         if(mate) {
             let beneficiaryMate = {}
-            beneficiaryMate.fullName = mate.fullName;
-            beneficiaryMate.dni = mate.dni;
+            beneficiaryMate.fullName = mate.fullName ? stringUtils.normalize(mate.fullName) : mate.fullName;
+            beneficiaryMate.dni = mate.dni ? stringUtils.normalize(mate.dni) : mate.dni;
             beneficiary.mate = beneficiaryMate;
         }
         if(entity) {
@@ -57,7 +58,19 @@ exports.findBeneficiaries = queryParams => {
         const skip = dbConfig.calculateSkip(queryParams.pageSize, queryParams.pageNumber);
         const limit = dbConfig.calculateLimit(queryParams.pageSize);
         dbConfig.getConnection().then(db => {
-            db.collection(this.BENEFICIARY_COLLECTION).find(query).skip(skip).limit(limit).toArray((err, res) => {
+            db.collection(this.BENEFICIARY_COLLECTION).find(query).skip(skip).limit(limit).sort({'creationDate': -1}).toArray((err, res) => {
+                if(err) reject(err);
+                resolve(res);
+            });
+        });
+    });
+};
+
+exports.countBeneficiaries = queryParams => {
+    return new Promise((resolve, reject) => {
+        const query = this.buildQuery(queryParams);
+        dbConfig.getConnection().then(db => {
+            db.collection(this.BENEFICIARY_COLLECTION).count(query, (err, res) => {
                 if(err) reject(err);
                 resolve(res);
             });
@@ -66,16 +79,23 @@ exports.findBeneficiaries = queryParams => {
 };
 
 exports.buildQuery = queryParams => {
-    let query = {};
-    if(queryParams._id) query['_id'] = new ObjectID(queryParams._id);
-    if(queryParams.fullName) query['fullName'] = new RegExp(queryParams.fullName, 'i');
-    if(queryParams.dni) query['fullName'] = queryParams.dni;
-    if(queryParams.addres) query['addres'] = new RegExp(queryParams.addres, 'i');
-    if(queryParams.valuationCard) query['valuationCard'] = queryParams.valuationCard === 'true';
-    if(queryParams.mateFullName) query['mate.fullName'] =  new RegExp(queryParams.mateFullName, 'i');
-    if(queryParams.mateDni) query['mate.dni'] = queryParams.mateDni;
-    if(queryParams.entityCode) query['entity.code'] = queryParams.entityCode;
-    if(queryParams.entityName) query['entity.name'] = queryParams.entityName;
-    console.log("Query beneficiaries: " + query);
+    let andClauses = [];
+    let query = null;
+    if(queryParams._id) andClauses.push({'_id': new ObjectID(queryParams._id)});
+    if(queryParams.fullName) andClauses.push({$or : [{'fullName': {$regex: stringUtils.normalize(queryParams.fullName)}}, {'mate.fullName': {$regex: stringUtils.normalize(queryParams.fullName)}}]});
+    if(queryParams.dni) andClauses.push({$or : [{'dni': {$regex: stringUtils.normalize(queryParams.dni)}}, {'mate.dni': {$regex: stringUtils.normalize(queryParams.dni)}}]});
+    if(queryParams.address) andClauses.push({'address': {$regex: stringUtils.normalize(queryParams.address)}}); 
+    if(queryParams.valuationCard) andClauses.push({'valuationCard': queryParams.valuationCard === 'true' ? true : false});
+    //if(queryParams.mateFullName) query['mate.fullName'] =  {$regex: queryParams.mateFullName};
+    //if(queryParams.mateDni) query['mate.dni'] = queryParams.mateDni;
+    if(queryParams.entityCode) andClauses.push({'entity.code': queryParams.entityCode});
+    if(queryParams.entityName) andClauses.push({'entity.name': queryParams.entityName});
+    
+    if(andClauses.length > 0) {
+        query = {$and : andClauses};
+    } else {
+        query = {};
+    }
+    console.log("Query beneficiaries: " + JSON.stringify(query));
     return query;
 };

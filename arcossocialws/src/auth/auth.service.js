@@ -3,7 +3,6 @@ const userService = require('../user/user.service');
 exports.authenticate = (userCode, password) => {
     return new Promise((resolve, reject) => {
         const codedPassword = userService.generatePassword(password);
-        console.log(codedPassword);
         userService.findByUserCodeAndPassword(userCode, codedPassword)
             .then(user => {
                 if(user.isActive) resolve(user);

@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const dbConfig = require('../config/database');
+const stringUtils = require('../common/string.utils');
 exports.USER_COLLECTION = "USER";
 
 exports.findByUserCodeAndPassword = (userCode, password) => {
@@ -42,7 +43,7 @@ exports.createUserCode = entityCode => {
     return new Promise((resolve, reject) => {
         dbConfig.getConnection()
             .then(db => {
-                const entityCodeUpper = entityCode.toUpperCase();
+                const entityCodeUpper = stringUtils.normalize(entityCode);
                 db.collection(this.USER_COLLECTION).countDocuments({entityCode: entityCodeUpper}, (err, counter) => {
                     if(err) reject(err);
                     const zerosCounter = new String(counter).padStart(3, '0');
