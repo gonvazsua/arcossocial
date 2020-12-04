@@ -6,7 +6,7 @@ exports.USER_COLLECTION = "USER";
 exports.findByUserCodeAndPassword = (userCode, password) => {
     return new Promise((resolve, reject) => {
         dbConfig.getConnection().then(db => {
-            db.collection(this.USER_COLLECTION).findOne({'userCode': userCode, 'password':password}, (err, user) => {
+            db.collection(this.USER_COLLECTION).findOne({'userCode': userCode, 'password':password, 'isActive': true}, (err, user) => {
                 if(err) {
                     console.log(err);
                     reject('User not found by userCode');
@@ -94,11 +94,60 @@ exports.findUsers = queryParams => {
     });
 };
 
-exports.buildQuery = queryParams => {
-    let query = {};
-    if(queryParams.userCode) query.userCode = queryParams.userCode;  
-    if(queryParams.fullName) query.fullName = queryParams.fullName;
-    if(queryParams.entityCode) query.entityCode = queryParams.entityCode;
-    if(queryParams.isAdmin) query.isAdmin = queryParams.isAdmin === 'true';
-    if(queryParams.isActive) query.isActive = queryParams.isActive === 'true';
+exports.countUsers = queryParams => {
+    return new Promise((resolve, reject) => {
+        const query = this.buildQuery(queryParams);
+        dbConfig.getConnection().then(db => {
+            db.collection(this.USER_COLLECTION).count(query, (err, res) => {
+                if(err) reject(err);
+                resolve(res);
+            });
+        });
+    });
 };
+
+exports.buildQuery = queryParams => {
+    let andClauses = [];
+    let query = {};
+    if(queryParams.userCode) andClauses.push({'userCode': stringUtils.normalize(queryParams.userCode)});
+    if(queryParams.fullName) andClauses.push({'fullName': {$regex: stringUtils.normalize(queryParams.fullName)}});
+    if(queryParams.entityCode) andClauses.push({'entityCode': stringUtils.normalize(queryParams.entityCode)});
+    if(queryParams.isAdmin) andClauses.push({'isAdmin': queryParams.isAdmin === 'true'});
+    if(queryParams.isActive) andClauses.push({'isActive': queryParams.isActive === 'true'});
+
+    if(andClauses.length > 0) {
+        query = {$and : andClauses};
+    } else {
+        query = {};
+    }
+    console.log("Query users: " + JSON.stringify(query));
+
+    return query;
+};
+
+exports.buildUser = (_id, userCode, fullName, base64Password, entityCode, isAdmin, isActive, creationDate) => {
+    return new Promise((resolve, reject) => {
+        let user = {};
+        if(_id) user._id = new ObjectID(_id);
+        user.fullName = fullName ? stringUtils.normalize(fullName) : fullName;
+        user.userCode = userCode ? stringUtils.normalize(userCode) : userCode;
+        user.password = base64Password;
+        user.entityCode = entityCode ? stringUtils.normalize(entityCode) : entityCode;
+        user.isAdmin = isAdmin === 'true';
+        user.isActive = isActive === 'true';
+        user.creationDate = new Date(creationDate);
+        resolve(user);
+    })
+};
+
+exports.updateUser = (user) => {
+    return new Promise((resolve, reject) => {
+        dbConfig.getConnection().then(db => {
+            const query = {$set : user};
+            db.collection(this.USER_COLLECTION).updateOne({_id:user._id}, query, (err, res) => {
+                if(err) reject(err);
+                else resolve(user);
+            });
+        });
+    });
+}

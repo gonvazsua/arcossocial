@@ -57,6 +57,6 @@ exports.buildQuery = queryParams => {
     if(queryParams.code) query.code = queryParams.code;
     if(queryParams.name) query.name = queryParams.name;
     if(queryParams.isActive) query.isActive = queryParams.isActive === 'true';
-    console.log("Query entities: " + query);
+    console.log("Query entities: " + JSON.stringify(query));
     return query;
 };
