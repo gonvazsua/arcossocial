@@ -38,7 +38,7 @@
     
                                 <div class="row">
                                     <div class="col s12 right-align">
-                                        
+                                        <a class="waves-effect waves-light btn modal-trigger mr-1" href="#beneficiaryFormModal" (click)="setSelectedBeneficiary(null)"><i class="material-icons right">people</i>ALTA BENEFICIARIO</a>
                                         <button class="btn waves-effect waves-light mr-1" type="button" (click)="resetForm()">
                                             REINICIAR
                                             <i class="material-icons right">refresh</i>
@@ -81,9 +81,9 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let beneficiary of (mainState.state | async)?.beneficiaries" class="cursor-pointer" (click)="setSelectedBeneficiary(beneficiary)" [ngClass]="{'grey lighten-1': (mainState.state | async)?.selectedBeneficiary === beneficiary}">
-                                    <td>{{beneficiary.fullName}}</td>
+                                    <td>{{beneficiary.fullName | titlecase}}</td>
                                     <td>{{beneficiary.dni}}</td>
-                                    <td>{{beneficiary.mate?.fullName}}</td>
+                                    <td>{{beneficiary.mate?.fullName | titlecase}}</td>
                                     <td>{{beneficiary.mate?.dni}}</td>
                                 </tr>
                                 <tr *ngIf="!(mainState.state | async)?.beneficiaries || (mainState.state | async)?.beneficiaries?.length === 0">
@@ -92,15 +92,15 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="col s12 right-align" *ngIf="(mainState.state | async)?.helps">
+                    <div class="col s12 right-align" *ngIf="(mainState.state | async)?.beneficiaries">
                         <ul class="pagination">
-                            <li *ngIf="helpSearchForm.get('pageNumber').value > 1" class="cursor-pointer">
+                            <li *ngIf="beneficiarySearchForm.get('pageNumber').value > 1" class="cursor-pointer">
                                 <a (click)="previousPage()"><i class="material-icons">chevron_left</i></a>
                             </li>
                             <li>
-                                <a>Página {{helpSearchForm.get('pageNumber').value}} de {{pagesCounter}}</a>
+                                <a>Página {{beneficiarySearchForm.get('pageNumber').value}} de {{pagesCounter}}</a>
                             </li>
-                            <li (click)="nextPage()" *ngIf="helpSearchForm.get('pageNumber').value < pagesCounter" class="cursor-pointer">
+                            <li (click)="nextPage()" *ngIf="beneficiarySearchForm.get('pageNumber').value < pagesCounter" class="cursor-pointer">
                                 <a><i class="material-icons">chevron_right</i></a>
                             </li>
                         </ul>
@@ -125,7 +125,7 @@
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>Nombre</strong></p>
-                        <p>{{(mainState.state | async)?.selectedBeneficiary.fullName}}</p>
+                        <p>{{(mainState.state | async)?.selectedBeneficiary.fullName | titlecase}}</p>
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>DNI</strong></p>
@@ -133,7 +133,7 @@
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>Cónyuge</strong></p>
-                        <p>{{(mainState.state | async)?.selectedBeneficiary.mate?.fullName}}</p>
+                        <p>{{(mainState.state | async)?.selectedBeneficiary.mate?.fullName | titlecase}}</p>
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>DNI Cónyuge</strong></p>
@@ -141,11 +141,11 @@
                     </div>
                     <div class="col s12 mt-1">
                         <p><strong>Dirección</strong></p>
-                        <p>{{(mainState.state | async)?.selectedBeneficiary.address}}</p>
+                        <p>{{(mainState.state | async)?.selectedBeneficiary.address | titlecase}}</p>
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>Entidad de registro</strong></p>
-                        <p>{{(mainState.state | async)?.selectedBeneficiary.entity?.name}}</p>
+                        <p>{{(mainState.state | async)?.selectedBeneficiary.entity?.name | titlecase}}</p>
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>Carta de valoración</strong></p>
@@ -160,6 +160,9 @@
                         <p><strong>Fecha de alta</strong></p>
                         <p>{{(mainState.state | async)?.selectedBeneficiary.creationDate | date:'dd/MM/yyyy HH:mm'}}</p>
                     </div>
+                    <div class="col s12 mt-1 right-align">
+                        <a class="waves-effect waves-light btn-small light-blue darken-3 modal-trigger" href="#beneficiaryFormModal"><i class="material-icons right">create</i>EDITAR</a>
+                    </div>
                 </div>
                 <div class="row" *ngIf="!(mainState.state | async)?.selectedBeneficiary">
                     <div class="col s12">
@@ -168,5 +171,12 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal Beneficiary Form -->
+<div id="beneficiaryFormModal" class="modal">
+    <div class="modal-content">
+      <app-beneficiaryform (closeModalEvent)="closeModalBeneficiary($event)"></app-beneficiaryform>
     </div>
 </div>

@@ -22,13 +22,14 @@ export class BeneficiaryComponent implements OnInit {
   pagesCounter: number;
   selectedBeneficiaryForm: Beneficiary;
 
+
   constructor(private fb: FormBuilder, public mainState: MainStateService, public beneficiaryService: BeneficiaryService) {
     this.beneficiarySearchForm = this.initializeForm();
   }
 
   ngOnInit(): void {
-    this.mainState.state.subscribe(state => this.updatePageCounter(state.helpsCounter));
-    this.mainState.state.subscribe(state => {
+    this.mainState.state.subscribe(state =>  {
+      this.updatePageCounter(state.beneficiariesCounter);
       this.initSelectMaterialize();
     });
   }
@@ -85,12 +86,21 @@ export class BeneficiaryComponent implements OnInit {
     //Select component materialize css
     var selects = document.querySelectorAll('select');
     var selectsInstances = M.FormSelect.init(selects, '');
+
+    var elems = document.querySelectorAll('.modal');
+    const optionsModal = {dismissible: false};
+    var instances = M.Modal.init(elems, optionsModal);
+    
   }  
 
   updatePageCounter(totalData: number){
     const pageSize = parseInt(environment.pageSize);
-    const pagesDecimal = totalData / pageSize;
-    this.pagesCounter = Math.trunc(pagesDecimal) + 1;
+    if(totalData < pageSize) {
+      this.pagesCounter = 1;
+    } else {
+      const pagesDecimal = totalData / pageSize;
+      this.pagesCounter = Math.trunc(pagesDecimal) + 1;
+    }
   }
 
   resetForm() {
@@ -101,10 +111,28 @@ export class BeneficiaryComponent implements OnInit {
     this.mainState.setBeneficiariesCounter(0);
     this.mainState.setBeneficiaries(null);
     this.beneficiarySearch.resetValues();
+    this.selectedBeneficiaryForm = null;
   }
 
   setSelectedBeneficiary(beneficiary: Beneficiary) {
     this.mainState.setSelectedBeneficiary(beneficiary);
+  }
+
+  closeModalBeneficiary(event) {
+    if(!event) return;
+    const modal = document.querySelector('#beneficiaryFormModal');
+    const modalInstance = M.Modal.getInstance(modal);
+    modalInstance.close();
+  }
+
+  nextPage() {
+    this.beneficiarySearchForm.get('pageNumber').setValue(this.beneficiarySearchForm.get('pageNumber').value + 1);
+    this.searchBeneficiaries(false);
+  }
+
+  previousPage() {
+    this.beneficiarySearchForm.get('pageNumber').setValue(this.beneficiarySearchForm.get('pageNumber').value - 1);
+    this.searchBeneficiaries(false);
   }
 
 }

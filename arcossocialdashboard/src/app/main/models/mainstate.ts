@@ -16,6 +16,9 @@ export class MainState {
     beneficiaries: Beneficiary[];
     beneficiariesCounter: number;
     selectedBeneficiary: Beneficiary;
+    users: User[];
+    usersCounter: number;
+    selectedUser: User;
 
     constructor(state: MainState) {
         if(!state) return;
@@ -31,6 +34,9 @@ export class MainState {
         this.beneficiaries = state.beneficiaries;
         this.beneficiariesCounter = state.beneficiariesCounter;
         this.selectedBeneficiary = state.selectedBeneficiary;
+        this.users = state.users;
+        this.usersCounter = state.usersCounter;
+        this.selectedUser = state.selectedUser;
         
     }
 }

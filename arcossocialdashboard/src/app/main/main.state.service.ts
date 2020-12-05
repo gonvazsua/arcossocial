@@ -84,6 +84,21 @@ export class MainStateService {
     this.updateState();
   }
 
+  setUsers(users: User[]) {
+    this.stateModel.users = users;
+    this.updateState();
+  }
+
+  setUsersCounter(counter: number) {
+    this.stateModel.usersCounter = counter;
+    this.updateState();
+  }
+
+  setSelectedUser(user: User) {
+    this.stateModel.selectedUser = user;
+    this.updateState();
+  }
+
   updateState() {
     const state = new MainState(this.stateModel);
     this.state.next(state);

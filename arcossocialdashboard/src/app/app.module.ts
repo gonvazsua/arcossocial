@@ -20,6 +20,11 @@ import { NewhelpComponent } from './main/helps/newhelp/newhelp.component';
 import { BeneficiaryService } from './main/beneficiaries/beneficiary.service';
 import { BeneficiarysearchComponent } from './main/beneficiaries/beneficiarysearch/beneficiarysearch.component';
 import { BeneficiaryComponent } from './main/beneficiaries/beneficiary/beneficiary.component';
+import { BeneficiaryformComponent } from './main/beneficiaries/beneficiaryform/beneficiaryform.component';
+import { UserComponent } from './main/users/user/user.component';
+import { ProfileComponent } from './main/profile/profile.component';
+import { UserService } from './main/users/user.service';
+import { UserformComponent } from './main/users/userform/userform.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +38,10 @@ import { BeneficiaryComponent } from './main/beneficiaries/beneficiary/beneficia
     NewhelpComponent,
     BeneficiarysearchComponent,
     BeneficiaryComponent,
+    BeneficiaryformComponent,
+    UserComponent,
+    ProfileComponent,
+    UserformComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +52,7 @@ import { BeneficiaryComponent } from './main/beneficiaries/beneficiary/beneficia
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenIntecerptorService, multi: true },
     LoginService, LocalStorageService, 
-    AuthguardService, MainStateService, BeneficiaryService],
+    AuthguardService, MainStateService, BeneficiaryService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,145 @@
+<div class="row mt-1 mb-0">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12 pageTitle">
+                        <h4>Gestion de usuarios</h4>
+                        <p>Desde este módulo puedes dar de alta, modificar y consultar los usuarios que tienen acceso a Arcos Social</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <form [formGroup]="userSearchForm" class="col s12" (ngSubmit)="searchUsers(true)">
+                            <div class="row">
+
+                                <div class="input-field col s3">
+                                    <i class="material-icons prefix">card_membership</i>
+                                    <input type="text" formControlName="userCode"/>
+                                    <label>Código de usuario</label>
+                                </div>
+
+                                <div class="input-field col s3">
+                                    <i class="material-icons prefix">person</i>
+                                    <input type="text" formControlName="fullName"/>
+                                    <label>Nombre y apellidos</label>
+                                </div>
+
+                                <div class="input-field col s3">
+                                    <i class="material-icons prefix">store</i>
+                                    <select formControlName="entityCode">
+                                      <option value=""></option>
+                                      <option value="{{entity.code}}" *ngFor="let entity of (mainState.state | async)?.entities">{{entity.name}}</option>
+                                    </select>
+                                    <label>Entidad</label>
+                                </div>
+
+                                <div class="input-field col s3">
+                                    <i class="material-icons prefix">check_circle</i>
+                                    <select formControlName="isActive">
+                                      <option value=""></option>
+                                      <option value="true">Si</option>
+                                      <option value="false">No</option>
+                                    </select>
+                                    <label>Activo</label>
+                                </div>
+
+                                <input id="pageNumber" type="hidden" formControlName="pageNumber">
+    
+                                <div class="row">
+                                    <div class="col s12 right-align">
+                                        <a class="waves-effect waves-light btn modal-trigger mr-1" href="#userFormModal" (click)="setSelectedUser(null)"><i class="material-icons right">person</i>ALTA USUARIO</a>
+                                        <button class="btn waves-effect waves-light mr-1" type="button" (click)="resetForm()">
+                                            REINICIAR
+                                            <i class="material-icons right">refresh</i>
+                                        </button>
+                                        <button class="btn waves-effect waves-light" type="submit" name="action" [disabled]="!userSearchForm.valid">
+                                            BUSCAR
+                                            <i class="material-icons right">search</i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12 card-title">
+                        <h6>Resultados de busqueda</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <table class="highlight">
+                            <thead>
+                              <tr class="tableHeader">
+                                  <th>Nombre</th>
+                                  <th>Código de usuario</th>
+                                  <th>Código Entidad</th>
+                                  <th>Administrador</th>
+                                  <th>Activo</th>
+                                  <th>Fecha alta</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let user of (mainState.state | async)?.users" class="cursor-pointer" (click)="setSelectedUser(user)" [ngClass]="{'grey lighten-1': (mainState.state | async)?.selectedUser === user}">
+                                    <td>{{user.fullName | titlecase}}</td>
+                                    <td>{{user.userCode}}</td>
+                                    <td>{{user.entityCode}}</td>
+                                    <td>{{user.isAdmin}}</td>
+                                    <td>{{user.isActive}}</td>
+                                    <td>{{user.creationDate | date:'dd/MM/yyyy HH:mm'}}</td>
+                                </tr>
+                                <tr *ngIf="!(mainState.state | async)?.users || (mainState.state | async)?.users?.length === 0">
+                                    <td colspan="6">No hay resultados para mostrar</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col s12 right-align" *ngIf="(mainState.state | async)?.users">
+                        <ul class="pagination">
+                            <li *ngIf="userSearchForm.get('pageNumber').value > 1" class="cursor-pointer">
+                                <a (click)="previousPage()"><i class="material-icons">chevron_left</i></a>
+                            </li>
+                            <li>
+                                <a>Página {{userSearchForm.get('pageNumber').value}} de {{pagesCounter}}</a>
+                            </li>
+                            <li (click)="nextPage()" *ngIf="userSearchForm.get('pageNumber').value < pagesCounter" class="cursor-pointer">
+                                <a><i class="material-icons">chevron_right</i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 right-align">
+                        <a class="waves-effect waves-light btn modal-trigger mr-1" href="#userFormModal" [ngClass]="{'disabled': !(mainState.state | async)?.selectedUser}">
+                            EDITAR
+                            <i class="material-icons right">edit</i>
+                        </a>
+                        <button class="btn waves-effect waves-light" type="button" [disabled]="!(mainState.state | async)?.selectedUser" (click)="deactivateUser()">
+                            DESACTIVAR
+                            <i class="material-icons right">clear</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal User Form -->
+<div id="userFormModal" class="modal">
+    <div class="modal-content">
+      <app-userform (closeModalEvent)="closeModalUser($event)"></app-userform>
+    </div>
+</div>

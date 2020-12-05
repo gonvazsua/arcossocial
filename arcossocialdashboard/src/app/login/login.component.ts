@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
       this.localStorageService.setPassword(this.loginForm.value["password"]);
     }
     this.localStorageService.setToken(token);
-    this.router.navigate(['main/help']);
+    this.router.navigate(['main/helps']);
   }
 
   checkKeepConnected() {

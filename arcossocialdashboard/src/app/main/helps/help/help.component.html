@@ -101,11 +101,11 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let help of (mainState.state | async)?.helps" class="cursor-pointer" (click)="setSelectedHelp(help)" [ngClass]="{'grey lighten-1': (mainState.state | async)?.selectedHelp === help}">
-                                    <td>{{help.helpType}}</td>
+                                    <td>{{help.helpType | titlecase}}</td>
                                     <td>{{help.date | date:'dd/MM/yyyy HH:mm'}}</td>
-                                    <td>{{help.beneficiary.fullName}}</td>
-                                    <td>{{help.beneficiary.mate?.fullName}}</td>
-                                    <td>{{help.entity.name}}</td>
+                                    <td>{{help.beneficiary.fullName | titlecase}}</td>
+                                    <td>{{help.beneficiary.mate?.fullName | titlecase}}</td>
+                                    <td>{{help.entity.name | titlecase}}</td>
                                 </tr>
                                 <tr *ngIf="!(mainState.state | async)?.helps || (mainState.state | async)?.helps?.length === 0">
                                     <td colspan="5">No hay resultados para mostrar</td>
@@ -146,15 +146,15 @@
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>Nombre</strong></p>
-                        <p>{{(mainState.state | async)?.selectedHelp.beneficiary.fullName}}</p>
+                        <p>{{(mainState.state | async)?.selectedHelp.beneficiary.fullName | titlecase}}</p>
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>DNI</strong></p>
-                        <p>{{(mainState.state | async)?.selectedHelp.beneficiary.dni}}</p>
+                        <p>{{(mainState.state | async)?.selectedHelp.beneficiary.dni | titlecase}}</p>
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>Dirección</strong></p>
-                        <p>{{(mainState.state | async)?.selectedHelp.beneficiary.address}}</p>
+                        <p>{{(mainState.state | async)?.selectedHelp.beneficiary.address | titlecase}}</p>
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>Carta de valoración</strong></p>
@@ -167,7 +167,7 @@
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>Cónyuge</strong></p>
-                        <p>{{(mainState.state | async)?.selectedHelp.beneficiary.mate?.fullName}}</p>
+                        <p>{{(mainState.state | async)?.selectedHelp.beneficiary.mate?.fullName | titlecase}}</p>
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>DNI Cónyuge</strong></p>
@@ -178,11 +178,11 @@
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>Emitida por</strong></p>
-                        <p>{{(mainState.state | async)?.selectedHelp.user.fullName}}</p>
+                        <p>{{(mainState.state | async)?.selectedHelp.user.fullName | titlecase}}</p>
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>Entidad</strong></p>
-                        <p>{{(mainState.state | async)?.selectedHelp.entity?.name}}</p>
+                        <p>{{(mainState.state | async)?.selectedHelp.entity?.name | titlecase}}</p>
                     </div>
                     <div class="col s12 mt-1">
                         <p><strong>Notas</strong></p>

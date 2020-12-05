@@ -37,4 +37,12 @@ export class BeneficiaryService {
     return params;
   }
 
+  saveBeneficiary(beneficiary: Beneficiary): Observable<Beneficiary> {
+    return this.http.post<Beneficiary>(environment.apiUrl + 'beneficiaries', beneficiary);
+  }
+
+  updateBeneficiary(beneficiary: Beneficiary): Observable<Beneficiary> {
+    return this.http.put<Beneficiary>(environment.apiUrl + 'beneficiaries', beneficiary);
+  }
+
 }

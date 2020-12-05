@@ -6,6 +6,8 @@ import { BeneficiaryComponent } from './main/beneficiaries/beneficiary/beneficia
 import { HelpComponent } from './main/helps/help/help.component';
 import { NewhelpComponent } from './main/helps/newhelp/newhelp.component';
 import { MainComponent } from './main/main.component';
+import { ProfileComponent } from './main/profile/profile.component';
+import { UserComponent } from './main/users/user/user.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -13,8 +15,10 @@ const routes: Routes = [
     path: 'main', component: MainComponent,
     canActivate: [AuthguardService],
     children: [
-      { path: 'help', component: HelpComponent },
-      { path: 'beneficiary', component: BeneficiaryComponent },
+      { path: 'helps', component: HelpComponent },
+      { path: 'beneficiaries', component: BeneficiaryComponent },
+      { path: 'users', component: UserComponent },
+      { path: 'profile', component: ProfileComponent },
       { path: '', component: HelpComponent }
     ],
   },

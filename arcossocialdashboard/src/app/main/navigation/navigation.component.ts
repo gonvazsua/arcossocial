@@ -10,6 +10,7 @@ import { LocalStorageService } from 'src/app/common/local-storage.service';
 export class NavigationComponent implements OnInit {
 
   @Input() userName: string;
+  @Input() isAdmin: boolean;
 
   constructor(private localStorageService: LocalStorageService, private router: Router) {}
 
