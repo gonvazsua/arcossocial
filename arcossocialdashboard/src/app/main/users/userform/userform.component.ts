@@ -20,18 +20,11 @@ export class UserformComponent implements OnInit {
   successSaved: boolean;
   loading: boolean;
   user: User;
+  passwordForm: FormGroup;
 
   constructor(private fb: FormBuilder, private userService: UserService, public mainState: MainStateService) {
-    this.userForm = this.fb.group({
-      _id: [],
-      userCode: [],
-      fullName: ['', [Validators.required]],
-      entityCode: ['', [Validators.required]],
-      isAdmin: ['', [Validators.required]],
-      isActive: ['true', []],
-      creationDate: [new Date().getTime(), []],
-      password: ['', Validators.required]
-    });
+    this.userForm = this.initUserForm();
+    this.passwordForm = this.initPasswordForm();
   }
 
   ngOnInit(): void {
@@ -43,6 +36,26 @@ export class UserformComponent implements OnInit {
         this.clearForm();
         this.initFormForNewUser();
       }
+    });
+  }
+
+  initPasswordForm() {
+    return this.fb.group({
+      newPassword: ['', Validators.required],
+      newPasswordConfirm: ['', Validators.required]
+    });
+  }
+
+  initUserForm() {
+    return this.fb.group({
+      _id: [],
+      userCode: [],
+      fullName: ['', [Validators.required]],
+      entityCode: ['', [Validators.required]],
+      isAdmin: ['', [Validators.required]],
+      isActive: ['true', []],
+      creationDate: [new Date().getTime(), []],
+      password: ['', Validators.required]
     });
   }
 
@@ -80,6 +93,7 @@ export class UserformComponent implements OnInit {
     var selectEntityInstances = M.FormSelect.init(selectEntity, '');
     var selectAdmin = document.querySelector('#isAdmin');
     var selectAdminInstances = M.FormSelect.init(selectAdmin, '');
+    this.passwordForm.reset();
   }
 
   validateAndSaveUser() {
@@ -96,7 +110,6 @@ export class UserformComponent implements OnInit {
   updateUser() {
     this.userService.updateUser(this.user).subscribe(
       user => {
-        this.clearForm();
         this.successSaved = true;
         setTimeout(() => { this.successSaved = false }, 5000);
         this.loading = false;
@@ -125,6 +138,35 @@ export class UserformComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  validateAndUpdatePassword() {
+    this.error = [];
+    const newPassword = this.passwordForm.get('newPassword').value;
+    const newPasswordConfirm = this.passwordForm.get('newPasswordConfirm').value;
+    if(!this.isValidPasswordForm(newPassword, newPasswordConfirm)) return;
+
+    this.userService.updatePassword(this.user.userCode, newPassword).subscribe(
+      result => {
+        this.successSaved = true;
+        setTimeout(() => { this.successSaved = false }, 5000);
+        this.loading = false;
+      },
+      error => {
+        console.log(error);
+        this.error.push(error.error.message);
+        this.loading = false;
+      }
+    );
+
+  }
+
+  isValidPasswordForm(newPassword: string, newPasswordConfirm: string): boolean {
+    if(newPassword !== newPasswordConfirm) {
+      this.error.push('Las contraseñas no coinciden');
+      return false;
+    }
+    return true;
   }
 
 }

@@ -31,6 +31,11 @@ export class UserService {
     return this.http.put<User>(environment.apiUrl + 'users', user);
   }
 
+  updatePassword(userCode: string, password: string): Observable<boolean> {
+    const parameters = {userCode: userCode, password: btoa(password)};
+    return this.http.put<boolean>(environment.apiUrl + 'users/updatePassword', parameters);
+  }
+
   getParameters(parameters): HttpParams {
     let params = new HttpParams();
     params = params.set(this.PAGE_SIZE_KEY, environment.pageSize);

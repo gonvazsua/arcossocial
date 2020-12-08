@@ -86,6 +86,7 @@ export class BeneficiarysearchComponent implements OnInit {
     this.beneficiary.reset();
     this.selectedBeneficiary = null;
     this.beneficiaryList = [];
+    this.beneficiarySelectedEvent.emit(this.selectedBeneficiary);
   }
 
 }

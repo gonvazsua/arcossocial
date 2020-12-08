@@ -32,7 +32,7 @@
                                     </select>
                                     <label>Administrador</label>
                                 </div>
-                                <div class="input-field col s6">
+                                <div class="input-field col s6" *ngIf="!user">
                                     <i class="material-icons prefix">key</i>
                                     <input id="password" type="text" formControlName="password">
                                     <label for="password">Contraseña</label>
@@ -46,33 +46,67 @@
 
                             <div class="row">
                                 <div class="col s12 right-align">
-                                    <button class="btn waves-effect waves-light grey darken-1 mr-1" type="button" (click)="closeModal()" [disabled]="loading">
-                                        CERRAR
-                                        <i class="material-icons right">close</i>
-                                    </button>
                                     <button class="btn waves-effect waves-light" type="submit" name="action" [disabled]="!userForm.valid || loading == true">
                                         GUARDAR
                                         <i class="material-icons right">save</i>
                                     </button>
                                 </div>
                             </div>
-                            <div class="row" *ngIf="error && error.length > 0">
-                                <div class="col s12">
-                                    <div class="card red lighten-3 white-text">
-                                        <div class="card-content">
-                                            <p *ngFor="let e of error">{{e}}</p>
-                                        </div>
-                                    </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="user">
+                    <div class="col s12 pageTitle">
+                        <h6>Actualizar contraseña</h6>
+                    </div>
+                    <div class="col s12">
+                        <form [formGroup]="passwordForm" class="col s12" (ngSubmit)="validateAndUpdatePassword()">
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <i class="material-icons prefix">vpn_key</i>
+                                    <input id="newPassword" type="text" formControlName="newPassword">
+                                    <label for="newPassword">Contraseña nueva</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <i class="material-icons prefix">vpn_key</i>
+                                    <input id="newPasswordConfirm" type="text" formControlName="newPasswordConfirm">
+                                    <label for="newPasswordConfirm">Repite contraseña nueva</label>
                                 </div>
                             </div>
-                            <div class="row" *ngIf="successSaved">
-                                <div class="col s12">
-                                    <div class="card teal lighten-2 white-text">
-                                        <div class="card-content">Se ha guardado el beneficiario correctamente</div>
-                                    </div>
+                            <div class="row">
+                                <div class="col s12 right-align">
+                                    <button class="btn waves-effect waves-light" type="submit" name="action" [disabled]="!passwordForm.valid || loading == true">
+                                        ACTUALIZAR CONTRASEÑA
+                                        <i class="material-icons right">save</i>
+                                    </button>
                                 </div>
                             </div>
                         </form>
+                    </div>
+                </div>
+                <div class="row" *ngIf="error && error.length > 0">
+                    <div class="col s12">
+                        <div class="card red lighten-3 white-text">
+                            <div class="card-content">
+                                <p *ngFor="let e of error">{{e}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="successSaved">
+                    <div class="col s12">
+                        <div class="card teal lighten-2 white-text">
+                            <div class="card-content">Se han guardado los datos correctamente</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 right-align">
+                        <button class="btn waves-effect waves-light grey darken-1 mr-1" type="button" (click)="closeModal()" [disabled]="loading">
+                            CERRAR
+                            <i class="material-icons right">close</i>
+                        </button>
                     </div>
                 </div>
             </div>
