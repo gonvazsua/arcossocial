@@ -12,3 +12,15 @@ exports.findByName = name => {
         });
     });
 };
+
+exports.updateByKey = (key, values) => {
+    return new Promise((resolve, reject) => {
+        const query = {$set : {values: values}};
+        dbConfig.getConnection().then(db => {
+            db.collection(this.STATIC_DATA_COLLECTION).updateOne({key: key}, query, (err, res) => {
+                if(err) reject(err);
+                else resolve(true);
+            });
+        });
+    });
+};

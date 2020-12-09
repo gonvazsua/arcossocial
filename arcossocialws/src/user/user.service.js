@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const dbConfig = require('../config/database');
 const stringUtils = require('../common/string.utils');
+const ObjectID = require('mongodb').ObjectID
 exports.USER_COLLECTION = "USER";
 
 exports.findByUserCodeAndPassword = (userCode, password) => {
@@ -31,7 +32,8 @@ exports.create = (fullName, base64Pass, entityCode, isAdmin) => {
         this.createUserCode(entityCode)
             .then(userCode => {
                 const password = this.generatePassword(base64Pass);
-                this.saveUser(userCode, fullName, password, entityCode, isAdmin, true, new Date())
+                const isAdminDB = isAdmin === 'true';
+                this.saveUser(userCode, fullName, password, entityCode, isAdminDB, true, new Date())
                     .then(user => resolve(user))
                     .catch(err => reject(err));
             })
@@ -44,7 +46,7 @@ exports.createUserCode = entityCode => {
         dbConfig.getConnection()
             .then(db => {
                 const entityCodeUpper = stringUtils.normalize(entityCode);
-                db.collection(this.USER_COLLECTION).countDocuments({entityCode: entityCodeUpper}, (err, counter) => {
+                db.collection(this.USER_COLLECTION).count({entityCode: entityCodeUpper}, (err, counter) => {
                     if(err) reject(err);
                     const zerosCounter = new String(counter).padStart(3, '0');
                     resolve(entityCodeUpper + zerosCounter);
@@ -57,13 +59,13 @@ exports.saveUser = (userCode, fullName, password, entityCode, isAdmin, isActive,
     return new Promise((resolve, reject) => {
         this.findByUserCodeAndPassword(userCode, password)
             .then(user => {
-                if(user) reject('User already exists in database');
+                if(user) reject('El usuario ya está registrado');
                 dbConfig.getConnection().then(db => {
                     const userToSave = {
                         userCode: userCode,
-                        fullName: fullName,
+                        fullName: stringUtils.normalize(fullName),
                         password: password,
-                        entityCode: entityCode,
+                        entityCode: stringUtils.normalize(entityCode),
                         isAdmin: isAdmin,
                         isActive : isActive,
                         creationDate: creationDate
@@ -131,11 +133,11 @@ exports.buildUser = (_id, userCode, fullName, base64Password, entityCode, isAdmi
         if(_id) user._id = new ObjectID(_id);
         user.fullName = fullName ? stringUtils.normalize(fullName) : fullName;
         user.userCode = userCode ? stringUtils.normalize(userCode) : userCode;
-        user.password = base64Password;
+        //user.password = base64Password;
         user.entityCode = entityCode ? stringUtils.normalize(entityCode) : entityCode;
-        user.isAdmin = isAdmin === 'true';
-        user.isActive = isActive === 'true';
-        user.creationDate = new Date(creationDate);
+        user.isAdmin = isAdmin === 'true' || isAdmin === true;
+        user.isActive = isActive === 'true' || isActive === true;
+        //user.creationDate = new Date(creationDate);
         resolve(user);
     })
 };
@@ -143,11 +145,25 @@ exports.buildUser = (_id, userCode, fullName, base64Password, entityCode, isAdmi
 exports.updateUser = (user) => {
     return new Promise((resolve, reject) => {
         dbConfig.getConnection().then(db => {
-            const query = {$set : user};
+            const query = {$set : {fullName: user.fullName, entityCode: user.entityCode, isAdmin: user.isAdmin, isActive: user.isActive}};
             db.collection(this.USER_COLLECTION).updateOne({_id:user._id}, query, (err, res) => {
                 if(err) reject(err);
                 else resolve(user);
             });
         });
     });
-}
+};
+
+exports.updatePasswordUser = (userCode, newPassword) => {
+    return new Promise((resolve, reject) => {
+        dbConfig.getConnection().then(db => {
+            const password = this.generatePassword(newPassword);
+            const query = {$set : {password: password}};
+            db.collection(this.USER_COLLECTION).updateOne({userCode:userCode}, query, (err, res) => {
+                console.log("Updated password: " + JSON.stringify(res));
+                if(err) reject(err);
+                else resolve(true);
+            });
+        });
+    });
+};

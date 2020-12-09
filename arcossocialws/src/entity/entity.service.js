@@ -8,10 +8,10 @@ exports.createEntity = (_id, name, code, creationDate, isActive) => {
         if(_id) entity._id = new ObjectID(_id);
         entity.name = name;
         entity.code = code;
-        entity.creationDate = new Date(creationDate);
+        entity.creationDate = creationDate ? new Date(creationDate) : new Date();
         entity.isActive = isActive;
         resolve(entity);
-    })
+    });
 };
 
 exports.insertEntity = entity => {

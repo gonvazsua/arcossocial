@@ -12,4 +12,14 @@ router.get('/', (req, res) => {
         });
 });
 
+router.put('/', (req, res) => {
+    staticDataService
+        .updateByKey(req.body.key, req.body.values)
+        .then(staticData => { res.jsonp(staticData) })
+        .catch(err => {
+            res.status(404);
+            res.jsonp({'message' : 'Error actualizando datos estáticos', 'reason' : err});
+        });
+});
+
 module.exports = router;
