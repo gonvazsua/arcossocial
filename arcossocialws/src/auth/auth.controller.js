@@ -27,4 +27,8 @@ router.post('/signup', (req, res) => {
         });
 })
 
+router.get('/info', (req, res) => {
+    res.jsonp({'STATUS': 'OK'});
+});
+
 module.exports = router;

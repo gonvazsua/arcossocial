@@ -1,5 +1,5 @@
-const port = process.env.ALWAYSDATA_HTTPD_PORT || 3001;
-const host = process.env.ALWAYSDATA_HTTPD_IP || 'localhost';
+const port = process.env.PORT || 3001;
+const host = process.env.IP || 'localhost';
 const config              = require('./src/config/config');
 const express 		      = require("express"),
       app 			      = express(),
