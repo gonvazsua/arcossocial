@@ -1,9 +1,15 @@
 <app-loading [isLoading]="(mainState.state | async)?.loading"></app-loading>
 
-<app-navigation [userName]="(mainState.state | async)?.user?.fullName" [isAdmin]="(mainState.state | async)?.user?.isAdmin"></app-navigation>
+<header>
+    <app-navigation [userName]="(mainState.state | async)?.user?.fullName" [isAdmin]="(mainState.state | async)?.user?.isAdmin"></app-navigation>
+</header>
+<main>
+    <div class="container-fluid">
 
-<div class="container-fluid">
-
-    <router-outlet></router-outlet>
-    
-</div>
+        <router-outlet></router-outlet>
+        
+    </div>
+</main>
+<footer class="page-footer">
+    <app-footer></app-footer>
+</footer>

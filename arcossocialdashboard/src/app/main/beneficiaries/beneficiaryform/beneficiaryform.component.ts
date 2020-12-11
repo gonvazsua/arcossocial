@@ -94,6 +94,10 @@ export class BeneficiaryformComponent implements OnInit {
 
   validateAndSaveBeneficiary() {
     this.error = [];
+    if(!this.beneficiaryForm.valid) {
+      this.error.push("Los campos Nombre, DNI, Dirección y Carta de valoración son obligatorios");
+      return;
+    }
     this.successSaved = false;
     const validValuationCardFields: Observable<Boolean> = this.validateMandatoryFields();
     const validDNIFormat: Observable<Boolean> = this.validateDNIFormat('dni');
@@ -119,7 +123,7 @@ export class BeneficiaryformComponent implements OnInit {
       if(validResults[2] == false) this.error.push("Introduce una fecha válida: Formato DD/MM/AAAA");
       if(validResults[3] == false) this.error.push("Introduce el DNI del cónyuge");
       if(validResults[4] == false) this.error.push("El formato del DNI del cónyuge no es válido. Ejemplo: 12345678A");
-      if(validResults[5] == false) this.error.push("La fecha de la carta de valoración tiene que ser posterior a hoy");
+      if(validResults[5] == false) this.error.push("La fecha de la carta de valoración tiene que ser anterior o igual a hoy");
       if(validResults.length >= 7) {
         if(validResults[6] == false) this.error.push("Ya existe un beneficiario registrado con ese DNI");
       }
@@ -165,7 +169,7 @@ export class BeneficiaryformComponent implements OnInit {
     if(this.beneficiaryForm.get('valuationDate').value) {
       const valDate = new Date(this.beneficiaryForm.get('valuationDate').value);
       var today = new Date();
-      return of(valDate > today);
+      return of(valDate <= today);
     }
     return of(true);
   }

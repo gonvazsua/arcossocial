@@ -4,5 +4,5 @@ export class StaticData {
     values: {
         label: string;
         value: string;
-    }
+    }[]
 }

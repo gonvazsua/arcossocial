@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
 
@@ -34,6 +35,13 @@ export class UserService {
   updatePassword(userCode: string, password: string): Observable<boolean> {
     const parameters = {userCode: userCode, password: btoa(password)};
     return this.http.put<boolean>(environment.apiUrl + 'users/updatePassword', parameters);
+  }
+
+  checkLogin(userCode: string, password: string): Observable<boolean> {
+    const body = {userCode: userCode, password: password};
+    return this.http.post<string>(environment.apiUrl + 'auth/login', body).pipe(
+      map(token => { return true; })
+    );
   }
 
   getParameters(parameters): HttpParams {

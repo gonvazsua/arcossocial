@@ -4,8 +4,10 @@
 
 export const environment = {
   production: false,
-  apiUrl: "http://localhost:3001/",
-  pageSize: "10"
+  //apiUrl: "http://localhost:3001/",
+  apiUrl: "http://uat.ws.arcossocial.com/",
+  pageSize: "10",
+  exportSize: "100"
 };
 
 /*

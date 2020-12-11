@@ -77,7 +77,8 @@ export class UserformComponent implements OnInit {
       entityCode: this.user.entityCode,
       isAdmin: this.user.isAdmin ? 'true': 'false',
       isActive: this.user.isActive ? 'true': 'false',
-      creationDate: this.user.creationDate ? new Date(this.user.creationDate).getTime() : null
+      creationDate: this.user.creationDate ? new Date(this.user.creationDate).getTime() : null,
+      password: this.user.password
     });
     
     M.updateTextFields();
@@ -108,6 +109,9 @@ export class UserformComponent implements OnInit {
   }
 
   updateUser() {
+    this.user.fullName = this.userForm.get('fullName').value;
+    this.user.entityCode = this.userForm.get('entityCode').value;
+    this.user.isAdmin = this.userForm.get('isAdmin').value === 'true';
     this.userService.updateUser(this.user).subscribe(
       user => {
         this.successSaved = true;
@@ -151,6 +155,7 @@ export class UserformComponent implements OnInit {
         this.successSaved = true;
         setTimeout(() => { this.successSaved = false }, 5000);
         this.loading = false;
+        this.passwordForm.reset();
       },
       error => {
         console.log(error);

@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row">
+      <div class="col l6 s12">
+        <img src="assets/ArcosSocial_White.svg" width="100"/>
+        <!--<h5 class="white-text">Arcos Social</h5>-->
+        <p class="grey-text text-lighten-4">La organización de beneficiarios y gestión de ayudas 2.0</p>
+      </div>
+      <div class="col l4 offset-l2 s12">
+        <h5 class="white-text">Mapa web</h5>
+        <ul>
+          <li><a class="grey-text text-lighten-3" [routerLink]="['/main/helps']">Gestión de ayudas</a></li>
+          <li><a class="grey-text text-lighten-3" [routerLink]="['/main/beneficiaries']">Gestión de beneficiarios</a></li>
+          <li><a class="grey-text text-lighten-3" [routerLink]="['/main/profile']">Mi perfil</a></li>
+          <li><a class="grey-text text-lighten-3" (click)="logout()">Desconectar</a></li>
+        </ul>
+      </div>
+    </div>
+</div>
+<div class="footer-copyright">
+    <div class="container center-align">
+    © 2021 Copyright Arcos Social
+    <!--<a class="grey-text text-lighten-4 right" href="#!">More Links</a> -->
+    </div>
+</div>

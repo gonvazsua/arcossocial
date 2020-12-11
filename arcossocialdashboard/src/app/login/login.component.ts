@@ -48,10 +48,8 @@ export class LoginComponent implements OnInit {
     this.localStorageService.setToken(token);
     const keepConnected = this.loginForm.value["keepConnected"];
     this.localStorageService.setKeepConnected(keepConnected);
-    if(keepConnected) {
-      this.localStorageService.setUserCode(this.loginForm.value["userCode"]);
-      this.localStorageService.setPassword(this.loginForm.value["password"]);
-    }
+    this.localStorageService.setUserCode(this.loginForm.value["userCode"]);
+    this.localStorageService.setPassword(this.loginForm.value["password"]);
     this.localStorageService.setToken(token);
     this.router.navigate(['main/helps']);
   }
@@ -67,6 +65,8 @@ export class LoginComponent implements OnInit {
         password: atob(password)
       });
       this.submitLogin();
+    } else {
+      this.localStorageService.clear();
     }
   }
 

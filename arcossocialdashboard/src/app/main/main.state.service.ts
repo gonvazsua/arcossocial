@@ -99,6 +99,11 @@ export class MainStateService {
     this.updateState();
   }
 
+  setActiveSelectedUser(active: boolean) {
+    this.stateModel.selectedUser.isActive = active;
+    this.updateState();
+  }
+
   updateState() {
     const state = new MainState(this.stateModel);
     this.state.next(state);

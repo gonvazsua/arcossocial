@@ -1,1 +1,83 @@
-<p>profile works!</p>
+<div class="row mt-1 mb-0">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12 pageTitle">
+                        <h4>Mi perfil</h4>
+                        <p>Desde este módulo puedes consultar tus datos, y actualizar tu contraseña</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6">
+                        <h5>Nombre</h5>
+                        <h6>{{(mainState.state | async)?.user?.fullName}}</h6>
+                    </div>
+                    <div class="col s6">
+                        <h5>Coigo de Usuario</h5>
+                        <h6>{{(mainState.state | async)?.user?.userCode}}</h6>
+                    </div>
+                    <div class="col s6">
+                        <h5>Entidad</h5>
+                        <h6>{{(mainState.state | async)?.userEntity?.name}}</h6>
+                    </div>
+                    <div class="col s6">
+                        <h5>Fecha de registro</h5>
+                        <h6>{{(mainState.state | async)?.user?.creationDate | date: 'dd/MM/yyyy'}}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <form [formGroup]="passwordForm" class="col s12" (ngSubmit)="validateAndSavePassword()">
+                            <div class="row">
+                                <div class="input-field col s4">
+                                    <i class="material-icons prefix">vpn_key</i>
+                                    <input id="currentPassword" type="password" formControlName="currentPassword">
+                                    <label for="currentPassword">Contraseña actual</label>
+                                </div>
+                                <div class="input-field col s4">
+                                    <i class="material-icons prefix">vpn_key</i>
+                                    <input id="newPassword" type="password" formControlName="newPassword">
+                                    <label for="newPassword">Nueva contraseña</label>
+                                </div>
+                                <div class="input-field col s4">
+                                    <i class="material-icons prefix">vpn_key</i>
+                                    <input id="confirmPassword" type="password" formControlName="confirmPassword">
+                                    <label for="confirmPassword">Confirmar nueva contraseña</label>
+                                </div>
+
+                                <input type="hidden" formControlName="userCode" value="{{(mainState.state | async)?.user.userCode}}" />
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12 right-align">
+                                    <button class="btn waves-effect waves-light" type="submit" name="action" [disabled]="!passwordForm.valid">
+                                        ACTUALIZAR CONTRASEÑA
+                                        <i class="material-icons right">save</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row" *ngIf="error && error.length > 0">
+                    <div class="col s12">
+                        <div class="card red lighten-3 white-text">
+                            <div class="card-content">
+                                <p *ngFor="let e of error">{{e}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="successSaved">
+                    <div class="col s12">
+                        <div class="card teal lighten-2 white-text">
+                            <div class="card-content">Se ha actualizado tu contraseña correctamente</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

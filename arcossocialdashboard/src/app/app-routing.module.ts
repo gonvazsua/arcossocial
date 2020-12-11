@@ -7,6 +7,7 @@ import { HelpComponent } from './main/helps/help/help.component';
 import { NewhelpComponent } from './main/helps/newhelp/newhelp.component';
 import { MainComponent } from './main/main.component';
 import { ProfileComponent } from './main/profile/profile.component';
+import { SettingsComponent } from './main/settings/settings/settings.component';
 import { UserComponent } from './main/users/user/user.component';
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: 'beneficiaries', component: BeneficiaryComponent },
       { path: 'users', component: UserComponent },
       { path: 'profile', component: ProfileComponent },
+      { path: 'settings', component: SettingsComponent },
       { path: '', component: HelpComponent }
     ],
   },
@@ -27,7 +29,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

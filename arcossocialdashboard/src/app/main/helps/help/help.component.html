@@ -113,7 +113,15 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="col s12 right-align" *ngIf="(mainState.state | async)?.helps">
+                </div>
+                <div class="row" *ngIf="(mainState.state | async)?.helps">
+                    <div class="col s6 left-align">
+                        <button class="btn waves-effect waves-light mr-1" type="button" (click)="exportHelps()">
+                            EXPORTAR
+                            <i class="material-icons right">file_download</i>
+                        </button>
+                    </div>
+                    <div class="col s6 right-align">
                         <ul class="pagination">
                             <li *ngIf="helpSearchForm.get('pageNumber').value > 1" class="cursor-pointer">
                                 <a (click)="previousPage()"><i class="material-icons">chevron_left</i></a>

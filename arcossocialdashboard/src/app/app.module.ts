@@ -25,6 +25,10 @@ import { UserComponent } from './main/users/user/user.component';
 import { ProfileComponent } from './main/profile/profile.component';
 import { UserService } from './main/users/user.service';
 import { UserformComponent } from './main/users/userform/userform.component';
+import { SettingsComponent } from './main/settings/settings/settings.component';
+import { ConfirmModalComponent } from './common/confirmmodal/confirmmodal.component';
+import { SettingsService } from './main/settings/settings.service';
+import { FooterComponent } from './main/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +46,9 @@ import { UserformComponent } from './main/users/userform/userform.component';
     UserComponent,
     ProfileComponent,
     UserformComponent,
+    SettingsComponent,
+    ConfirmModalComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,7 +59,7 @@ import { UserformComponent } from './main/users/userform/userform.component';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenIntecerptorService, multi: true },
     LoginService, LocalStorageService, 
-    AuthguardService, MainStateService, BeneficiaryService, UserService],
+    AuthguardService, MainStateService, BeneficiaryService, UserService, SettingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,160 @@
+<div class="row mt-1 mb-0">
+    <div class="col s8">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12 pageTitle">
+                        <h4>Gestion de entidades</h4>
+                        <p>Crea y activa o desactiva entidades desde este módulo</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <table class="highlight">
+                            <thead>
+                              <tr class="tableHeader">
+                                    <th>Código de entidad</th>
+                                    <th>Nombre</th>
+                                    <th>Activa</th>
+                                    <th>Fecha creación</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let entity of entities" class="cursor-pointer" (click)="setSelectedEntity(entity)" [ngClass]="{'grey lighten-1': selectedEntity === entity}">
+                                    <td>{{entity.code}}</td>
+                                    <td>{{entity.name | titlecase}}</td>
+                                    <td><app-prettyboolean [value]="entity.isActive"></app-prettyboolean></td>
+                                    <td>{{entity.creationDate | date:'dd/MM/yyyy HH:mm'}}</td>
+                                </tr>
+                                <tr *ngIf="!entities || entities?.length === 0">
+                                    <td colspan="4">No hay resultados para mostrar</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 right-align">
+                        <button class="btn waves-effect waves-light mr-1" type="button" [disabled]="!selectedEntity || (selectedEntity && !selectedEntity.isActive)" (click)="setActiveSelectedEntity(false)">
+                            DESACTIVAR
+                            <i class="material-icons right">clear</i>
+                        </button>
+                        <button class="btn waves-effect waves-light" type="button" [disabled]="!selectedEntity || (selectedEntity && selectedEntity.isActive)" (click)="setActiveSelectedEntity(true)">
+                            REACTIVAR
+                            <i class="material-icons right">check</i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 pageTitle">
+                        <h4>NUEVA ENTIDAD</h4>
+                    </div>
+                    <div class="col s12">
+                        <form [formGroup]="entityForm" class="col s12" (ngSubmit)="validateAndSaveEntity()">
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <i class="material-icons prefix">card_membership</i>
+                                    <input type="text" formControlName="code"/>
+                                    <label>Código de entidad</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <i class="material-icons prefix">chat_bubble</i>
+                                    <input type="text" formControlName="name"/>
+                                    <label>Nombre de entidad</label>
+                                </div>
+                                <div class="col s12 right-align">
+                                    <button class="btn waves-effect waves-light" type="submit" [disabled]="!entityForm.valid">
+                                        GUARDAR
+                                        <i class="material-icons right">save</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col s12" *ngIf="entityErrors && entityErrors.length > 0">
+                        <div class="card red lighten-3 white-text">
+                            <div class="card-content">
+                                <p *ngFor="let e of entityErrors">{{e}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col s4">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col s12 pageTitle">
+                        <h4>Gestion de tipos de ayuda</h4>
+                        <p>Crea y borra tipos de ayuda desde este módulo</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <table class="highlight">
+                            <thead>
+                              <tr class="tableHeader">
+                                    <th>Etiqueta</th>
+                                    <th>Valor</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let helpType of helpTypes?.values" class="cursor-pointer" (click)="setSelectedHelpType(helpType)" [ngClass]="{'grey lighten-1': selectedHelpType === helpType}">
+                                    <td>{{helpType.label}}</td>
+                                    <td>{{helpType.value | titlecase}}</td>
+                                </tr>
+                                <tr *ngIf="!helpTypes?.values || helpTypes?.values?.length === 0">
+                                    <td colspan="2">No hay resultados para mostrar</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 right-align">
+                        <button class="btn waves-effect waves-light" type="button" [disabled]="!selectedHelpType" (click)="removeSelectedHelpTypeValue()">
+                            ELIMINAR
+                            <i class="material-icons right">clear</i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 pageTitle">
+                        <h4>NUEVO TIPO DE AYUDA</h4>
+                    </div>
+                    <div class="col s12">
+                        <form [formGroup]="helpTypeForm" class="col s12" (ngSubmit)="validateAndSaveHelpType()">
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <i class="material-icons prefix">label</i>
+                                    <input type="text" formControlName="label"/>
+                                    <label>Etiqueta</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <i class="material-icons prefix">code</i>
+                                    <input type="text" formControlName="value"/>
+                                    <label>Valor</label>
+                                </div>
+                                <div class="col s12 right-align">
+                                    <button class="btn waves-effect waves-light" type="submit" [disabled]="!helpTypeForm.valid">
+                                        GUARDAR
+                                        <i class="material-icons right">save</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col s12" *ngIf="helpTypeErrors && helpTypeErrors.length > 0">
+                        <div class="card red lighten-3 white-text">
+                            <div class="card-content">
+                                <p *ngFor="let e of helpTypeErrors">{{e}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

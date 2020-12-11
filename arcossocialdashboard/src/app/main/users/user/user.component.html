@@ -96,8 +96,8 @@
                                     <td>{{user.fullName | titlecase}}</td>
                                     <td>{{user.userCode}}</td>
                                     <td>{{user.entityCode}}</td>
-                                    <td>{{user.isAdmin}}</td>
-                                    <td>{{user.isActive}}</td>
+                                    <td><app-prettyboolean [value]="user.isAdmin"></app-prettyboolean></td>
+                                    <td><app-prettyboolean [value]="user.isActive"></app-prettyboolean></td>
                                     <td>{{user.creationDate | date:'dd/MM/yyyy HH:mm'}}</td>
                                 </tr>
                                 <tr *ngIf="!(mainState.state | async)?.users || (mainState.state | async)?.users?.length === 0">
@@ -126,9 +126,13 @@
                             EDITAR
                             <i class="material-icons right">edit</i>
                         </a>
-                        <button class="btn waves-effect waves-light" type="button" [disabled]="!(mainState.state | async)?.selectedUser" (click)="deactivateUser()">
+                        <button class="btn waves-effect waves-light mr-1" type="button" [disabled]="!(mainState.state | async)?.selectedUser || ((mainState.state | async)?.selectedUser && !(mainState.state | async)?.selectedUser.isActive)" (click)="deactivateUser()">
                             DESACTIVAR
                             <i class="material-icons right">clear</i>
+                        </button>
+                        <button class="btn waves-effect waves-light" type="button" [disabled]="!(mainState.state | async)?.selectedUser || ((mainState.state | async)?.selectedUser && (mainState.state | async)?.selectedUser.isActive)" (click)="reactivateUser()">
+                            REACTIVAR
+                            <i class="material-icons right">check</i>
                         </button>
                     </div>
                 </div>
