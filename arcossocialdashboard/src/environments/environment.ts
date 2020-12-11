@@ -7,7 +7,7 @@ export const environment = {
   //apiUrl: "http://localhost:3001/",
   apiUrl: "http://uat.ws.arcossocial.com/",
   pageSize: "10",
-  exportSize: "100"
+  exportSize: "500"
 };
 
 /*

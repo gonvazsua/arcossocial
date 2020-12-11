@@ -170,16 +170,26 @@
                             <a class="waves-effect waves-light btn-small">SI - {{(mainState.state | async)?.selectedHelp.beneficiary.valuationDate | date:'dd/MM/yyyy'}}</a>
                         </p>
                         <p *ngIf="!(mainState.state | async)?.selectedHelp.beneficiary.valuationCard">
-                            <span class="new badge" data-badge-caption="">NO</span>
+                            <a class="waves-effect waves-light btn-small">NO</a>
+                        </p>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>DNI Cónyuge</strong></p>
+                        <p *ngIf="(mainState.state | async)?.selectedHelp.beneficiary.mate?.dni">
+                            {{(mainState.state | async)?.selectedHelp.beneficiary.mate?.dni}}
+                        </p>
+                        <p *ngIf="!(mainState.state | async)?.selectedHelp.beneficiary.mate?.dni">
+                            Ninguno
                         </p>
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>Cónyuge</strong></p>
-                        <p>{{(mainState.state | async)?.selectedHelp.beneficiary.mate?.fullName | titlecase}}</p>
-                    </div>
-                    <div class="col s6 mt-1">
-                        <p><strong>DNI Cónyuge</strong></p>
-                        <p>{{(mainState.state | async)?.selectedHelp.beneficiary.mate?.dni}}</p>
+                        <p *ngIf="(mainState.state | async)?.selectedHelp.beneficiary.mate?.fullName">
+                            {{(mainState.state | async)?.selectedHelp.beneficiary.mate?.fullName | titlecase}}
+                        </p>
+                        <p *ngIf="!(mainState.state | async)?.selectedHelp.beneficiary.mate?.fullName">
+                            Ninguno
+                        </p>
                     </div>
                     <div class="col s12 mt-1">
                         <h6><i class="material-icons left">local_offer</i>Ayuda</h6><hr>
