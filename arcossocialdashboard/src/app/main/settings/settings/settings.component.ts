@@ -3,7 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MainStateService } from '../../main.state.service';
 import { Entity } from '../../models/entity';
 import { StaticData } from '../../models/staticData';
+import { UserService } from '../../users/user.service';
 import { SettingsService } from '../settings.service';
+
+declare const M: any;
 
 @Component({
   selector: 'app-settings',
@@ -16,13 +19,14 @@ export class SettingsComponent implements OnInit {
   selectedEntity: Entity;
   entityForm: FormGroup;
   entityErrors: string[];
+  successActiveUsers: boolean;
 
   helpTypes: StaticData;
   helpTypeForm: FormGroup;
   selectedHelpType: {label: string, value: string};
   helpTypeErrors: string[];
 
-  constructor(private mainState: MainStateService, private fb: FormBuilder, private settingsService: SettingsService) {
+  constructor(private mainState: MainStateService, private fb: FormBuilder, private settingsService: SettingsService, private userService: UserService) {
     this.entityForm = this.fb.group({
       code: ['', Validators.required],
       name: ['', Validators.required]
@@ -43,24 +47,44 @@ export class SettingsComponent implements OnInit {
 
   setSelectedEntity(entity: Entity) {
     this.selectedEntity = entity;
+    if(entity) {
+      this.entityForm.patchValue({
+        code: this.selectedEntity.code,
+        name: this.selectedEntity.name
+      });
+    } else {
+      this.entityForm.reset();
+    }
+    M.updateTextFields();
   }
 
   setActiveSelectedEntity(active: boolean) {
     this.mainState.setLoading(true);
     this.selectedEntity.isActive = active;
-    this.settingsService.updateEntity(this.selectedEntity).subscribe(updatedEntity => this.mainState.setEntities(this.entities));
-    setTimeout(() => {this.mainState.setLoading(false)}, 1500);
+    this.settingsService.updateEntity(this.selectedEntity).subscribe(updatedEntity => {
+      this.mainState.setEntities(this.entities);
+      this.userService.setActivateUsersByEntityCode(this.selectedEntity.code, active).subscribe(
+        result => { this.successActiveUsers = true },
+        error => {}
+      )
+    });
+    setTimeout(() => {this.mainState.setLoading(false)}, 2000);
+    setTimeout(() => this.successActiveUsers = false, 10000);
   }
 
   validateAndSaveEntity() {
     this.mainState.setLoading(true);
     this.entityErrors = [];
-    if(!this.isValidEntityCode()) {
+    if(!this.selectedEntity && !this.isValidEntityCode()) {
       this.entityErrors.push('El código de entidad seleccionado ya existe');
       this.mainState.setLoading(false);
       return;
     }
-    this.saveNewEntity();
+    if(!this.selectedEntity) {
+      this.saveNewEntity();
+    } else {
+      this.updateEntity();
+    }
   }
 
   isValidEntityCode() {
@@ -74,6 +98,27 @@ export class SettingsComponent implements OnInit {
       savedEntity => {
         this.entities.push(savedEntity);
         this.mainState.setEntities(this.entities);
+        this.mainState.setLoading(false);
+        this.entityForm.reset();
+      },
+      err => {
+        this.entityErrors.push(err.error.message);
+        this.mainState.setLoading(false);
+      }
+    );
+  }
+
+  updateEntity() {
+    let entity = this.entityForm.value;
+    entity._id = this.selectedEntity._id;
+    entity.creationDate = this.selectedEntity.creationDate ? new Date(this.selectedEntity.creationDate).getTime() : null;
+    entity.isActive = this.selectedEntity.isActive;
+    this.settingsService.updateEntity(entity).subscribe(
+      savedEntity => {
+        this.selectedEntity = savedEntity;
+        const newEntities = this.entities.filter(e => e.code !== savedEntity.code);
+        newEntities.push(savedEntity);
+        this.mainState.setEntities(newEntities);
         this.mainState.setLoading(false);
         this.entityForm.reset();
       },

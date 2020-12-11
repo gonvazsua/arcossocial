@@ -20,6 +20,11 @@
                                 <label>Tipo de ayuda</label>
                             </div>
                             <app-beneficiarysearch inputID="newBeneficiaryId" (beneficiarySelectedEvent)="selectedBeneficiary=$event" classList="s6"></app-beneficiarysearch>
+                            <div class="input-field col s6">
+                                <i class="material-icons prefix">date_range</i>
+                                <input id="helpDate" type="text" class="datepicker" (change)="setValueDate($event)">
+                                <label for="helpDate">Fecha</label>
+                            </div>
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">mode_edit</i>
                                 <textarea id="textarea1" class="materialize-textarea" [formControl]="notes"></textarea>

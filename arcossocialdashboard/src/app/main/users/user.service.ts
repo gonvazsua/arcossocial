@@ -52,4 +52,9 @@ export class UserService {
     }
     return params;
   }
+
+  setActivateUsersByEntityCode(entityCode: string, active: boolean) {
+    const body = {entityCode: entityCode, isActive: active};
+    return this.http.put<boolean>(environment.apiUrl + 'users/setActivateByEntityCode', body);
+  }
 }

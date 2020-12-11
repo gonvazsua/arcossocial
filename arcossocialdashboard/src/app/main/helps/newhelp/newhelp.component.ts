@@ -64,13 +64,15 @@ export class NewhelpComponent implements OnInit {
     if(!this.newHelp.entity) {
       this.setError("No se ha podido determinar la entidad que da de alta la ayuda");
     }
+    if(!this.newHelp.date) {
+      this.setError("Seleccione una fecha de alta para la ayuda");
+    }
     if(this.error) {
       return;
     }
 
     this.newHelp.notes = this.notes.value;
     this.newHelp.beneficiary = this.selectedBeneficiary;
-    this.newHelp.date = new Date();
     this.newHelp.helpType = this.helpType.value;
     this.helpService.saveHelp(this.newHelp).subscribe(
       saved => {
@@ -103,11 +105,23 @@ export class NewhelpComponent implements OnInit {
     this.helpType.reset();
     this.initializeHelpTypeSelect();
     this.beneficiarySearchCmp.resetValues();
+    (<HTMLInputElement>document.getElementById('helpDate')).value = null;
   }
 
   closeModal() {
     this.clearForm();
     this.closeModalEvent.emit(true);
+    this.successSaved = null;
+  }
+
+  setValueDate(event) {
+    if(!event.target.value) this.newHelp.date = null;
+    else {
+      const isoTime = "T00:00:00.000Z";
+      const splitDate = event.target.value.split("/");
+      const isoDate = splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0] + isoTime;
+      this.newHelp.date = new Date(isoDate);
+    }
   }
 
 }
