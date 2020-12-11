@@ -167,3 +167,16 @@ exports.updatePasswordUser = (userCode, newPassword) => {
         });
     });
 };
+
+exports.setActivateByEntityCode = (entityCode, isActive) => {
+    return new Promise((resolve, reject) => {
+        dbConfig.getConnection().then(db => {
+            const query = {$set : {isActive: isActive}};
+            db.collection(this.USER_COLLECTION).updateMany({entityCode:entityCode}, query, (err, res) => {
+                console.log("Updated users by entity code: " + JSON.stringify(res));
+                if(err) reject(err);
+                else resolve(true);
+            });
+        });
+    });
+};

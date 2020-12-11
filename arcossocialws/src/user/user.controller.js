@@ -45,6 +45,17 @@ router.put('/updatePassword', (req, res) => {
         });
 });
 
+router.put('/setActivateByEntityCode', (req, res) => {
+    userService
+        .setActivateByEntityCode(req.body.entityCode, req.body.isActive)
+        .then(result => { res.jsonp(true) })
+        .catch(err => {
+            console.log(err);
+            res.status(404);
+            res.jsonp({'message' : 'Error desactivando usuarios para entidad ' + req.body.entityCode, 'reason' : err});
+        });
+});
+
 router.put('/', (req, res) => {
     userService
         .buildUser(req.body._id, req.body.userCode, req.body.fullName, req.body.password, req.body.entityCode, req.body.isAdmin, req.body.isActive, req.body.creationDate)
