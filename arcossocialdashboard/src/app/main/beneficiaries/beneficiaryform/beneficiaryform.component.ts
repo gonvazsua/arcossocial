@@ -34,7 +34,8 @@ export class BeneficiaryformComponent implements OnInit {
       valuationCard: ['', Validators.required],
       valuationDate: [''],
       mateFullName: [''],
-      mateDni: ['']
+      mateDni: [''],
+      familySize: ['', Validators.required]
     });
 
     this.error = null;
@@ -63,7 +64,8 @@ export class BeneficiaryformComponent implements OnInit {
       valuationCard: this.beneficiary.valuationCard ? 'true' : 'false',
       valuationDate: this.beneficiary.valuationDate ? new Date(this.beneficiary.valuationDate).getTime() : null,
       mateFullName: this.beneficiary.mate ? this.beneficiary.mate.fullName : null,
-      mateDni: this.beneficiary.mate ? this.beneficiary.mate.dni : null
+      mateDni: this.beneficiary.mate ? this.beneficiary.mate.dni : null,
+      familySize: this.beneficiary.familySize
     });
     (<HTMLInputElement>document.getElementById("valuationDate")).value = this.getDateAsString(new Date(this.beneficiary.valuationDate));
     M.updateTextFields();
@@ -95,7 +97,7 @@ export class BeneficiaryformComponent implements OnInit {
   validateAndSaveBeneficiary() {
     this.error = [];
     if(!this.beneficiaryForm.valid) {
-      this.error.push("Los campos Nombre, DNI, Dirección y Carta de valoración son obligatorios");
+      this.error.push("Los campos Nombre, DNI, Dirección, Carta de valoración y Tamaño de unidad familiar son obligatorios");
       return;
     }
     this.successSaved = false;
@@ -271,6 +273,7 @@ export class BeneficiaryformComponent implements OnInit {
     beneficiary.valuationCard = this.beneficiaryForm.get('valuationCard').value == 'true';
     beneficiary.valuationDate = this.beneficiaryForm.get('valuationDate').value;
     beneficiary.creationDate = this.beneficiary ? new Date(this.beneficiary.creationDate) : new Date();
+    beneficiary.familySize = this.beneficiaryForm.get('familySize').value;
     const mate = {
       dni: this.beneficiaryForm.get('mateDni').value,
       fullName : this.beneficiaryForm.get('mateFullName').value

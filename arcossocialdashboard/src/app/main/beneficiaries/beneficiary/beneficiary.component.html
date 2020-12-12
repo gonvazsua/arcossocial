@@ -153,8 +153,12 @@
                             <a class="waves-effect waves-light btn-small">SI - {{(mainState.state | async)?.selectedBeneficiary.valuationDate | date:'dd/MM/yyyy'}}</a>
                         </p>
                         <p *ngIf="!(mainState.state | async)?.selectedBeneficiary.valuationCard">
-                            <span class="new badge" data-badge-caption="">NO</span>
+                            <a class="waves-effect waves-light btn-small">NO</a>
                         </p>
+                    </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>Tamaño nucleo familiar</strong></p>
+                        <p>{{(mainState.state | async)?.selectedBeneficiary.familySize}}</p>
                     </div>
                     <div class="col s6 mt-1">
                         <p><strong>Fecha de alta</strong></p>

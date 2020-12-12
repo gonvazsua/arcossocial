@@ -8,6 +8,7 @@ export class Beneficiary {
     valuationCard: boolean;
     valuationDate: Date;
     creationDate: Date;
+    familySize: number;
     mate: {
         fullName: string;
         dni: string;
