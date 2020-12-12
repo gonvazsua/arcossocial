@@ -13,10 +13,10 @@ exports.getConnection = () => {
         try {
             
             if(client == null || db == null) {
-                client = new MongoClient(environment.variables.uri);
-                console.log("Trying to connect: " + environment.variables.uri);
+                client = new MongoClient(environment.getVars().uri);
+                console.log("Trying to connect: " + environment.getVars().uri);
                 client.connect().then(c => {
-                    const database = c.db(environment.variables.database);
+                    const database = c.db(environment.getVars().database);
                     db = database;
                     resolve(db);
                 });

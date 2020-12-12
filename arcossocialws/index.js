@@ -5,7 +5,8 @@ const express 		      = require("express"),
       app 			      = express(),
       bodyParser  	      = require("body-parser"),
       routes              = require("./routes"),
-      database            = require("./src/config/database");
+      database            = require("./src/config/database"),
+      environment         = require('./src/config/environment');
 
 
 // Middlewares
@@ -31,4 +32,5 @@ app.listen(port, host, function() {
     console.log("Started served in host:port " + host + ":" + port + " - " 
         + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDay() + " - " 
         + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
+    console.log("ENVIRONMENT: " + environment.getEnvironmentName());
 });

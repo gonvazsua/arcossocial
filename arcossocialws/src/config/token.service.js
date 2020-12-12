@@ -10,7 +10,7 @@ exports.tokenVerify = function(req, res, next) {
 	if (token) {
 
     	// verifies secret and checks exp
-    	jwt.verify(token, env.variables.secret, function(err, decoded) {      
+    	jwt.verify(token, env.getVars().secret, function(err, decoded) {      
       		if (err) {
             console.log(err);
         		return res.status(403).json({ success: false, message: 'Failed to authenticate token.' });    
@@ -35,5 +35,5 @@ exports.tokenVerify = function(req, res, next) {
 
 exports.generateToken = userId => {
     var payload = { userId: userId }
-    return jwt.sign(payload, env.variables.secret, {expiresIn: env.variables.tokenExpire})
+    return jwt.sign(payload, env.getVars().secret, {expiresIn: env.getVars().tokenExpire})
 };
