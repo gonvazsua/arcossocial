@@ -165,6 +165,7 @@ export class HelpComponent implements OnInit {
   }
 
   exportHelps() {
+    this.mainState.setLoading(true);
     const helpsToExport: Help[] = [];
     let alreadyExported = false;
     const parameters = this.buildSearchHelpParameters(this.helpSearchForm.value);
@@ -176,21 +177,23 @@ export class HelpComponent implements OnInit {
           if(helpsToExport.length === total && !alreadyExported) {
             alreadyExported = true;
             this.saveToFile(helpsToExport);
+            this.mainState.setLoading(false);
           }
       });
     });
+    setTimeout(() => { this.mainState.setLoading(false) }, 10000)
   }
 
   saveToFile(helps: Help[]) {
     const csvContent = this.HELP_HEADER 
       + helps.reduce((csv, curr) => {
-        const valuationCard = curr.helpType + ';' + curr.beneficiary.valuationCard ? 'SI' : 'NO';        
-        csv += curr.date + ';' + curr.beneficiary.fullName + ';' + curr.beneficiary.dni + ';' + curr.beneficiary.mate?.fullName 
-          + ';' + curr.beneficiary.mate?.dni + ';' + curr.beneficiary.address + ';' + valuationCard + ';' + curr.beneficiary.valuationDate
-          + ';' + curr.user.fullName + ';' + curr.entity.name + ';' + curr.notes + '\r\n';
-        return csv;
-      }, '');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+          const valuationCard = curr.helpType + ';' + curr.beneficiary.valuationCard ? 'SI' : 'NO';        
+          csv += curr.date + ';' + curr.beneficiary.fullName + ';' + curr.beneficiary.dni + ';' + curr.beneficiary.mate?.fullName 
+            + ';' + curr.beneficiary.mate?.dni + ';' + curr.beneficiary.address + ';' + valuationCard + ';' + curr.beneficiary.valuationDate
+            + ';' + curr.user.fullName + ';' + curr.entity.name + ';' + curr.notes + '\r\n';
+          return csv;
+        }, '');
+    const blob = new Blob(['\ufeff', csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
