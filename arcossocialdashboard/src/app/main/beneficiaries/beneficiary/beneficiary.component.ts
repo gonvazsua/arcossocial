@@ -123,6 +123,7 @@ export class BeneficiaryComponent implements OnInit {
     const modal = document.querySelector('#beneficiaryFormModal');
     const modalInstance = M.Modal.getInstance(modal);
     modalInstance.close();
+    this.searchBeneficiaries(true);
   }
 
   nextPage() {
