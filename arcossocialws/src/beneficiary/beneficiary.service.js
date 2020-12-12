@@ -3,7 +3,7 @@ const ObjectID = require('mongodb').ObjectID
 const stringUtils = require('../common/string.utils');
 exports.BENEFICIARY_COLLECTION = "BENEFICIARY";
 
-exports.createBeneficiary = (_id, fullName, dni, address, entity, valuationCard, valuationDate, creationDate, mate) => {
+exports.createBeneficiary = (_id, fullName, dni, address, entity, valuationCard, valuationDate, creationDate, mate, familySize) => {
     return new Promise((resolve, reject) => {
         let beneficiary = {};
         if(_id) beneficiary._id = new ObjectID(_id);
@@ -13,6 +13,7 @@ exports.createBeneficiary = (_id, fullName, dni, address, entity, valuationCard,
         beneficiary.valuationCard = valuationCard;
         beneficiary.valuationDate = new Date(valuationDate);
         beneficiary.creationDate = new Date(creationDate);
+        beneficiary.familySize = familySize;
         if(mate) {
             let beneficiaryMate = {}
             beneficiaryMate.fullName = mate.fullName ? stringUtils.normalize(mate.fullName) : mate.fullName;

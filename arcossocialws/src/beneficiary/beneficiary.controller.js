@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     beneficiaryService
-        .createBeneficiary(req.body._id, req.body.fullName, req.body.dni, req.body.address, req.body.entity, req.body.valuationCard, req.body.valuationDate, req.body.creationDate, req.body.mate)
+        .createBeneficiary(req.body._id, req.body.fullName, req.body.dni, req.body.address, req.body.entity, req.body.valuationCard, req.body.valuationDate, req.body.creationDate, req.body.mate, req.body.familySize)
         .then(beneficiaryService.insertBeneficiary)
         .then(beneficiary => { res.jsonp(beneficiary) })
         .catch(err => {
@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
 
 router.put('/', (req, res) => {
     beneficiaryService
-        .createBeneficiary(req.body._id, req.body.fullName, req.body.dni, req.body.address, req.body.entity, req.body.valuationCard, req.body.valuationDate, req.body.creationDate, req.body.mate)
+        .createBeneficiary(req.body._id, req.body.fullName, req.body.dni, req.body.address, req.body.entity, req.body.valuationCard, req.body.valuationDate, req.body.creationDate, req.body.mate, req.body.familySize)
         .then(beneficiary => beneficiaryService.updateBeneficiary(beneficiary))
         .then(beneficiary => { res.jsonp(beneficiary) })
         .catch(err => {
