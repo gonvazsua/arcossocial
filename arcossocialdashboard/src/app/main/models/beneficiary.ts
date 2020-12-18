@@ -9,6 +9,7 @@ export class Beneficiary {
     valuationDate: Date;
     creationDate: Date;
     familySize: number;
+    isActive: boolean;
     mate: {
         fullName: string;
         dni: string;

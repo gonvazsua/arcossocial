@@ -20,16 +20,10 @@
                                     </select>
                                     <label>Tipo de ayuda</label>
                                 </div>
-                                <div class="input-field col s4">
-                                    <i class="material-icons prefix">date_range</i>
-                                    <input id="dateFrom" type="text" class="datepicker" (change)="setValueDate('dateFrom', $event, true)">
-                                    <label for="dateFrom">Fecha desde</label>
-                                </div>
-                                <div class="input-field col s4">
-                                    <i class="material-icons prefix">date_range</i>
-                                    <input id="dateTo" type="text" class="datepicker" (change)="setValueDate('dateTo', $event, false)">
-                                    <label for="dateTo">Fecha hasta</label>
-                                </div>
+                                
+                                <app-date-input inputId="dateFrom" type="from" classList="s4" label="Fecha desde" iconName="date_range" [fcontrol]="helpSearchForm.get('dateFrom')"></app-date-input>
+                                <app-date-input inputId="dateTo" type="to" classList="s4" label="Fecha hasta" iconName="date_range" [fcontrol]="helpSearchForm.get('dateTo')"></app-date-input>
+
                             </div>
                             <div class="row">
                                 <app-beneficiarysearch inputID="searchBeneficiaryId" (beneficiarySelectedEvent)="selectedBeneficiary=$event" classList="s4"></app-beneficiarysearch>
@@ -102,7 +96,7 @@
                             <tbody>
                                 <tr *ngFor="let help of (mainState.state | async)?.helps" class="cursor-pointer" (click)="setSelectedHelp(help)" [ngClass]="{'grey lighten-1': (mainState.state | async)?.selectedHelp === help}">
                                     <td>{{help.helpType | titlecase}}</td>
-                                    <td>{{help.date | date:'dd/MM/yyyy HH:mm'}}</td>
+                                    <td>{{help.date | date:'dd/MM/yyyy'}}</td>
                                     <td>{{help.beneficiary.fullName | titlecase}}</td>
                                     <td>{{help.beneficiary.mate?.fullName | titlecase}}</td>
                                     <td>{{help.entity.name | titlecase}}</td>

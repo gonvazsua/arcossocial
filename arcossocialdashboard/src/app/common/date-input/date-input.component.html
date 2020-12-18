@@ -1,0 +1,6 @@
+<div class="input-field col {{classList}}">
+    <i class="material-icons prefix">{{iconName}}</i>
+    <input id="{{inputId}}" type="text" [(ngModel)]="dateForm" (keyup)="manageDate($event)" (change)="updateForm($event)" maxlength="10">
+    <label for="{{inputId}}">{{label}}</label>
+    <span *ngIf="!isValidDateFlag" class="helper-text" data-error="wrong" data-success="right">Introduce un formato de fecha correcto</span>
+</div>    

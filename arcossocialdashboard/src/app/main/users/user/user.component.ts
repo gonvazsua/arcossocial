@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { forkJoin } from 'rxjs';
-import { ConfirmModalComponent } from 'src/app/common/confirmmodal/confirmmodal.component';
 import { environment } from 'src/environments/environment';
 import { MainStateService } from '../../main.state.service';
 import { User } from '../../models/user';
@@ -15,9 +14,6 @@ declare const M: any;
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-
-  @ViewChild('confirmDeactivateUser') deactivateConfirmModal: ConfirmModalComponent;
-  @ViewChild('confirmReactivateUser') reactivateConfirmModal: ConfirmModalComponent;
 
   userSearchForm: FormGroup;
   pagesCounter: number;

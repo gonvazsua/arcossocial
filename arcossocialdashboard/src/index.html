@@ -19,26 +19,9 @@
       var selects = document.querySelectorAll('select');
       var selectsInstances = M.FormSelect.init(selects, '');
 
-      //Datepicker materialize css
-      const options = {
-        format: 'dd/mm/yyyy', firstDay: 1,
-        i18n: {
-                months: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"],
-                monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"],
-                weekdays: ["Domingo","Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
-                weekdaysShort: ["Dom","Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
-                weekdaysAbbrev: ["D","L", "M", "M", "J", "V", "S"]
-            }
-      };
-      var dps = document.querySelectorAll('.datepicker');
-      var dpsInstances = M.Datepicker.init(dps, options);
-
       setTimeout(()=>{
           const selects = document.querySelectorAll('select');
           const dpsInstances = M.FormSelect.init(selects, '');
-
-          var dps = document.querySelectorAll('.datepicker');
-          var selectsInstances = M.Datepicker.init(dps, options);
       }, 1000);
     });
 

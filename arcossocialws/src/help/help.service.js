@@ -18,6 +18,7 @@ exports.createHelp = (_id, beneficiary, helpType, date, entity, notes, user) => 
             helpBeneficiary.valuationCard = beneficiary.valuationCard;
             helpBeneficiary.valuationDate = new Date(beneficiary.valuationDate);
             helpBeneficiary.creationDate = new Date(beneficiary.creationDate);
+            helpBeneficiary.familySize = beneficiary.familySize;
             if(beneficiary.mate) {
                 let beneficiaryMate = {}
                 beneficiaryMate.fullName = beneficiary.mate.fullName;

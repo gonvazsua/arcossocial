@@ -77,6 +77,7 @@
                                   <th>DNI</th>
                                   <th>Cónyuge</th>
                                   <th>DNI Cónyuge</th>
+                                  <th>Activo</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -85,9 +86,10 @@
                                     <td>{{beneficiary.dni}}</td>
                                     <td>{{beneficiary.mate?.fullName | titlecase}}</td>
                                     <td>{{beneficiary.mate?.dni}}</td>
+                                    <td><app-prettyboolean [value]="beneficiary.isActive"></app-prettyboolean></td>
                                 </tr>
                                 <tr *ngIf="!(mainState.state | async)?.beneficiaries || (mainState.state | async)?.beneficiaries?.length === 0">
-                                    <td colspan="4">No hay resultados para mostrar</td>
+                                    <td colspan="5">No hay resultados para mostrar</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -165,7 +167,20 @@
                         <p>{{(mainState.state | async)?.selectedBeneficiary.creationDate | date:'dd/MM/yyyy HH:mm'}}</p>
                     </div>
                     <div class="col s12 mt-1 right-align">
-                        <a class="waves-effect waves-light btn-small light-blue darken-3 modal-trigger" href="#beneficiaryFormModal"><i class="material-icons right">create</i>EDITAR</a>
+                        <a *ngIf="permissions.canEditBeneficary" 
+                            class="waves-effect waves-light btn-small light-blue darken-3 modal-trigger mr-1" href="#beneficiaryFormModal"><i class="material-icons right">create</i>EDITAR</a>
+                        <button class="btn waves-effect waves-light mr-1 btn-small" type="button" 
+                            *ngIf="permissions.canDeactivateBeneficiary" 
+                            (click)="deactivateBeneficiary()">
+                            DESACTIVAR
+                            <i class="material-icons right">clear</i>
+                        </button>
+                        <button class="btn waves-effect waves-light btn-small" type="button" 
+                            *ngIf="permissions.canReactivateBeneficiary" 
+                            (click)="reactivateBeneficiary()">
+                            REACTIVAR
+                            <i class="material-icons right">check</i>
+                        </button>
                     </div>
                 </div>
                 <div class="row" *ngIf="!(mainState.state | async)?.selectedBeneficiary">

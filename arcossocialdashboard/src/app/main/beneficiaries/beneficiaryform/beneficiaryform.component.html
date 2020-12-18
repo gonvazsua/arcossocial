@@ -34,11 +34,9 @@
                                       </select>
                                     <label for="valuationCard">Carta valoración</label>
                                 </div>
-                                <div class="input-field col s6">
-                                    <i class="material-icons prefix">date_range</i>
-                                    <input id="valuationDate" type="text" class="datepicker" (change)="setValueDate('valuationDate', $event, true)">
-                                    <label for="valuationDate">Fecha carta valoración</label>
-                                </div>
+
+                                <app-date-input inputId="valuationDate" type="from" classList="s6" label="Fecha carta valoración" iconName="date_range" [fcontrol]="this.beneficiaryForm.get('valuationDate')"></app-date-input>
+
                                 <div class="input-field col s6">
                                     <i class="material-icons prefix">person_outline</i>
                                     <input id="mateFullName" type="text" formControlName="mateFullName">
@@ -51,8 +49,8 @@
                                 </div>
                                 <div class="input-field col s6">
                                     <i class="material-icons prefix">home</i>
-                                    <input id="mateDni" type="number" formControlName="familySize">
-                                    <label for="mateDni">Tamaño unidad familiar</label>
+                                    <input id="familySize" type="number" formControlName="familySize">
+                                    <label for="familySize">Tamaño unidad familiar</label>
                                 </div>
                             </div>
                             <div class="row">

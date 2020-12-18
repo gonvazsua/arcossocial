@@ -86,7 +86,6 @@ export class BeneficiaryformComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.initMaterialComponents();
   }
 
   closeModal() {
@@ -184,41 +183,10 @@ export class BeneficiaryformComponent implements OnInit {
       );
   }
 
-  initMaterialComponents() {
-    
-    //Datepicker materialize css
-    const options = {
-      format: 'dd/mm/yyyy', firstDay: 1,
-      i18n: {
-              months: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"],
-              monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"],
-              weekdays: ["Domingo","Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
-              weekdaysShort: ["Dom","Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
-              weekdaysAbbrev: ["D","L", "M", "M", "J", "V", "S"]
-          }
-    };
-    var dps = document.querySelectorAll('.datepicker');
-    var dpsInstances = M.Datepicker.init(dps, options);
-
-  }
-
-  setValueDate(fieldName, event, isFromDate) {
-    if(event.target.value == 'false') this.beneficiaryForm.get(fieldName).setValue(null);
-    else {
-      const isoTime = isFromDate 
-        ? "T00:00:00.000Z"
-        : "T23:59:59.000Z";
-      const splitDate = event.target.value.split("/");
-      const isoDate = splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0] + isoTime;
-      this.beneficiaryForm.get(fieldName).setValue(new Date(isoDate).getTime());
-    }
-    
-  }
-
   updateValuationDate(event) {
     if(event.target.value && event.target.value == 'false') {
       (<HTMLInputElement>document.getElementById("valuationDate")).value = null;
-      this.setValueDate('valuationDate', event, true);
+      this.beneficiaryForm.get('valuationDate').setValue(null);
     }
   }
 
@@ -274,6 +242,7 @@ export class BeneficiaryformComponent implements OnInit {
     beneficiary.valuationDate = this.beneficiaryForm.get('valuationDate').value;
     beneficiary.creationDate = this.beneficiary ? new Date(this.beneficiary.creationDate) : new Date();
     beneficiary.familySize = this.beneficiaryForm.get('familySize').value;
+    beneficiary.isActive = true;
     const mate = {
       dni: this.beneficiaryForm.get('mateDni').value,
       fullName : this.beneficiaryForm.get('mateFullName').value
@@ -285,7 +254,9 @@ export class BeneficiaryformComponent implements OnInit {
 
   clearForm() {
     this.beneficiaryForm.reset();
-    (<HTMLInputElement>document.getElementById("valuationDate")).value = null;
+    if((<HTMLInputElement>document.getElementById("valuationDate"))) {
+      (<HTMLInputElement>document.getElementById("valuationDate")).value = null;
+    }
   }
 
 }

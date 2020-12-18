@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { forkJoin } from 'rxjs';
+import { PermissionService } from 'src/app/common/permission.service';
 import { environment } from 'src/environments/environment';
 import { MainStateService } from '../../main.state.service';
 import { Beneficiary } from '../../models/beneficiary';
@@ -21,9 +22,11 @@ export class BeneficiaryComponent implements OnInit {
   beneficiarySearchForm: FormGroup;
   pagesCounter: number;
   selectedBeneficiaryForm: Beneficiary;
+  selectedBeneficiary: Beneficiary;
 
 
-  constructor(private fb: FormBuilder, public mainState: MainStateService, public beneficiaryService: BeneficiaryService) {
+  constructor(private fb: FormBuilder, public mainState: MainStateService, public beneficiaryService: BeneficiaryService,
+    public permissions: PermissionService) {
     this.beneficiarySearchForm = this.initializeForm();
   }
 
@@ -31,6 +34,7 @@ export class BeneficiaryComponent implements OnInit {
     this.mainState.state.subscribe(state =>  {
       this.updatePageCounter(state.beneficiariesCounter);
       this.initSelectMaterialize();
+      this.selectedBeneficiary = state.selectedBeneficiary;
     });
   }
 
@@ -134,6 +138,24 @@ export class BeneficiaryComponent implements OnInit {
   previousPage() {
     this.beneficiarySearchForm.get('pageNumber').setValue(this.beneficiarySearchForm.get('pageNumber').value - 1);
     this.searchBeneficiaries(false);
+  }
+
+  reactivateBeneficiary() {
+    this.mainState.setLoading(true);
+    this.selectedBeneficiary.isActive = true;
+    this.beneficiaryService.updateBeneficiary(this.selectedBeneficiary).subscribe(beneficiary => {
+      this.mainState.setLoading(false);
+    });
+    setTimeout(() => { this.mainState.setLoading(false); }, 5000);
+  }
+
+  deactivateBeneficiary() {
+    this.mainState.setLoading(true);
+    this.selectedBeneficiary.isActive = false;
+    this.beneficiaryService.updateBeneficiary(this.selectedBeneficiary).subscribe(beneficiary => {
+      this.mainState.setLoading(false);
+    });
+    setTimeout(() => { this.mainState.setLoading(false); }, 5000);
   }
 
 }

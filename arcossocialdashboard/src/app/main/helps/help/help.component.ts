@@ -78,19 +78,6 @@ export class HelpComponent implements OnInit {
     );
   }
 
-  setValueDate(fieldName, event, isFromDate) {
-    if(!event.target.value) this.helpSearchForm.get(fieldName).setValue(null);
-    else {
-      const isoTime = isFromDate 
-        ? "T00:00:00.000Z"
-        : "T23:59:59.000Z";
-      const splitDate = event.target.value.split("/");
-      const isoDate = splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0] + isoTime;
-      this.helpSearchForm.get(fieldName).setValue(new Date(isoDate).getTime());
-    }
-    
-  }
-
   updatePageCounter(totalData: number){
     const pageSize = parseInt(environment.pageSize);
     const pagesDecimal = totalData / pageSize;
@@ -117,20 +104,6 @@ export class HelpComponent implements OnInit {
     var selects = document.querySelectorAll('select');
     var selectsInstances = M.FormSelect.init(selects, '');
 
-    //Datepicker materialize css
-    const options = {
-      format: 'dd/mm/yyyy', firstDay: 1,
-      i18n: {
-              months: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"],
-              monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"],
-              weekdays: ["Domingo","Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
-              weekdaysShort: ["Dom","Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
-              weekdaysAbbrev: ["D","L", "M", "M", "J", "V", "S"]
-          }
-    };
-    var dps = document.querySelectorAll('.datepicker');
-    var dpsInstances = M.Datepicker.init(dps, options);
-
     var elems = document.querySelectorAll('.modal');
     const optionsModal = {dismissible: false};
     var instances = M.Modal.init(elems, optionsModal);
@@ -142,6 +115,7 @@ export class HelpComponent implements OnInit {
     const modal = document.querySelector('#newHelpModal');
     const modalInstance = M.Modal.getInstance(modal);
     modalInstance.close();
+    this.searchHelps(true);
   }
 
   resetForm() {
@@ -152,8 +126,7 @@ export class HelpComponent implements OnInit {
     this.mainState.setHelpsCounter(0);
     this.mainState.setHelps(null);
     this.beneficiarySearch.resetValues();
-    (<HTMLInputElement>document.getElementById("dateFrom")).value = null;
-    (<HTMLInputElement>document.getElementById("dateTo")).value = null;
+    M.updateTextFields();
   }
 
   buildSearchHelpParameters(formData: any) {

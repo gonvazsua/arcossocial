@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -26,9 +26,10 @@ import { ProfileComponent } from './main/profile/profile.component';
 import { UserService } from './main/users/user.service';
 import { UserformComponent } from './main/users/userform/userform.component';
 import { SettingsComponent } from './main/settings/settings/settings.component';
-import { ConfirmModalComponent } from './common/confirmmodal/confirmmodal.component';
 import { SettingsService } from './main/settings/settings.service';
 import { FooterComponent } from './main/footer/footer.component';
+import { DateInputComponent } from './common/date-input/date-input.component';
+import { PermissionService } from './common/permission.service';
 
 @NgModule({
   declarations: [
@@ -47,19 +48,20 @@ import { FooterComponent } from './main/footer/footer.component';
     ProfileComponent,
     UserformComponent,
     SettingsComponent,
-    ConfirmModalComponent,
     FooterComponent,
+    DateInputComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenIntecerptorService, multi: true },
     LoginService, LocalStorageService, 
-    AuthguardService, MainStateService, BeneficiaryService, UserService, SettingsService],
+    AuthguardService, MainStateService, BeneficiaryService, UserService, SettingsService, PermissionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

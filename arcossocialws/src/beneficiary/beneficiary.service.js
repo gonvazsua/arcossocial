@@ -3,7 +3,7 @@ const ObjectID = require('mongodb').ObjectID
 const stringUtils = require('../common/string.utils');
 exports.BENEFICIARY_COLLECTION = "BENEFICIARY";
 
-exports.createBeneficiary = (_id, fullName, dni, address, entity, valuationCard, valuationDate, creationDate, mate, familySize) => {
+exports.createBeneficiary = (_id, fullName, dni, address, entity, valuationCard, valuationDate, creationDate, mate, familySize, isActive) => {
     return new Promise((resolve, reject) => {
         let beneficiary = {};
         if(_id) beneficiary._id = new ObjectID(_id);
@@ -14,6 +14,7 @@ exports.createBeneficiary = (_id, fullName, dni, address, entity, valuationCard,
         beneficiary.valuationDate = new Date(valuationDate);
         beneficiary.creationDate = new Date(creationDate);
         beneficiary.familySize = familySize;
+        beneficiary.isActive = isActive;
         if(mate) {
             let beneficiaryMate = {}
             beneficiaryMate.fullName = mate.fullName ? stringUtils.normalize(mate.fullName) : mate.fullName;
@@ -87,6 +88,7 @@ exports.buildQuery = queryParams => {
     if(queryParams.dni) andClauses.push({$or : [{'dni': {$regex: stringUtils.normalize(queryParams.dni)}}, {'mate.dni': {$regex: stringUtils.normalize(queryParams.dni)}}]});
     if(queryParams.address) andClauses.push({'address': {$regex: stringUtils.normalize(queryParams.address)}}); 
     if(queryParams.valuationCard) andClauses.push({'valuationCard': queryParams.valuationCard === 'true' ? true : false});
+    if(queryParams.isActive) andClauses.push({'isActive': queryParams.isActive === 'true' ? true : false});
     //if(queryParams.mateFullName) query['mate.fullName'] =  {$regex: queryParams.mateFullName};
     //if(queryParams.mateDni) query['mate.dni'] = queryParams.mateDni;
     if(queryParams.entityCode) andClauses.push({'entity.code': queryParams.entityCode});
