@@ -67,7 +67,11 @@ export class BeneficiaryformComponent implements OnInit {
       mateDni: this.beneficiary.mate ? this.beneficiary.mate.dni : null,
       familySize: this.beneficiary.familySize
     });
-    (<HTMLInputElement>document.getElementById("valuationDate")).value = this.getDateAsString(new Date(this.beneficiary.valuationDate));
+    if(this.beneficiary.valuationDate) {
+      (<HTMLInputElement>document.getElementById("valuationDate")).value = this.getDateAsString(new Date(this.beneficiary.valuationDate));
+    } else {
+      (<HTMLInputElement>document.getElementById("valuationDate")).value = '';
+    }
     M.updateTextFields();
     var selects = document.querySelector('#valuationCard')
     var selectsInstances = M.FormSelect.init(selects, '');
