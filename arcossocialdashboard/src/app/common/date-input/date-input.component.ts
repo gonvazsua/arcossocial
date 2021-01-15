@@ -29,6 +29,9 @@ export class DateInputComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fcontrol.valueChanges.subscribe(value => {
+      if(value === null) this.setInputValue(null);
+    });
   }
 
   updateForm(event) {
@@ -69,6 +72,15 @@ export class DateInputComponent implements OnInit {
   manageDate(event) {
 
     let value = event.target.value;
+    const lastChar = event.target.value !== null ? event.target.value.substr(event.target.value.length - 1) : null;
+
+    //event.keyCode = 8 means 'delete'
+    if(event.keyCode === 8 && (value.length === 2 || value.length === 5)) {
+      value += '/';
+      this.setInputValue(value);
+    } else if(event.keyCode === 8) {
+      return;
+    }
 
     if(value.length === 2 || value.length === 5) {
       value += '/';
