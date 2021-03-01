@@ -6,6 +6,7 @@ import { User } from './models/user';
 import { StaticData } from './models/staticData';
 import { Entity } from './models/entity';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-main',
@@ -43,6 +44,10 @@ export class MainComponent implements OnInit {
   findUserEntity(entities: Entity[], entityCode: string) {
     const userEntities =  entities.filter(e => e.code === entityCode);
     return userEntities.pop();
+  }
+
+  isUATEnvironment() {
+    return !environment.production;
   }
 
 }

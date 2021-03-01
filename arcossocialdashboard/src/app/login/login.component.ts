@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 import { LocalStorageService } from '../common/local-storage.service';
 import { LoginService } from './login.service';
 
@@ -68,6 +69,10 @@ export class LoginComponent implements OnInit {
     } else {
       this.localStorageService.clear();
     }
+  }
+
+  isUATEnvironment() {
+    return !environment.production;
   }
 
 }

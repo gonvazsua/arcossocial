@@ -50,6 +50,13 @@
                                 <div class="card-content">{{errorMsg}}</div>
                             </div>
                         </div>
+                    </div>
+                    <div class="row" *ngIf="isUATEnvironment()">
+                        <div class="col s12">
+                            <div class="card red lighten-3 white-text">
+                                <div class="card-content"><strong>NOTA:</strong> Estás en el entorno de pruebas de Arcos Social</div>
+                            </div>
+                        </div>
                     </div>                        
                 </div>
             </div>
