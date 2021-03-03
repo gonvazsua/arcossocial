@@ -7,7 +7,6 @@ pipeline {
     stage('Where we are') {
         steps { 
             sh 'echo "Working on path $(pwd)"' 
-            sh 'echo "List of files $(ls -ltr)"' 
         }
     }
 
