@@ -2,10 +2,10 @@ pipeline {
   agent any
   stages {
 
-    stage('Where we are') {
+    stage('Installing arcossocialdashboard') {
       steps { 
-        sh 'echo "Working on path $(pwd)"' 
-        sh 'echo "List of files in the path $(ls -ltr)"' 
+        sh 'cd arcossocialdashboard' 
+        sh 'npm install' 
       }
     }
 
