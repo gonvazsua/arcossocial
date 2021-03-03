@@ -12,7 +12,7 @@ pipeline {
     stage('Installing arcossocialdashboard') {
       steps { 
         sh 'cd arcossocialdashboard' 
-        sh 'npm install' 
+        sh 'echo "List of files here: $(ls -ltr)"'
       }
     }
 
