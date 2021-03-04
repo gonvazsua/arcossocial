@@ -15,7 +15,7 @@ pipeline {
         }
         dir('arcossocialdashboard/dist') {
           sh 'echo "Copying Arcos Social Dashboard to UAT filesystem"'
-          sh '\cp -r arcossocialdashboard $HOME/arcossocial/uat/arcossocialdashboard'
+          sh 'cp -r arcossocialdashboard $HOME/arcossocial/uat/arcossocialdashboard'
         }
       }
     }
