@@ -2,7 +2,7 @@ pipeline {
   agent any
   stages {
 
-    stage('Installing arcossocialdashboard') {
+    stage('Installing arcossocialdashboard in UAT') {
       steps {
         dir('arcossocialdashboard') {
           sh 'npm install'
@@ -20,7 +20,7 @@ pipeline {
       }
     }
 
-    stage('Installing arcossocialws') {
+    stage('Installing arcossocialws in UAT') {
       steps {
         sh 'echo "Copying Arcos Social WS to UAT filesystem"'
         sh 'cp -r arcossocialws $HOME/arcossocial/uat/'
@@ -33,9 +33,28 @@ pipeline {
           sh 'echo "Showing generated files after build:"'
           sh 'echo "(ls -ltr)"'
         }
-        
+
       }
     }
+
+    stage('Deploy To PROD') {
+			steps {
+				script {
+					def proceed = true
+					try {
+						timeout(time: 5, unit: 'MINUTES') {
+							input "Deploy to PROD?"
+						}
+					} catch (err) {
+						proceed = false
+					}
+
+					if (proceed) {
+						sh 'echo "DEPLOYING TO PROD!!!"'
+					}
+				}
+			}
+		}
 
   }
 }
