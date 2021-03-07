@@ -38,7 +38,7 @@ export class UserService {
   }
 
   checkLogin(userCode: string, password: string): Observable<boolean> {
-    const body = {userCode: userCode, password: password};
+    const body = {userCode: userCode, password: password, onlyCheck: true};
     return this.http.post<string>(environment.apiUrl + 'auth/login', body).pipe(
       map(token => { return true; })
     );

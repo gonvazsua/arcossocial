@@ -6,12 +6,14 @@ const tokenService = require("../config/token.service");
 router.post('/login', (req, res) => {
     const userCode = req.body.userCode;
     const password = req.body.password;
+    const onlyCheck = req.body.onlyCheck;
     authService
         .authenticate(userCode, password)
         .then(tokenService.generateToken)
         .then(token => { res.jsonp({'token' : token}) })
         .catch(err => {
-            res.status(403);
+            const responseCode = onlyCheck ? 404 : 403;
+            res.status(responseCode);
             res.jsonp({'message' : 'Login incorrecto', 'reason' : err});
         });
 });
