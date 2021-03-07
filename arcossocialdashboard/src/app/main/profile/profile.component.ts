@@ -41,7 +41,8 @@ export class ProfileComponent implements OnInit {
       return;
     }
     
-    this.userService.checkLogin(this.passwordForm.get('userCode').value, this.passwordForm.get('currentPassword').value)
+    const currentPasswordBase64 = btoa(this.passwordForm.get('currentPassword').value);
+    this.userService.checkLogin(this.passwordForm.get('userCode').value, currentPasswordBase64)
       .subscribe(
         valid => this.updatePassword(),
         error =>  {

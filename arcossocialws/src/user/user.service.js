@@ -8,7 +8,7 @@ exports.findByUserCodeAndPassword = (userCode, password) => {
     return new Promise((resolve, reject) => {
         dbConfig.getConnection().then(db => {
             db.collection(this.USER_COLLECTION).findOne({'userCode': userCode, 'password':password, 'isActive': true}, (err, user) => {
-                if(err) {
+                if(err || !user) {
                     console.log(err);
                     reject('User not found by userCode');
                 } else {
