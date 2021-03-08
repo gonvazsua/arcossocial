@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-prod" : "ng build --prod"
+    "build-prod": "ng build --prod"
   },
   "private": true,
   "dependencies": {
@@ -20,11 +20,13 @@
     "@angular/platform-browser": "~10.1.0",
     "@angular/platform-browser-dynamic": "~10.1.0",
     "@angular/router": "~10.1.0",
+    "classlist.js": "^1.1.20150312",
     "jquery": "^3.5.1",
     "materialize-css": "^1.0.0",
     "moment": "^2.29.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
+    "web-animations-js": "^2.3.2",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
