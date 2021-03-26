@@ -126,14 +126,14 @@ export class BeneficiaryformComponent implements OnInit {
       if(validResults[0] == false) this.error.push("Si se seleccionas carta de valoración, tienes que informar una fecha");
       if(validResults[1] == false) this.error.push("El formato del DNI del beneficiario no es válido. Ejemplo: 12345678A");
       if(validResults[2] == false) this.error.push("Introduce una fecha válida: Formato DD/MM/AAAA");
-      if(validResults[3] == false) this.error.push("Introduce el DNI del cónyuge");
-      if(validResults[4] == false) this.error.push("El formato del DNI del cónyuge no es válido. Ejemplo: 12345678A");
+      if(validResults[3] == false) this.error.push("Introduce el DNI de la pareja");
+      if(validResults[4] == false) this.error.push("El formato del DNI de la pareja no es válido. Ejemplo: 12345678A");
       if(validResults[5] == false) this.error.push("La fecha de la carta de valoración tiene que ser anterior o igual a hoy");
       if(validResults.length >= 7) {
         if(validResults[6] == false) this.error.push("Ya existe un beneficiario registrado con ese DNI");
       }
       if(validResults.length == 8) {
-        if(validResults[7] == false) this.error.push("Ya existe un beneficiario registrado con el DNI del cónyuge");
+        if(validResults[7] == false) this.error.push("Ya existe un beneficiario registrado con el DNI de la pareja");
       }
       if(this.error.length == 0) {
         this.upsertBeneficary();

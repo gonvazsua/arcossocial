@@ -19,7 +19,7 @@ export class HelpComponent implements OnInit {
 
   @ViewChild(BeneficiarysearchComponent) beneficiarySearch: BeneficiarysearchComponent
 
-  HELP_HEADER = 'Fecha;Beneficiario;DNI;Cónyuge;DNI Cónyuge;Dirección;Carta de valoración;Fecha carta valoración;Emitida por; Entidad; Notas;\r\n';
+  HELP_HEADER = 'Fecha;Beneficiario;DNI;Pareja;DNI Pareja;Dirección;Carta de valoración;Fecha carta valoración;Emitida por; Entidad; Notas;\r\n';
 
   helpSearchForm: FormGroup;
   pagesCounter: number;

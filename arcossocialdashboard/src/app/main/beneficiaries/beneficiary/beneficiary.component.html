@@ -75,8 +75,8 @@
                               <tr class="tableHeader">
                                   <th>Nombre</th>
                                   <th>DNI</th>
-                                  <th>Cónyuge</th>
-                                  <th>DNI Cónyuge</th>
+                                  <th>Pareja</th>
+                                  <th>DNI Pareja</th>
                                   <th>Activo</th>
                               </tr>
                             </thead>
@@ -134,11 +134,11 @@
                         <p>{{(mainState.state | async)?.selectedBeneficiary.dni}}</p>
                     </div>
                     <div class="col s6 mt-1">
-                        <p><strong>Cónyuge</strong></p>
+                        <p><strong>Pareja</strong></p>
                         <p>{{(mainState.state | async)?.selectedBeneficiary.mate?.fullName | titlecase}}</p>
                     </div>
                     <div class="col s6 mt-1">
-                        <p><strong>DNI Cónyuge</strong></p>
+                        <p><strong>DNI Pareja</strong></p>
                         <p>{{(mainState.state | async)?.selectedBeneficiary.mate?.dni}}</p>
                     </div>
                     <div class="col s12 mt-1">

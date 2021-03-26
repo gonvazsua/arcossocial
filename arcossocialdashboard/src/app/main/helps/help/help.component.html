@@ -36,7 +36,7 @@
                                 <div class="input-field col s4">
                                     <i class="material-icons prefix">subtitles</i>
                                     <input id="beneficiaryDni" type="text" formControlName="beneficiaryDni">
-                                    <label for="beneficiaryDni">DNI Beneficiario o cónyuge</label>
+                                    <label for="beneficiaryDni">DNI Beneficiario o pareja</label>
                                 </div>
                                 <div class="input-field col s4">
                                     <i class="material-icons prefix">store</i>
@@ -89,7 +89,7 @@
                                   <th>Tipo ayuda</th>
                                   <th>Fecha</th>
                                   <th>Beneficiario</th>
-                                  <th>Cónyuge</th>
+                                  <th>Pareja</th>
                                   <th>Entidad</th>
                               </tr>
                             </thead>
@@ -168,7 +168,7 @@
                         </p>
                     </div>
                     <div class="col s6 mt-1">
-                        <p><strong>DNI Cónyuge</strong></p>
+                        <p><strong>DNI Pareja</strong></p>
                         <p *ngIf="(mainState.state | async)?.selectedHelp.beneficiary.mate?.dni">
                             {{(mainState.state | async)?.selectedHelp.beneficiary.mate?.dni}}
                         </p>
@@ -177,7 +177,7 @@
                         </p>
                     </div>
                     <div class="col s6 mt-1">
-                        <p><strong>Cónyuge</strong></p>
+                        <p><strong>Pareja</strong></p>
                         <p *ngIf="(mainState.state | async)?.selectedHelp.beneficiary.mate?.fullName">
                             {{(mainState.state | async)?.selectedHelp.beneficiary.mate?.fullName | titlecase}}
                         </p>
