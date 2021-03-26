@@ -57,28 +57,23 @@ exports.createUserCode = entityCode => {
 
 exports.saveUser = (userCode, fullName, password, entityCode, isAdmin, isActive, creationDate) => {
     return new Promise((resolve, reject) => {
-        this.findByUserCodeAndPassword(userCode, password)
-            .then(user => {
-                if(user) reject('El usuario ya está registrado');
-                dbConfig.getConnection().then(db => {
-                    const userToSave = {
-                        userCode: userCode,
-                        fullName: stringUtils.normalize(fullName),
-                        password: password,
-                        entityCode: stringUtils.normalize(entityCode),
-                        isAdmin: isAdmin,
-                        isActive : isActive,
-                        creationDate: creationDate
-                    };
-                    db.collection(this.USER_COLLECTION).insertOne(userToSave, (err, res) => {
-                        if(err) reject(err);
-                        else {
-                            resolve(res.ops[0]);
-                        }
-                    });
-                });
-            })
-            .catch(err => reject(err));
+        dbConfig.getConnection().then(db => {
+            const userToSave = {
+                userCode: userCode,
+                fullName: stringUtils.normalize(fullName),
+                password: password,
+                entityCode: stringUtils.normalize(entityCode),
+                isAdmin: isAdmin,
+                isActive : isActive,
+                creationDate: creationDate
+            };
+            db.collection(this.USER_COLLECTION).insertOne(userToSave, (err, res) => {
+                if(err) reject(err);
+                else {
+                    resolve(res.ops[0]);
+                }
+            });
+        });
     });
 };
 
