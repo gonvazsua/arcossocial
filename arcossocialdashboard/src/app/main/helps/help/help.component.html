@@ -189,6 +189,11 @@
                         <p><strong>Tamaño nucleo familiar</strong></p>
                         <p>{{(mainState.state | async)?.selectedHelp.beneficiary.familySize}}</p>
                     </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>Unidad trabajo social</strong></p>
+                        <p *ngIf="(mainState.state | async)?.selectedHelp.beneficiary?.uts">{{(mainState.state | async)?.selectedHelp.beneficiary.uts}}</p>
+                        <p *ngIf="!(mainState.state | async)?.selectedHelp.beneficiary?.uts">Ninguno</p>
+                    </div>
                     <div class="col s12 mt-1">
                         <h6><i class="material-icons left">local_offer</i>Ayuda</h6><hr>
                     </div>
