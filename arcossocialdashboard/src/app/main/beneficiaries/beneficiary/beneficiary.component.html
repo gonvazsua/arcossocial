@@ -166,6 +166,11 @@
                         <p><strong>Fecha de alta</strong></p>
                         <p>{{(mainState.state | async)?.selectedBeneficiary.creationDate | date:'dd/MM/yyyy HH:mm'}}</p>
                     </div>
+                    <div class="col s6 mt-1">
+                        <p><strong>Unidad trabajo social</strong></p>
+                        <p *ngIf="(mainState.state | async)?.selectedBeneficiary?.uts">{{(mainState.state | async)?.selectedBeneficiary.uts}}</p>
+                        <p *ngIf="!(mainState.state | async)?.selectedBeneficiary?.uts">Ninguno</p>
+                    </div>
                     <div class="col s12 mt-1 right-align">
                         <a *ngIf="permissions.canEditBeneficary" 
                             class="waves-effect waves-light btn-small light-blue darken-3 modal-trigger mr-1" href="#beneficiaryFormModal"><i class="material-icons right">create</i>EDITAR</a>

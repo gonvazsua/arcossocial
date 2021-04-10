@@ -10,6 +10,7 @@ export class Beneficiary {
     creationDate: Date;
     familySize: number;
     isActive: boolean;
+    uts: string;
     mate: {
         fullName: string;
         dni: string;

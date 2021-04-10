@@ -35,7 +35,8 @@ export class BeneficiaryformComponent implements OnInit {
       valuationDate: [''],
       mateFullName: [''],
       mateDni: [''],
-      familySize: ['', Validators.required]
+      familySize: ['', Validators.required],
+      uts: ['']
     });
 
     this.error = null;
@@ -65,16 +66,27 @@ export class BeneficiaryformComponent implements OnInit {
       valuationDate: this.beneficiary.valuationDate ? new Date(this.beneficiary.valuationDate).getTime() : null,
       mateFullName: this.beneficiary.mate ? this.beneficiary.mate.fullName : null,
       mateDni: this.beneficiary.mate ? this.beneficiary.mate.dni : null,
-      familySize: this.beneficiary.familySize
+      familySize: this.beneficiary.familySize,
+      uts: this.beneficiary.uts
     });
     if(this.beneficiary.valuationDate) {
       (<HTMLInputElement>document.getElementById("valuationDate")).value = this.getDateAsString(new Date(this.beneficiary.valuationDate));
     } else {
       (<HTMLInputElement>document.getElementById("valuationDate")).value = '';
     }
+    if(this.beneficiary.uts) {
+      (<HTMLInputElement>document.getElementById("uts")).value = this.beneficiary.uts;
+    } else {
+      (<HTMLInputElement>document.getElementById("uts")).value = '';
+    }
     M.updateTextFields();
-    var selects = document.querySelector('#valuationCard')
-    var selectsInstances = M.FormSelect.init(selects, '');
+    this.updateSelectField('valuationCard', '');
+    this.updateSelectField('uts', '');
+  }
+
+  updateSelectField(id: string, value: string): void {
+    var select = document.querySelector('#' + id)
+    M.FormSelect.init(select, value);
   }
 
   getDateAsString(date: Date): string {
@@ -87,9 +99,6 @@ export class BeneficiaryformComponent implements OnInit {
     }else{
       return `${day}/${month}/${year}`;
     }
-  }
-
-  ngAfterViewInit() {
   }
 
   closeModal() {
@@ -253,6 +262,7 @@ export class BeneficiaryformComponent implements OnInit {
     };
     beneficiary.mate = mate;
     beneficiary.entity = this.beneficiary ? this.beneficiary.entity : this.userEntity;
+    beneficiary.uts = this.beneficiaryForm.get('uts').value;
     return beneficiary;
   }
 
@@ -261,6 +271,8 @@ export class BeneficiaryformComponent implements OnInit {
     if((<HTMLInputElement>document.getElementById("valuationDate"))) {
       (<HTMLInputElement>document.getElementById("valuationDate")).value = null;
     }
+    this.updateSelectField('uts', '');
+    this.updateSelectField('valuationCard', '');
   }
 
 }

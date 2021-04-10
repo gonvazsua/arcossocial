@@ -25,15 +25,18 @@ export class MainComponent implements OnInit {
     this.mainState.setLoading(true);
     const _loggedUser: Observable<User> = this.mainService.getLoggedUser();
     const _helpType: Observable<StaticData> = this.mainService.loadStaticDataByName('HelpType');
+    const _utsValues: Observable<StaticData> = this.mainService.loadStaticDataByName('UtsValue');
     const _entities: Observable<Entity[]> = this.mainService.loadEntities();
-    forkJoin([_loggedUser, _helpType, _entities])
+    forkJoin([_loggedUser, _helpType, _entities, _utsValues])
       .subscribe(results => {
         const user = results[0];
         if(!user) this.router.navigate(['/login']);
         const helpType = results[1];
         const entities = results[2];
+        const utsValues = results[3];
         this.mainState.setUser(user);
         this.mainState.setHelpType(helpType);
+        this.mainState.setUtsValues(utsValues);
         this.mainState.setEntities(entities);
         const userEntity = this.findUserEntity(entities, user.entityCode);
         this.mainState.setUserEntity(userEntity);

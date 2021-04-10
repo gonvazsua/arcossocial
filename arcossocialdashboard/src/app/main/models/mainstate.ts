@@ -8,6 +8,7 @@ export class MainState {
     user: User;
     loading: boolean;
     helpType: StaticData;
+    utsValues: StaticData;
     entities: Entity[];
     helps: Help[];
     helpsCounter: number;
@@ -26,6 +27,7 @@ export class MainState {
         this.user = state.user
         this.loading = state.loading;
         this.helpType = state.helpType;
+        this.utsValues = state.utsValues;
         this.entities = state.entities;
         this.helps = state.helps;
         this.helpsCounter = state.helpsCounter;

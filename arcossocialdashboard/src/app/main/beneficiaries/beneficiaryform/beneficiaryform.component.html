@@ -52,6 +52,14 @@
                                     <input id="familySize" type="number" formControlName="familySize">
                                     <label for="familySize">Tamaño unidad familiar</label>
                                 </div>
+                                <div class="input-field col s6">
+                                    <i class="material-icons prefix">apartment</i>
+                                    <select id="uts" formControlName="uts">
+                                        <option value="">Ninguno</option>
+                                        <option value="{{utsValue.value}}" *ngFor="let utsValue of (mainState.state | async)?.utsValues?.values">{{utsValue.label}}</option>
+                                      </select>
+                                    <label for="valuationCard">Unidad trabajo social</label>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col s12 right-align">

@@ -44,6 +44,11 @@ export class MainStateService {
     this.updateState();
   }
 
+  setUtsValues(utsValues: StaticData) {
+    this.stateModel.utsValues = utsValues;
+    this.updateState();
+  }
+
   setEntities(entities: Entity[]) {
     this.stateModel.entities = entities;
     this.updateState();
