@@ -24,4 +24,8 @@ export class SettingsService {
     return this.http.put<StaticData>(environment.apiUrl + 'staticData', helpType);
   }
 
+  saveUtsValues(utsValue: StaticData): Observable<StaticData> {
+    return this.http.put<StaticData>(environment.apiUrl + 'staticData', utsValue);
+  }
+
 }

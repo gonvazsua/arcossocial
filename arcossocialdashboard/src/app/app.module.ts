@@ -31,6 +31,7 @@ import { FooterComponent } from './main/footer/footer.component';
 import { DateInputComponent } from './common/date-input/date-input.component';
 import { PermissionService } from './common/permission.service';
 import { HelpTypeManagementComponent } from './main/settings/help-type-management/help-type-management.component';
+import { UtsManagementComponent } from './main/settings/uts-management/uts-management.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { HelpTypeManagementComponent } from './main/settings/help-type-managemen
     FooterComponent,
     DateInputComponent,
     HelpTypeManagementComponent,
+    UtsManagementComponent,
   ],
   imports: [
     BrowserModule,

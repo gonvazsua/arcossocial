@@ -1,0 +1,73 @@
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col s12 pageTitle">
+                <h4>Gestion de Unidades de Trabajo Social</h4>
+                <p>Crea y borra los posibles valores para la unidad de trabajo social</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <table class="highlight">
+                    <thead>
+                      <tr class="tableHeader">
+                            <th>Etiqueta</th>
+                            <th>Valor</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let utsValue of utsValues?.values" class="cursor-pointer" (click)="setSelectedUtsValue(utsValue)" [ngClass]="{'grey lighten-1': selectedUtsValue === utsValue}">
+                            <td>{{utsValue.label}}</td>
+                            <td>{{utsValue.value | titlecase}}</td>
+                        </tr>
+                        <tr *ngIf="!utsValues?.values || utsValues?.values?.length === 0">
+                            <td colspan="2">No hay resultados para mostrar</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 right-align">
+                <button class="btn waves-effect waves-light" type="button" [disabled]="!selectedUtsValue" (click)="removeSelectedUtsValue()">
+                    ELIMINAR
+                    <i class="material-icons right">clear</i>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 pageTitle">
+                <h4>NUEVA U.T.S.</h4>
+            </div>
+            <div class="col s12">
+                <form [formGroup]="utsValueForm" class="col s12" (ngSubmit)="validateAndSaveUtsValue()">
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">label</i>
+                            <input type="text" formControlName="label"/>
+                            <label>Etiqueta</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">code</i>
+                            <input type="text" formControlName="value"/>
+                            <label>Valor</label>
+                        </div>
+                        <div class="col s12 right-align">
+                            <button class="btn waves-effect waves-light" type="submit" [disabled]="!utsValueForm.valid">
+                                GUARDAR
+                                <i class="material-icons right">save</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col s12" *ngIf="utsValueErrors && utsValueErrors.length > 0">
+                <div class="card red lighten-3 white-text">
+                    <div class="card-content">
+                        <p *ngFor="let e of utsValueErrors">{{e}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
