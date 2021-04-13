@@ -30,6 +30,7 @@ import { SettingsService } from './main/settings/settings.service';
 import { FooterComponent } from './main/footer/footer.component';
 import { DateInputComponent } from './common/date-input/date-input.component';
 import { PermissionService } from './common/permission.service';
+import { HelpTypeManagementComponent } from './main/settings/help-type-management/help-type-management.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { PermissionService } from './common/permission.service';
     SettingsComponent,
     FooterComponent,
     DateInputComponent,
+    HelpTypeManagementComponent,
   ],
   imports: [
     BrowserModule,

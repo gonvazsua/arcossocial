@@ -21,27 +21,17 @@ export class SettingsComponent implements OnInit {
   entityErrors: string[];
   successActiveUsers: boolean;
 
-  helpTypes: StaticData;
-  helpTypeForm: FormGroup;
-  selectedHelpType: {label: string, value: string};
-  helpTypeErrors: string[];
-
   constructor(private mainState: MainStateService, private fb: FormBuilder, private settingsService: SettingsService, private userService: UserService) {
     this.entityForm = this.fb.group({
       code: ['', Validators.required],
       name: ['', Validators.required]
     });
     this.entityErrors = [];
-    this.helpTypeForm = this.fb.group({
-      label: ['', Validators.required],
-      value: ['', Validators.required]
-    });
   }
 
   ngOnInit(): void {
     this.mainState.state.subscribe(state => {
       this.entities = state.entities;
-      this.helpTypes = state.helpType;
     });
   }
 
@@ -127,43 +117,6 @@ export class SettingsComponent implements OnInit {
         this.mainState.setLoading(false);
       }
     );
-  }
-
-  setSelectedHelpType(helpTypeValue) {
-    this.selectedHelpType = helpTypeValue;
-  }
-
-  removeSelectedHelpTypeValue() {
-    const newValues = this.helpTypes.values.filter(v => v.value !== this.selectedHelpType.value);
-    this.helpTypes.values = newValues;
-    this.saveHelpType();
-  }
-
-  saveHelpType() {
-    this.mainState.setLoading(true);
-    this.settingsService.saveHelpType(this.helpTypes).subscribe(
-      ht => {
-        this.mainState.setHelpType(this.helpTypes);
-        this.helpTypeForm.reset();
-      }
-    );
-    setTimeout(() => {this.mainState.setLoading(false)}, 1500);
-  }
-
-  validateAndSaveHelpType() {
-    this.mainState.setLoading(true);
-    this.helpTypeErrors = [];
-    if(!this.isValidHelpType()) {
-      this.helpTypeErrors.push('El valor seleccionado está duplicado');
-      this.mainState.setLoading(false);
-      return;
-    }
-    this.helpTypes.values.push(this.helpTypeForm.value);
-    this.saveHelpType();
-  }
-
-  isValidHelpType() {
-    return this.helpTypes.values.filter(v => v.value === this.helpTypeForm.get('value').value).length === 0;
   }
 
 }

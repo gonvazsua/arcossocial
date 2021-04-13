@@ -1,0 +1,73 @@
+<div class="card">
+    <div class="card-content">
+        <div class="row">
+            <div class="col s12 pageTitle">
+                <h4>Gestion de tipos de ayuda</h4>
+                <p>Crea y borra tipos de ayuda desde este módulo</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <table class="highlight">
+                    <thead>
+                      <tr class="tableHeader">
+                            <th>Etiqueta</th>
+                            <th>Valor</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let helpType of helpTypes?.values" class="cursor-pointer" (click)="setSelectedHelpType(helpType)" [ngClass]="{'grey lighten-1': selectedHelpType === helpType}">
+                            <td>{{helpType.label}}</td>
+                            <td>{{helpType.value | titlecase}}</td>
+                        </tr>
+                        <tr *ngIf="!helpTypes?.values || helpTypes?.values?.length === 0">
+                            <td colspan="2">No hay resultados para mostrar</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 right-align">
+                <button class="btn waves-effect waves-light" type="button" [disabled]="!selectedHelpType" (click)="removeSelectedHelpTypeValue()">
+                    ELIMINAR
+                    <i class="material-icons right">clear</i>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 pageTitle">
+                <h4>NUEVO TIPO DE AYUDA</h4>
+            </div>
+            <div class="col s12">
+                <form [formGroup]="helpTypeForm" class="col s12" (ngSubmit)="validateAndSaveHelpType()">
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">label</i>
+                            <input type="text" formControlName="label"/>
+                            <label>Etiqueta</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <i class="material-icons prefix">code</i>
+                            <input type="text" formControlName="value"/>
+                            <label>Valor</label>
+                        </div>
+                        <div class="col s12 right-align">
+                            <button class="btn waves-effect waves-light" type="submit" [disabled]="!helpTypeForm.valid">
+                                GUARDAR
+                                <i class="material-icons right">save</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col s12" *ngIf="helpTypeErrors && helpTypeErrors.length > 0">
+                <div class="card red lighten-3 white-text">
+                    <div class="card-content">
+                        <p *ngFor="let e of helpTypeErrors">{{e}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
