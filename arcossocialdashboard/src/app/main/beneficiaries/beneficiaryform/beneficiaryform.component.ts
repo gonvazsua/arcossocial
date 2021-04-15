@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { forkJoin, Observable, Observer, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { PermissionService } from 'src/app/common/permission.service';
 import { MainStateService } from '../../main.state.service';
 import { Beneficiary } from '../../models/beneficiary';
 import { Entity } from '../../models/entity';
@@ -25,7 +26,7 @@ export class BeneficiaryformComponent implements OnInit {
   userEntity: Entity;
   beneficiary: Beneficiary;
 
-  constructor(private fb: FormBuilder, private beneficiaryService: BeneficiaryService, public mainState: MainStateService) {
+  constructor(private fb: FormBuilder, private beneficiaryService: BeneficiaryService, public mainState: MainStateService, public permissions: PermissionService) {
     this.beneficiaryForm = this.fb.group({
       id: [''],
       fullName: ['', Validators.required],

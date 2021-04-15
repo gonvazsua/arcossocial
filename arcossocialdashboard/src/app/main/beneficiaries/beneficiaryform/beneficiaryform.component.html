@@ -52,7 +52,7 @@
                                     <input id="familySize" type="number" formControlName="familySize">
                                     <label for="familySize">Tamaño unidad familiar</label>
                                 </div>
-                                <div class="input-field col s6">
+                                <div class="input-field col s6" [hidden]="!permissions.canUpdateUTS">
                                     <i class="material-icons prefix">apartment</i>
                                     <select id="uts" formControlName="uts">
                                         <option value="">Ninguno</option>
