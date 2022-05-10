@@ -1,1 +1,12 @@
 .vscode/
+.DS_Store
+.idea/.gitignore
+.idea/arcossocial.iml
+.idea/checkstyle-idea.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/inspectionProfiles/Project_Default.xml
+arcossocialdashboard/package-lock.json
+arcossocialws/.DS_Store
+arcossocialws/src/.DS_Store
