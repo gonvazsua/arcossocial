@@ -1,0 +1,15 @@
+{
+  "name": "arcossocial-tests",
+  "version": "1.0.0",
+  "description": "Functional tests for Arcos Social",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^9.6.1",
+    "cypress-plugin-tab": "^1.0.5"
+  }
+}
