@@ -13,7 +13,7 @@
                         <div class="row">
                             <div class="input-field col s6">
                                 <i class="material-icons prefix">help</i>
-                                <select [formControl]="helpType">
+                                <select [formControl]="helpType" id="new-help-help-type">
                                   <option value=""></option>
                                   <option value="{{helpType.value}}" *ngFor="let helpType of (mainState.state | async)?.helpType?.values">{{helpType.label}}</option>
                                 </select>
@@ -26,7 +26,7 @@
                             
                             <div class="input-field col s12">
                                 <i class="material-icons prefix">mode_edit</i>
-                                <textarea id="textarea1" class="materialize-textarea" [formControl]="notes"></textarea>
+                                <textarea id="textarea1" class="materialize-textarea" [formControl]="notes" id="new-help-notes"></textarea>
                                 <label for="textarea1">Notas</label>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                                     CERRAR
                                     <i class="material-icons right">close</i>
                                 </button>
-                                <button class="btn waves-effect waves-light" type="button" (click)="validateAndSave()">
+                                <button class="btn waves-effect waves-light" type="button" (click)="validateAndSave()" id="new-help-save-btn">
                                     GUARDAR
                                     <i class="material-icons right">save</i>
                                 </button>
