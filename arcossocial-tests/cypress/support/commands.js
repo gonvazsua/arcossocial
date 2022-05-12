@@ -6,8 +6,9 @@ Cypress.Commands.add('login', () => {
         .tab()
         .type('1234')
     cy.get('.btn').click()
+    cy.url().should('contain', 'helps')
 })
 
 Cypress.Commands.add('logout', () => {
-    cy.get('.btn-small').contains('SALIR').click()
+    //cy.get('.btn-small').contains('SALIR').click()
 })
